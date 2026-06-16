@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="زمزم">
+    <title>زمزم - المجوهرات الفاخرة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        :root {
+            --gold-light: #D4AF37;
+            --gold-dark: #AA8C2C;
+            --cream: #FFF8F0;
+            --beige: #F5E6D3;
+            --light-gray: #E8DDD1;
+            --dark-brown: #4A3728;
+            --text-dark: #3D2817;
+            --text-light: #8B7355;
+            --white: #FFFFFF;
+            --accent: #C9B037;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFF8F0 0%, #F5E6D3 100%);
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, rgba(255, 248, 240, 0.95) 0%, rgba(245, 230, 211, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            padding: 30px 15px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #C9B037 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            animation: float 3s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .admin-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #D4AF37 0%, #C9B037 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .admin-icon:active {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .company-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4A3728 0%, #8B7355 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+            margin: 0 auto 12px;
+        }
+
+        .company-description {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 25px 0;
+            padding: 0 15px;
+        }
+
+        .nav-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 100%);
+            border: 2px solid var(--light-gray);
+            border-radius: 15px;
+            padding: 18px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-card:active {
+            border-color: var(--gold-light);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+        }
+
+        .nav-card:active::before {
+            left: 100%;
+        }
+
+        .nav-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-card:active .nav-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .nav-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .nav-desc {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section {
+            margin: 40px 0;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--gold-light);
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-item {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #C9B037 100%);
+            border-radius: 12px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .gallery-item:active {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.35);
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF8F0 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .product-card:active {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+            border-color: var(--gold-light);
+        }
+
+        .product-image {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #C9B037 100%);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 10px;
+        }
+
+        .product-detail {
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+
+        .price-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border-radius: 10px;
+            border-left: 4px solid var(--gold-light);
+        }
+
+        .price-original {
+            color: var(--text-light);
+            text-decoration: line-through;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .price-final {
+            color: var(--dark-brown);
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-dark) 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            margin: 10px 0;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+        }
+
+        .countdown {
+            font-size: 12px;
+            color: var(--gold-dark);
+            font-weight: 600;
+            margin: 8px 0;
+        }
+
+        .rating {
+            font-size: 14px;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-social {
+            flex: 1;
+            min-width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #D4AF37 0%, #C9B037 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-social:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.25);
+        }
+
+        .buttons-whatsapp {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .btn-whatsapp {
+            flex: 1;
+            padding: 10px;
+            background: linear-gradient(135deg, #25D366 0%, #20BA58 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-whatsapp:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.25);
+        }
+
+        .btn-review {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #D4AF37 0%, #C9B037 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+            font-size: 13px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-review:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25);
+        }
+
+        /* ===== PRICES SECTION ===== */
+        .prices-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, #4A3728 0%, #3D2817 100%);
+            color: #F5E6D3;
+            padding: 35px 15px;
+            text-align: center;
+            margin-top: 50px;
+            padding-bottom: 80px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .footer-divider {
+            width: 50px;
+            height: 2px;
+            background: var(--gold-light);
+            margin: 15px auto;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                max-width: 100vw;
+            }
+
+            header {
+                padding: 25px 12px;
+                border-bottom: 3px solid var(--gold-light);
+            }
+
+            .company-name {
+                font-size: 32px;
+                letter-spacing: 1px;
+            }
+
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .nav-card {
+                padding: 15px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--beige);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--gold-light), var(--gold-dark));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--gold-dark), #8B6914);
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">Z</div>
+                <div style="flex: 1;"></div>
+                <a href="admin.html" class="admin-icon" title="لوحة الإعدادات">⚙️</a>
+            </div>
+            <h1 class="company-name">زمزم</h1>
+            <p class="tagline">✨ الفخامة التي تعكس جمالك ✨</p>
+            <div class="divider"></div>
+            <p class="company-description">
+                منصة موثوقة وآمنة لعشاق الذهب والمجوهرات الفاخرة.
+                نقدم أجود الأنواع بأسعار عادلة وتواصل احترافي مع فريق متخصص.
+            </p>
+        </div>
+    </header>
+
+    <!-- ===== NAVIGATION ===== -->
+    <div class="nav-section">
+        <div class="nav-card" onclick="scrollToSection('gold')">
+            <div class="nav-icon">🥇</div>
+            <div class="nav-title">قسم الذهب</div>
+            <div class="nav-desc">ذهب عيار 21 فاخر مختار بعناية</div>
+        </div>
+        <div class="nav-card" onclick="scrollToSection('watches')">
+            <div class="nav-icon">⌚</div>
+            <div class="nav-title">الساعات والفضيات</div>
+            <div class="nav-desc">ساعات وفضيات من الدرجة الأولى</div>
+        </div>
+        <div class="nav-card" onclick="scrollToSection('prices')">
+            <div class="nav-icon">💰</div>
+            <div class="nav-title">الأسعار المباشرة</div>
+            <div class="nav-desc">أسعار الذهب الحالية المحدثة</div>
+        </div>
+    </div>
+
+    <!-- ===== GOLD SECTION ===== -->
+    <section id="gold" class="section">
+        <h2 class="section-title">🥇 قسم الذهب (عيار 21)</h2>
+        
+        <div style="margin-bottom: 50px;">
+            <h3 style="font-size: 20px; font-weight: 600; color: #4A3728; margin-bottom: 20px;">🖼️ معرض الصور</h3>
+            <div class="gallery" id="gold-gallery">
+                <div class="gallery-item">📷</div>
+                <div class="gallery-item">📷</div>
+                <div class="gallery-item">📷</div>
+            </div>
+        </div>
+
+        <div class="products-grid" id="gold-products">
+            <!-- تُملأ من Firebase -->
+        </div>
+    </section>
+
+    <!-- ===== WATCHES & SILVER SECTION ===== -->
+    <section id="watches" class="section">
+        <h2 class="section-title">⌚ قسم الساعات والفضيات</h2>
+        
+        <div class="products-grid" id="watches-products">
+            <!-- تُملأ من Firebase -->
+        </div>
+    </section>
+
+    <!-- ===== PRICES SECTION ===== -->
+    <section id="prices" class="section">
+        <h2 class="section-title">💰 الأسعار المباشرة</h2>
+        
+        <iframe 
+            id="prices-frame"
+            class="prices-iframe"
+            src="prices.html"
+            title="أسعار الذهب المباشرة">
+        </iframe>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">🎁 شركة زمزم للمجوهرات الفاخرة</p>
+            <div class="footer-divider"></div>
+            <p class="footer-text">جودة عالية | أسعار عادلة | خدمة احترافية</p>
+            <p class="footer-text" style="margin-top: 20px; font-size: 12px; opacity: 0.8;">© 2024 جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- ===== FIREBASE ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaoYP--jTj3V3eNhI4jU6roMB1XQ_4490",
+            authDomain: "zamzam-company.firebaseapp.com",
+            databaseURL: "https://zamzam-company-default-rtdb.firebaseio.com",
+            projectId: "zamzam-company",
+            storageBucket: "zamzam-company.firebasestorage.app",
+            messagingSenderId: "559764163886",
+            appId: "1:559764163886:web:cb441430ff69c888b57ebf",
+            measurementId: "G-68WHR4LN15"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function formatPrice(price) {
+            return price.toLocaleString('en-US').replace(/,/g, ',') + ' د.ع';
+        }
+
+        // Simple product card HTML
+        function createProductCard(product, index) {
+            const finalPrice = product.totalAmount - (product.totalAmount * product.discountPercent / 100);
+            
+            return `
+                <div class="product-card">
+                    <div class="product-image" onclick="showDetails('${product.name}')">${product.icon || '💎'}</div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        ${product.weight ? `<div class="product-detail"><span>الوزن:</span><strong>${product.weight} جرام</strong></div>` : ''}
+                        <div class="product-detail"><span>المبلغ الكلي:</span><strong>${formatPrice(product.totalAmount)}</strong></div>
+                        <div class="price-section">
+                            <div class="price-original">السعر الأصلي: ${formatPrice(product.totalAmount)}</div>
+                            <div class="price-final">${formatPrice(finalPrice)}</div>
+                            <div class="discount-badge">✨ خصم ${product.discountPercent}%</div>
+                        </div>
+                        ${product.discountDays ? `<div class="countdown">⏱️ ينتهي في: ${product.discountDays} أيام</div>` : ''}
+                        <div class="rating">⭐⭐⭐⭐ (4.8/5)</div>
+                        <div class="buttons-group">
+                            <button class="btn-social">📸</button>
+                            <button class="btn-social">📘</button>
+                            <button class="btn-social">🎵</button>
+                        </div>
+                        <div class="buttons-whatsapp">
+                            <button class="btn-whatsapp">سيف</button>
+                            <button class="btn-whatsapp">حسام</button>
+                        </div>
+                        <button class="btn-review">⭐ أضف تقييماً</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadProducts() {
+            database.ref('zamzam-company/gold/products').on('value', (snapshot) => {
+                const goldProducts = snapshot.val() || {};
+                let html = '';
+                
+                Object.entries(goldProducts).forEach(([key, product], index) => {
+                    html += createProductCard(product, index);
+                });
+                
+                document.getElementById('gold-products').innerHTML = html || '<p style="text-align: center; padding: 40px; color: #8B7355;">لا توجد منتجات حالياً</p>';
+            });
+
+            database.ref('zamzam-company/watches_silver/products').on('value', (snapshot) => {
+                const watchesProducts = snapshot.val() || {};
+                let html = '';
+                
+                Object.entries(watchesProducts).forEach(([key, product], index) => {
+                    html += createProductCard(product, index);
+                });
+                
+                document.getElementById('watches-products').innerHTML = html || '<p style="text-align: center; padding: 40px; color: #8B7355;">لا توجد منتجات حالياً</p>';
+            });
+        }
+
+        function showDetails(productName) {
+            alert('المنتج: ' + productName);
+        }
+
+        window.addEventListener('load', loadProducts);
+    </script>
+</body>
+</html>
