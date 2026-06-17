@@ -48,7 +48,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
         }
 
         /* ===== PRICE BOX ===== */
@@ -80,6 +80,12 @@
             margin-top: 10px;
         }
 
+        .update-time {
+            font-size: 11px;
+            color: #888;
+            margin-top: 8px;
+        }
+
         /* ===== CHART ===== */
         .chart-container {
             background-color: #1a1a1a;
@@ -88,25 +94,12 @@
             padding: 15px;
             margin-bottom: 30px;
             height: 250px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
+            position: relative;
         }
 
-        .chart-bar {
-            background: linear-gradient(to top, #D4AF37, #FFD700);
-            width: 8%;
-            border-radius: 5px 5px 0 0;
-            min-height: 20px;
-        }
-
-        .chart-date {
-            position: absolute;
-            bottom: 10px;
-            font-size: 12px;
-            color: #888;
-            width: 100%;
-            text-align: center;
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
         }
 
         /* ===== CARDS ===== */
@@ -123,6 +116,13 @@
             border-radius: 15px;
             padding: 20px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: #D4AF37;
+            transform: translateY(-5px);
         }
 
         .card.gold-section {
@@ -166,6 +166,13 @@
         .btn:hover {
             background-color: #FFD700;
             transform: translateY(-2px);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+            width: auto;
+            margin: 5px;
         }
 
         /* ===== SECTIONS ===== */
@@ -235,6 +242,189 @@
             display: inline-block;
         }
 
+        /* ===== GALLERY ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover {
+            border-color: #D4AF37;
+            transform: scale(1.05);
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .lightbox-image {
+            font-size: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            font-size: 40px;
+            color: #D4AF37;
+            cursor: pointer;
+        }
+
+        /* ===== REVIEWS ===== */
+        .review {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .review-rating {
+            color: #FFD700;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .review-author {
+            color: #D4AF37;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* ===== STATS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #D4AF37;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 24px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        /* ===== CHAT ===== */
+        .chat-container {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .chat-message.user {
+            background-color: #D4AF37;
+            color: #0a0a0a;
+            text-align: right;
+        }
+
+        .chat-message.admin {
+            background-color: #333;
+            color: #D4AF37;
+            text-align: left;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: #D4AF37;
+        }
+
+        .chat-input button {
+            padding: 10px 20px;
+            background-color: #D4AF37;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
         /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
@@ -288,6 +478,7 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
         }
 
         .modal.active {
@@ -302,6 +493,7 @@
             max-width: 500px;
             width: 90%;
             position: relative;
+            margin: 50px 0;
         }
 
         .close-btn {
@@ -330,7 +522,8 @@
             margin-bottom: 5px;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 12px;
             background-color: #0a0a0a;
@@ -340,7 +533,8 @@
             font-size: 14px;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: #D4AF37;
             background-color: #1a1a1a;
@@ -363,6 +557,15 @@
             .card .value {
                 font-size: 24px;
             }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ===== HIDE/SHOW ===== */
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -381,10 +584,28 @@
             <!-- سعر الذهب -->
             <div class="price-box">
                 <h2>سعر الذهب العالمي (الأونصة)</h2>
-                <div class="price" id="goldPrice">$4,323.7</div>
+                <div class="price" id="goldPrice">جاري التحميل...</div>
                 <div class="price-change">
-                    <span id="priceChange">↑ 50,852</span>
-                    <span id="pricePercent">(5.7%)</span>
+                    <span id="priceChange">↑ $0</span>
+                    <span id="pricePercent">(0%)</span>
+                </div>
+                <div class="update-time" id="updateTime">آخر تحديث: الآن</div>
+            </div>
+
+            <!-- الرسم البياني -->
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+
+            <!-- الإحصائيات -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🔝 أعلى سعر اليوم</h3>
+                    <div class="value" id="highPrice">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>🔻 أقل سعر اليوم</h3>
+                    <div class="value" id="lowPrice">--</div>
                 </div>
             </div>
 
@@ -402,32 +623,67 @@
                 </div>
             </div>
 
+            <!-- معرض الصور -->
+            <div id="gallerySection" class="hidden">
+                <div class="section-header">
+                    <h2>📸 معرض الصور</h2>
+                </div>
+                <div class="gallery" id="gallery"></div>
+            </div>
+
             <!-- منتجات الذهب -->
             <div id="goldProducts"></div>
 
             <!-- منتجات الساعات -->
             <div id="watchProducts"></div>
 
-            <!-- أسعار الذهب -->
-            <div style="margin-top: 30px; text-align: center;">
-                <button class="btn" onclick="loadPrices()">📊 أسعار الذهب المحدثة</button>
+            <!-- التقييمات -->
+            <div id="reviewsSection" class="hidden">
+                <div class="section-header">
+                    <h2>⭐ التقييمات</h2>
+                </div>
+                <div id="reviewsList"></div>
+            </div>
+
+            <!-- المراسلات -->
+            <div id="chatSection" class="hidden">
+                <div class="section-header">
+                    <h2>💬 المراسلات المباشرة</h2>
+                </div>
+                <div class="chat-container" id="chatMessages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="اكتب رسالتك...">
+                    <button onclick="sendMessage()">إرسال</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- ===== BOTTOM NAVIGATION ===== -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="loadMarket()">
+        <div class="nav-item active" onclick="showSection('market')">
             <div class="nav-item-icon">📈</div>
             <div class="nav-item-text">السوق</div>
         </div>
-        <div class="nav-item" onclick="loadCalculator()">
-            <div class="nav-item-icon">🧮</div>
-            <div class="nav-item-text">الحاسبات</div>
+        <div class="nav-item" onclick="showSection('reviews')">
+            <div class="nav-item-icon">⭐</div>
+            <div class="nav-item-text">التقييمات</div>
+        </div>
+        <div class="nav-item" onclick="showSection('chat')">
+            <div class="nav-item-icon">💬</div>
+            <div class="nav-item-text">الدعم</div>
         </div>
         <div class="nav-item" onclick="openAdminPanel()">
             <div class="nav-item-icon">⚙️</div>
             <div class="nav-item-text">الإعدادات</div>
+        </div>
+    </div>
+
+    <!-- ===== LIGHTBOX ===== -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+            <div class="lightbox-image" id="lightboxImage"></div>
         </div>
     </div>
 
@@ -461,6 +717,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         // Firebase Configuration
@@ -478,16 +735,92 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ===== LOAD PRODUCTS =====
-        function loadMarket() {
-            document.querySelector('.nav-item:nth-child(1)').classList.add('active');
-            document.querySelector('.nav-item:nth-child(2)').classList.remove('active');
-            document.querySelector('.nav-item:nth-child(3)').classList.remove('active');
+        let priceHistory = [];
+        let chartInstance = null;
 
-            loadGoldProducts();
-            loadWatchProducts();
+        // ===== LIVE GOLD PRICE =====
+        async function fetchLiveGoldPrice() {
+            try {
+                const response = await fetch('https://api.metals.live/v1/spot/gold');
+                const data = await response.json();
+                
+                if (data && data.price) {
+                    const goldPrice = data.price.usd || 4323.7;
+                    const lastPrice = parseFloat(localStorage.getItem('lastGoldPrice') || goldPrice);
+                    const change = (goldPrice - lastPrice).toFixed(2);
+                    const changePercent = ((change / lastPrice) * 100).toFixed(1);
+                    
+                    document.getElementById('goldPrice').textContent = `$${goldPrice.toFixed(2)}`;
+                    document.getElementById('priceChange').textContent = `${change > 0 ? '↑' : '↓'} $${Math.abs(change)}`;
+                    document.getElementById('pricePercent').textContent = `(${changePercent}%)`;
+                    document.getElementById('pricePercent').style.color = change > 0 ? '#4CAF50' : '#ff6b6b';
+                    document.getElementById('updateTime').textContent = `آخر تحديث: ${new Date().toLocaleTimeString('ar-IQ')}`;
+                    
+                    // إضافة للرسم البياني
+                    priceHistory.push({
+                        time: new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2, '0'),
+                        price: goldPrice
+                    });
+                    
+                    if (priceHistory.length > 12) priceHistory.shift();
+                    
+                    updateChart();
+                    
+                    localStorage.setItem('lastGoldPrice', goldPrice);
+                    localStorage.setItem('priceHistory', JSON.stringify(priceHistory));
+                }
+            } catch (error) {
+                console.log('استخدام السعر الافتراضي');
+            }
         }
 
+        // ===== CHART =====
+        function updateChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: priceHistory.map(h => h.time),
+                    datasets: [{
+                        label: 'سعر الذهب',
+                        data: priceHistory.map(h => h.price),
+                        borderColor: '#D4AF37',
+                        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#FFD700',
+                        pointBorderColor: '#D4AF37',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#D4AF37' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#888' },
+                            grid: { color: '#333' }
+                        },
+                        x: {
+                            ticks: { color: '#888' },
+                            grid: { color: '#333' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== LOAD PRODUCTS =====
         function loadGoldProducts() {
             database.ref('zamzam-company/gold/products').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -503,7 +836,8 @@
                                 <p>${product.description}</p>
                                 <div class="product-price">${product.totalAmount?.toLocaleString() || 0} د.ع</div>
                                 <div class="product-discount">خصم ${product.discountPercent}% - ${product.discountDays} أيام</div>
-                                <button class="btn" onclick="contactWhatsApp('${product.name}', '${product.totalAmount}')">📱 طلب الآن</button>
+                                <button class="btn btn-small" onclick="contactWhatsApp('${product.name}', '${product.totalAmount}')">📱 طلب</button>
+                                <button class="btn btn-small" onclick="addReview()">⭐ تقيم</button>
                             </div>
                         `;
                     });
@@ -528,7 +862,8 @@
                                 <p>${product.description}</p>
                                 <div class="product-price">${product.totalAmount?.toLocaleString() || 0} د.ع</div>
                                 <div class="product-discount">خصم ${product.discountPercent}% - ${product.discountDays} أيام</div>
-                                <button class="btn" onclick="contactWhatsApp('${product.name}', '${product.totalAmount}')">📱 طلب الآن</button>
+                                <button class="btn btn-small" onclick="contactWhatsApp('${product.name}', '${product.totalAmount}')">📱 طلب</button>
+                                <button class="btn btn-small" onclick="addReview()">⭐ تقيم</button>
                             </div>
                         `;
                     });
@@ -538,10 +873,108 @@
             });
         }
 
+        // ===== GALLERY =====
+        function loadGallery() {
+            const items = ['💎', '👑', '💍', '⌚', '✨', '🏆'];
+            let html = '';
+            items.forEach(item => {
+                html += `<div class="gallery-item" onclick="openLightbox('${item}')">${item}</div>`;
+            });
+            document.getElementById('gallery').innerHTML = html;
+        }
+
+        function openLightbox(item) {
+            document.getElementById('lightboxImage').textContent = item;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // ===== REVIEWS =====
+        function loadReviews() {
+            database.ref('zamzam-company/reviews').on('value', (snapshot) => {
+                const data = snapshot.val();
+                let html = '';
+                
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        const review = data[key];
+                        const stars = '⭐'.repeat(Math.round(review.average || 5));
+                        html += `
+                            <div class="review">
+                                <div class="review-rating">${stars} ${review.average?.toFixed(1) || '5.0'}</div>
+                                <div class="review-text">"${review.comment || 'منتج رائع جداً'}"</div>
+                                <div class="review-author">- ${review.productName || 'عميل سعيد'}</div>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('reviewsList').innerHTML = html || '<p style="text-align: center; color: #888;">لا توجد تقييمات بعد</p>';
+            });
+        }
+
+        function addReview() {
+            alert('شكراً لاهتمامك! يمكنك إضافة تقييمك عبر WhatsApp');
+        }
+
+        // ===== CHAT =====
+        function loadChat() {
+            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+            let html = '';
+            messages.forEach(msg => {
+                html += `<div class="chat-message ${msg.type}">${msg.text}</div>`;
+            });
+            document.getElementById('chatMessages').innerHTML = html || '<p style="text-align: center; color: #888;">ابدأ محادثتك معنا</p>';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+            messages.push({ type: 'user', text });
+            
+            // رد تلقائي
+            setTimeout(() => {
+                messages.push({ type: 'admin', text: '🙏 شكراً على رسالتك! سيتم الرد عليك قريباً' });
+                localStorage.setItem('messages', JSON.stringify(messages));
+                loadChat();
+            }, 500);
+            
+            localStorage.setItem('messages', JSON.stringify(messages));
+            loadChat();
+            input.value = '';
+        }
+
+        // ===== SECTION NAVIGATION =====
+        function showSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+            
+            document.getElementById('gallerySection').classList.add('hidden');
+            document.getElementById('reviewsSection').classList.add('hidden');
+            document.getElementById('chatSection').classList.add('hidden');
+            
+            if (section === 'reviews') {
+                document.getElementById('reviewsSection').classList.remove('hidden');
+                loadReviews();
+            } else if (section === 'chat') {
+                document.getElementById('chatSection').classList.remove('hidden');
+                loadChat();
+            } else {
+                loadGoldProducts();
+                loadWatchProducts();
+            }
+        }
+
         // ===== CONTACT FUNCTIONS =====
         function contactWhatsApp(productName, price) {
             const message = `مرحباً، أنا مهتم بـ: ${productName} - السعر: ${price} د.ع`;
-            const phone = "+9647901196926";
+            const phone = "9647901196926";
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
         }
 
@@ -580,17 +1013,22 @@
             window.location.href = 'admin.html';
         }
 
-        function loadCalculator() {
-            alert('🧮 حاسبة الذهب\nقريباً...');
-        }
-
-        function loadPrices() {
-            window.open('prices.html');
-        }
-
         // ===== INIT =====
         window.addEventListener('load', () => {
-            loadMarket();
+            fetchLiveGoldPrice();
+            setInterval(fetchLiveGoldPrice, 60000);
+            
+            priceHistory = JSON.parse(localStorage.getItem('priceHistory') || '[]');
+            if (priceHistory.length === 0) {
+                for (let i = 0; i < 12; i++) {
+                    priceHistory.push({ time: i, price: 4320 + Math.random() * 20 });
+                }
+            }
+            
+            updateChart();
+            loadGoldProducts();
+            loadWatchProducts();
+            loadGallery();
         });
     </script>
 </body>
