@@ -738,36 +738,29 @@
         let priceHistory = [];
         let chartInstance = null;
 
-        // ===== LIVE GOLD PRICE FROM BETTER API =====
+        // ===== LIVE GOLD PRICE FROM GOLDAPI.IO =====
+        const GOLDAPI_KEY = 'goldapi-057f7c9c16367c130b1edc8d2c2e5255-io';
+
         async function fetchLiveGoldPrice() {
             try {
-                // محاولة API الأول
                 let goldPrice = null;
-                
+
                 try {
-                    const response = await fetch('https://api.api-ninjas.com/v1/commodities?name=gold');
+                    const response = await fetch('https://www.goldapi.io/api/XAU/USD', {
+                        headers: {
+                            'x-access-token': GOLDAPI_KEY,
+                            'Content-Type': 'application/json'
+                        }
+                    });
                     const data = await response.json();
-                    if (data && data[0]) {
-                        goldPrice = parseFloat(data[0].price) || null;
+                    if (data && data.price) {
+                        goldPrice = parseFloat(data.price);
                     }
                 } catch (e) {
-                    console.log('API 1 failed, trying API 2');
+                    console.log('فشل جلب السعر من GoldAPI:', e);
                 }
-                
-                // محاولة API البديل
-                if (!goldPrice) {
-                    try {
-                        const response = await fetch('https://spot-price-api.herokuapp.com/spot/price?codes=XAU');
-                        const data = await response.json();
-                        if (data && data.rates && data.rates.XAU) {
-                            goldPrice = data.rates.XAU.rate;
-                        }
-                    } catch (e) {
-                        console.log('API 2 failed');
-                    }
-                }
-                
-                // إذا فشلت الـ APIs، استخدام سعر افتراضي مع محاكاة
+
+                // إذا فشل الاتصال، استخدام سعر افتراضي مع محاكاة
                 if (!goldPrice) {
                     const basePrice = 4323;
                     goldPrice = basePrice + (Math.random() * 20 - 10);
