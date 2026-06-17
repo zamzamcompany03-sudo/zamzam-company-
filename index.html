@@ -755,9 +755,12 @@
                     const data = await response.json();
                     if (data && data.price) {
                         goldPrice = parseFloat(data.price);
+                    } else {
+                        document.getElementById('updateTime').textContent = 'رد غير متوقع: ' + JSON.stringify(data).slice(0, 100);
                     }
                 } catch (e) {
                     console.log('فشل جلب السعر من GoldAPI:', e);
+                    document.getElementById('updateTime').textContent = 'خطأ: ' + e.message;
                 }
 
                 // إذا فشل الاتصال، استخدام سعر افتراضي مع محاكاة
