@@ -582,28 +582,28 @@
             <!-- سعر الذهب -->
             <div class="price-box">
                 <h2>سعر الذهب العالمي (الأونصة)</h2>
-                <div class="price" id="goldPrice">جاري التحميل...</div>
+                <div class="price" id="goldPrice">$4215.52</div>
                 <div class="price-change">
-                    <span id="priceChange">↑ $0</span>
-                    <span id="pricePercent">(0%)</span>
+                    <span id="priceChange">↓ $0.81</span>
+                    <span id="pricePercent" style="color: rgb(255, 107, 107);">(-0.0%)</span>
                 </div>
-                <div class="update-time" id="updateTime">آخر تحديث: الآن</div>
+                <div class="update-time" id="updateTime">آخر تحديث: ١١:٣٨:٥٣ م</div>
             </div>
 
             <!-- الرسم البياني -->
             <div class="chart-container">
-                <canvas id="priceChart"></canvas>
+                <canvas id="priceChart" style="box-sizing: border-box; display: block; height: 218px; width: 528px;" width="528" height="218"></canvas>
             </div>
 
             <!-- الإحصائيات -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3>🔝 أعلى سعر اليوم</h3>
-                    <div class="value" id="highPrice">--</div>
+                    <div class="value" id="highPrice">$4220.52</div>
                 </div>
                 <div class="stat-card">
                     <h3>🔻 أقل سعر اليوم</h3>
-                    <div class="value" id="lowPrice">--</div>
+                    <div class="value" id="lowPrice">$4210.52</div>
                 </div>
             </div>
 
@@ -626,14 +626,14 @@
                 <div class="section-header">
                     <h2>📸 معرض الصور</h2>
                 </div>
-                <div class="gallery" id="gallery"></div>
+                <div class="gallery" id="gallery"><div class="gallery-item" onclick="openLightbox('💎')">💎</div><div class="gallery-item" onclick="openLightbox('👑')">👑</div><div class="gallery-item" onclick="openLightbox('💍')">💍</div><div class="gallery-item" onclick="openLightbox('⌚')">⌚</div><div class="gallery-item" onclick="openLightbox('✨')">✨</div><div class="gallery-item" onclick="openLightbox('🏆')">🏆</div></div>
             </div>
 
             <!-- منتجات الذهب -->
-            <div id="goldProducts"></div>
+            <div id="goldProducts"><div class="section-header"><h2>🥇 الذهب (عيار 21)</h2><div class="badge">21K</div></div><div style="display: grid; gap: 15px;"></div></div>
 
             <!-- منتجات الساعات -->
-            <div id="watchProducts"></div>
+            <div id="watchProducts"><div class="section-header"><h2>⌚ الساعات والفضيات</h2></div><div style="display: grid; gap: 15px;"></div></div>
 
             <!-- التقييمات -->
             <div id="reviewsSection" class="hidden">
@@ -712,9 +712,9 @@
     </div>
 
     <!-- ===== FIREBASE ===== -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
