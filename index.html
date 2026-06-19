@@ -959,27 +959,35 @@
             try {
                 // ضغط الصورة أولاً
                 showProgress(10);
-                const compressedBase64 = await compressImage(imageFile, 800, 0.7);
-                showProgress(40);
+                const compressedBase64 = await compressImage(imageFile, 600, 0.5);
+                showProgress(30);
 
-                const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
-                const product = {
-                    desc,
-                    weight,
-                    wage,
-                    discount,
-                    days,
-                    expiresAt,
-                    imageBase64: compressedBase64,
-                    createdAt: Date.now()
-                };
+                // رفع الصورة على Imgur (مجاني بدون تسجيل)
+                const base64Data = compressedBase64.split(',')[1];
+                const formData = new FormData();
+                formData.append('image', base64Data);
+                formData.append('type', 'base64');
 
+                showProgress(50);
+                const imgurRes = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
+                    body: formData
+                });
+                const imgurData = await imgurRes.json();
+
+                if (!imgurData.success) throw new Error('فشل رفع الصورة');
+                const imageUrl = imgurData.data.link;
                 showProgress(70);
+
+                // حفظ بيانات المنتج في Firebase (رابط الصورة فقط، لا base64)
+                const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                const product = { desc, weight, wage, discount, days, expiresAt, imageUrl, createdAt: Date.now() };
+
                 await database.ref('zamzam-company/exclusive-offers').push(product);
                 showProgress(100);
 
                 setTimeout(() => {
-                    // تصفير الحقول
                     document.getElementById('prod-image').value = '';
                     document.getElementById('prod-desc').value = '';
                     document.getElementById('prod-weight').value = '';
@@ -989,10 +997,7 @@
                     document.getElementById('prod-image-preview').style.display = 'none';
                     document.getElementById('prod-preview-prices').style.display = 'none';
                     document.getElementById('prod-progress-wrap').style.display = 'none';
-
-                    // إغلاق الإعدادات تلقائياً
                     closeSettings();
-                    // فتح صفحة العروض
                     showPage('offers');
                 }, 800);
 
@@ -1079,9 +1084,10 @@
 
                 grid.innerHTML = products.map(p => {
                     const remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
+                    const imgSrc = p.imageUrl || p.imageBase64 || '';
                     return `
                     <div onclick="openProductModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #333;position:relative;">
-                        <img src="${p.imageBase64}" style="width:100%;aspect-ratio:1;object-fit:cover;">
+                        <img src="${imgSrc}" style="width:100%;aspect-ratio:1;object-fit:cover;">
                         <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #D4AF37;border-radius:20px;padding:3px 8px;font-size:11px;color:#D4AF37;">⏰ ${remaining} يوم</div>
                         <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
                             <div style="font-size:11px;color:#fff;line-height:1.3;">${p.desc.substring(0,40)}${p.desc.length>40?'...':''}</div>
@@ -1112,8 +1118,9 @@
                 `مرحباً 👋\nأنا مهتم بهذا المنتج:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر النهائي: ${fmt(finalPrice)} دينار\n🏷️ الخصم: ${p.discount}%\n\nأرجو التواصل معي للاستفسار`
             );
 
+            const imgSrc = p.imageUrl || p.imageBase64 || '';
             document.getElementById('product-modal-content').innerHTML = `
-                <img src="${p.imageBase64}" style="width:100%;border-radius:14px;margin-bottom:15px;">
+                <img src="${imgSrc}" style="width:100%;border-radius:14px;margin-bottom:15px;">
 
                 <div style="background:#1a1a1a;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #333;">
                     <div style="color:#D4AF37;font-size:15px;font-weight:bold;margin-bottom:10px;">📋 تفاصيل المنتج</div>
