@@ -671,6 +671,15 @@
 
                 <button class="save-btn" onclick="calcProductPreview()" style="background:#333;color:#D4AF37;margin-bottom:10px;">🔢 احسب الأسعار</button>
                 <button class="save-btn" onclick="publishProduct()">🚀 نشر المنتج</button>
+
+                <!-- شريط التقدم -->
+                <div id="prod-progress-wrap" style="display:none;margin-top:12px;">
+                    <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                        <div id="prod-progress-bar" style="height:100%;width:0%;background:#D4AF37;border-radius:20px;transition:width 0.3s;"></div>
+                    </div>
+                    <div id="prod-progress-txt" style="text-align:center;font-size:13px;color:#D4AF37;"></div>
+                </div>
+
                 <div id="prod-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
             </div>
 
@@ -927,29 +936,31 @@
                 return;
             }
 
-            showProdMsg('⏳ جاري الرفع...', '#D4AF37');
+            showProgress(0);
 
             try {
-                // رفع الصورة كـ base64 في Firebase Database
-                const reader = new FileReader();
-                reader.onload = async (e) => {
-                    const imageBase64 = e.target.result;
-                    const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                // ضغط الصورة أولاً
+                showProgress(10);
+                const compressedBase64 = await compressImage(imageFile, 800, 0.7);
+                showProgress(40);
 
-                    const product = {
-                        desc,
-                        weight,
-                        wage,
-                        discount,
-                        days,
-                        expiresAt,
-                        imageBase64,
-                        createdAt: Date.now()
-                    };
+                const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                const product = {
+                    desc,
+                    weight,
+                    wage,
+                    discount,
+                    days,
+                    expiresAt,
+                    imageBase64: compressedBase64,
+                    createdAt: Date.now()
+                };
 
-                    await database.ref('zamzam-company/exclusive-offers').push(product);
-                    showProdMsg('✅ تم نشر المنتج بنجاح!', '#4CAF50');
+                showProgress(70);
+                await database.ref('zamzam-company/exclusive-offers').push(product);
+                showProgress(100);
 
+                setTimeout(() => {
                     // تصفير الحقول
                     document.getElementById('prod-image').value = '';
                     document.getElementById('prod-desc').value = '';
@@ -959,12 +970,50 @@
                     document.getElementById('prod-days').value = '';
                     document.getElementById('prod-image-preview').style.display = 'none';
                     document.getElementById('prod-preview-prices').style.display = 'none';
-                };
-                reader.readAsDataURL(imageFile);
+                    document.getElementById('prod-progress-wrap').style.display = 'none';
+
+                    // إغلاق الإعدادات تلقائياً
+                    closeSettings();
+                    // فتح صفحة العروض
+                    showPage('offers');
+                }, 800);
 
             } catch (err) {
                 showProdMsg('❌ خطأ: ' + err.message, 'red');
+                document.getElementById('prod-progress-wrap').style.display = 'none';
             }
+        }
+
+        // ضغط الصورة
+        function compressImage(file, maxSize, quality) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width, h = img.height;
+                        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
+                        else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function showProgress(percent) {
+            const wrap = document.getElementById('prod-progress-wrap');
+            const bar = document.getElementById('prod-progress-bar');
+            const txt = document.getElementById('prod-progress-txt');
+            wrap.style.display = 'block';
+            bar.style.width = percent + '%';
+            txt.textContent = percent === 100 ? '✅ تم النشر بنجاح!' : `⏳ جاري الرفع... ${percent}%`;
+            bar.style.background = percent === 100 ? '#4CAF50' : '#D4AF37';
         }
 
         function showProdMsg(text, color) {
