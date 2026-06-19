@@ -1115,7 +1115,7 @@
             const remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
 
             const waMsg = encodeURIComponent(
-                `مرحباً 👋\nأنا مهتم بهذا المنتج:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر النهائي: ${fmt(finalPrice)} دينار\n🏷️ الخصم: ${p.discount}%\n\nأرجو التواصل معي للاستفسار`
+                `مرحباً 👋\nأنا مهتم بهذا المنتج:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر النهائي: ${fmt(finalPrice)} دينار\n🏷️ الخصم: ${p.discount}%\n🖼️ صورة المنتج: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار`
             );
 
             const imgSrc = p.imageUrl || p.imageBase64 || '';
@@ -1141,8 +1141,6 @@
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                     <a href="https://wa.me/9647901196926?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب سيف</a>
                     <a href="https://wa.me/9647805747247?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب حسام</a>
-                    <a href="https://www.instagram.com/zamzm_gold" target="_blank" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">إنستغرام</a>
-                    <a href="https://www.facebook.com/share/14gg7LDqFps/" target="_blank" style="background:#1877F2;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">فيسبوك</a>
                 </div>
             `;
 
