@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -687,8 +686,26 @@
         </div>
     </div>
 
+    <!-- ===== FIREBASE ===== -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
     <script>
         const WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
+
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaoYP--jTj3V3eNhI4jU6roMB1XQ_4490",
+            authDomain: "zamzam-company.firebaseapp.com",
+            databaseURL: "https://zamzam-company-default-rtdb.firebaseio.com",
+            projectId: "zamzam-company",
+            storageBucket: "zamzam-company.firebasestorage.app",
+            messagingSenderId: "559764163886",
+            appId: "1:559764163886:web:cb441430ff69c888b57ebf"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
         // علامات + أو - لكل قسم
         const signs = {
