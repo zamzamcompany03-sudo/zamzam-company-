@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -984,7 +985,7 @@
             }
         }
 
-        // ضغط الصورة
+        // ضغط الصورة بشكل قوي للتخزين في Firebase
         function compressImage(file, maxSize, quality) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -992,13 +993,16 @@
                     const img = new Image();
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
+                        // تصغير الصورة إلى حد أقصى 600px للحفاظ على الجودة ضمن حد Firebase
                         let w = img.width, h = img.height;
-                        if (w > h) { if (w > maxSize) { h = h * maxSize / w; w = maxSize; } }
-                        else { if (h > maxSize) { w = w * maxSize / h; h = maxSize; } }
+                        const limit = 600;
+                        if (w > h) { if (w > limit) { h = Math.round(h * limit / w); w = limit; } }
+                        else { if (h > limit) { w = Math.round(w * limit / h); h = limit; } }
                         canvas.width = w;
                         canvas.height = h;
                         canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
+                        // جودة 0.5 تعطي صورة واضحة بحجم صغير جداً
+                        resolve(canvas.toDataURL('image/jpeg', 0.5));
                     };
                     img.src = e.target.result;
                 };
@@ -1031,6 +1035,15 @@
             database.ref('zamzam-company/exclusive-offers').once('value', snapshot => {
                 const data = snapshot.val();
                 const now = Date.now();
+
+                // حذف المنتجات المنتهية تلقائياً
+                if (data) {
+                    Object.entries(data).forEach(([id, p]) => {
+                        if (p.expiresAt <= now) {
+                            database.ref('zamzam-company/exclusive-offers/' + id).remove();
+                        }
+                    });
+                }
 
                 if (!data) {
                     grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد عروض حالياً</div>';
