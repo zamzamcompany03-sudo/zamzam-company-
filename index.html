@@ -1,333 +1,3 @@
-<html lang="ar" dir="rtl"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زمزم للمجوهرات</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
-
-        /* ===== HEADER ===== */
-        .header {
-            background: #0a0a0a;
-            border-bottom: 1px solid #D4AF37;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header h1 {
-            color: #D4AF37;
-            font-size: 22px;
-        }
-
-        .settings-btn {
-            background: none;
-            border: 1px solid #D4AF37;
-            color: #D4AF37;
-            padding: 8px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        /* ===== CONTAINER ===== */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* ===== PRICE BOX ===== */
-        .price-box {
-            background: #1a1a1a;
-            border: 2px solid #D4AF37;
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .price-box h2 {
-            font-size: 13px;
-            color: #B8860B;
-            margin-bottom: 12px;
-            font-weight: normal;
-        }
-
-        .price {
-            font-size: 38px;
-            color: #D4AF37;
-            font-weight: bold;
-        }
-
-        .price-change {
-            font-size: 13px;
-            color: #4CAF50;
-            margin-top: 8px;
-        }
-
-        .update-time {
-            font-size: 11px;
-            color: #666;
-            margin-top: 6px;
-        }
-
-        /* ===== SECTION CARD ===== */
-        .section-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .section-card h3 {
-            color: #D4AF37;
-            font-size: 15px;
-            margin-bottom: 18px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        /* ===== RESULT ROWS ===== */
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #222;
-        }
-
-        .result-row:last-child { border-bottom: none; }
-
-        .result-label {
-            font-size: 13px;
-            color: #999;
-        }
-
-        .result-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #FFD700;
-            direction: ltr;
-        }
-
-        .result-unit {
-            font-size: 11px;
-            color: #666;
-            margin-right: 4px;
-        }
-
-        /* ===== BOTTOM NAV ===== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #0a0a0a;
-            border-top: 1px solid #D4AF37;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            z-index: 200;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            color: #555;
-            font-size: 11px;
-            transition: color 0.2s;
-        }
-
-        .nav-item.active { color: #D4AF37; }
-        .nav-icon { font-size: 22px; }
-
-        /* ===== SETTINGS PANEL ===== */
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 300;
-        }
-
-        .overlay.active { display: block; }
-
-        .settings-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #111;
-            z-index: 400;
-            overflow-y: auto;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .settings-panel.active { transform: translateX(0); }
-
-        .settings-header {
-            background: #0a0a0a;
-            border-bottom: 1px solid #D4AF37;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .settings-header h2 { color: #D4AF37; font-size: 18px; }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: #D4AF37;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .settings-body { padding: 20px; }
-
-        .settings-section {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 20px;
-        }
-
-        .settings-section h3 {
-            color: #D4AF37;
-            font-size: 14px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .input-group {
-            margin-bottom: 14px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 6px;
-        }
-
-        .input-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sign-btn {
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: #D4AF37;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
-
-        .sign-btn.active-plus { background: #1a3a1a; border-color: #4CAF50; color: #4CAF50; }
-        .sign-btn.active-minus { background: #3a1a1a; border-color: #ff6b6b; color: #ff6b6b; }
-
-        .input-group input {
-            width: 100%;
-            padding: 10px 12px;
-            background: #0a0a0a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-            text-align: center;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #D4AF37;
-        }
-
-        .save-btn {
-            width: 100%;
-            padding: 14px;
-            background: #D4AF37;
-            color: #0a0a0a;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-
-        .save-btn:hover { background: #FFD700; }
-
-        .saved-msg {
-            text-align: center;
-            color: #4CAF50;
-            font-size: 13px;
-            margin-top: 8px;
-            display: none;
-        }
-
-        /* ===== TABS ===== */
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-
-        .tab-btn {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: #999;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: #D4AF37;
-            color: #0a0a0a;
-            border-color: #D4AF37;
-            font-weight: bold;
-        }
-    </style>
-</head>
 <body>
 
     <!-- HEADER -->
@@ -336,18 +6,19 @@
         <button class="settings-btn" onclick="openSettings()">⚙️ الإعدادات</button>
     </div>
 
-    <!-- MAIN -->
+    <!-- MAIN - صفحة الأسعار -->
+    <div id="page-prices">
     <div class="container">
 
         <!-- سعر الذهب العالمي -->
         <div class="price-box">
             <h2>سعر الذهب العالمي (الأونصة)</h2>
-            <div class="price" id="goldPrice">$4158.20</div>
+            <div class="price" id="goldPrice">$4152.13</div>
             <div class="price-change">
                 <span id="priceChange">↓ $0</span>
                 <span id="pricePercent" style="color: rgb(255, 107, 107);">(0.00%)</span>
             </div>
-            <div class="update-time" id="updateTime">آخر تحديث: ٤:٥٧:٢٦ م</div>
+            <div class="update-time" id="updateTime">آخر تحديث: ٦:٣٦:٢٦ م</div>
         </div>
 
         <!-- TABS -->
@@ -358,57 +29,57 @@
         </div>
 
         <!-- القسم 1: بيع المصوغات الذهبية -->
-        <div id="tab-sell" class="section-card" style="display: block;">
+        <div id="tab-sell" class="section-card">
             <h3>🥇 بيع المصوغات الذهبية</h3>
             <div class="result-row">
                 <span class="result-label">سعر الغرام</span>
                 <div>
-                    <span class="result-value" id="sell-gram">١٨٢٬٠٠٠</span>
+                    <span class="result-value" id="sell-gram">١٨١٬٧٣٢</span>
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
             <div class="result-row">
                 <span class="result-label">سعر المثقال (5 غرام)</span>
                 <div>
-                    <span class="result-value" id="sell-mithqal">٩٠٩٬٩٩٩</span>
+                    <span class="result-value" id="sell-mithqal">٩٠٨٬٦٦٢</span>
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
         </div>
 
         <!-- القسم 2: شراء الذهب الخليجي -->
-        <div id="tab-buyGulf" class="section-card" style="display: none;">
+        <div id="tab-buyGulf" class="section-card" style="display:none">
             <h3>🛒 شراء الذهب الخليجي</h3>
             <div class="result-row">
                 <span class="result-label">سعر الغرام</span>
                 <div>
-                    <span class="result-value" id="buyGulf-gram">١٧٨٬٢٢٦</span>
+                    <span class="result-value" id="buyGulf-gram">١٧٧٬٩٦٠</span>
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
             <div class="result-row">
                 <span class="result-label">سعر المثقال (5 غرام)</span>
                 <div>
-                    <span class="result-value" id="buyGulf-mithqal">٨٩١٬١٣١</span>
+                    <span class="result-value" id="buyGulf-mithqal">٨٨٩٬٨٠١</span>
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
         </div>
 
         <!-- القسم 3: شراء الذهب العراقي -->
-        <div id="tab-buyIraqi" class="section-card" style="display: none;">
+        <div id="tab-buyIraqi" class="section-card" style="display:none">
             <h3>🛒 شراء الذهب العراقي</h3>
             <div class="result-row">
                 <span class="result-label">سعر الغرام</span>
                 <div>
-                    <span class="result-value" id="buyIraqi-gram">١٥٣٬٢٢٦</span>
+                    <span class="result-value" id="buyIraqi-gram">١٥٢٬٩٦٠</span>
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
             <div class="result-row">
                 <span class="result-label">سعر المثقال (5 غرام)</span>
                 <div>
-                    <span class="result-value" id="buyIraqi-mithqal">٧٦٦٬١٣١</span>
+                    <span class="result-value" id="buyIraqi-mithqal">٧٦٤٬٨٠١</span>
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
@@ -418,21 +89,124 @@
 
     <!-- BOTTOM NAV -->
     <div class="bottom-nav">
-        <div class="nav-item active">
+        <div class="nav-item active" id="nav-prices" onclick="showPage('prices')">
             <div class="nav-icon">💰</div>
             <div>الأسعار</div>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" id="nav-store" onclick="showPage('store')">
             <div class="nav-icon">🥇</div>
-            <div>الذهب</div>
+            <div style="text-align:center;line-height:1.3;">
+                <div style="color:#D4AF37;font-weight:bold;font-size:12px;">متجر الذهب</div>
+                <div style="color:#D4AF37;font-size:10px;">للعروض الحصرية والبضائع</div>
+            </div>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" id="nav-watches" onclick="showPage('watches')">
             <div class="nav-icon">⌚</div>
             <div>الساعات</div>
         </div>
     </div>
+    </div><!-- end page-prices -->
 
-    <!-- OVERLAY -->
+    <!-- صفحة متجر الذهب -->
+    <div id="page-store" style="display:none; max-width:500px; margin:0 auto; padding:20px; padding-bottom:100px;">
+
+        <div class="section-card">
+            <h3 onclick="toggleContact()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                <span>📲 تواصل معنا عبر...</span>
+                <span id="contact-arrow" style="color:#D4AF37;font-size:20px;transition:transform 0.3s;">▼</span>
+            </h3>
+            <div id="contact-list" style="display:none;">
+
+            <a href="https://wa.me/9647901196926" target="_blank" class="contact-row">
+                <div class="contact-icon" style="background:#25D366;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.036 23.902l6.188-1.476A11.948 11.948 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.359-.214-3.724.888.935-3.618-.234-.372A9.818 9.818 0 1112 21.818z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">واتساب سيف</div><div class="contact-sub">+964 790 119 6926</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="https://wa.me/9647805747247" target="_blank" class="contact-row">
+                <div class="contact-icon" style="background:#25D366;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.859L.036 23.902l6.188-1.476A11.948 11.948 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.002-1.366l-.359-.214-3.724.888.935-3.618-.234-.372A9.818 9.818 0 1112 21.818z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">واتساب حسام</div><div class="contact-sub">+964 780 574 7247</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="https://www.instagram.com/zamzm_gold?igsh=bTdnaTJ6aTFxc2Fv&amp;utm_source=qr" target="_blank" class="contact-row">
+                <div class="contact-icon" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">إنستغرام</div><div class="contact-sub">@zamzm_gold</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="https://www.tiktok.com/@zamzam_gold?_r=1&amp;_t=ZS-97LLBNEP821" target="_blank" class="contact-row">
+                <div class="contact-icon" style="background:#000;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">تيك توك</div><div class="contact-sub">@zamzam_gold</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="https://www.facebook.com/share/14gg7LDqFps/?mibextid=wwXIfr" target="_blank" class="contact-row">
+                <div class="contact-icon" style="background:#1877F2;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">فيسبوك</div><div class="contact-sub">زمزم للمجوهرات</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="javascript:void(0)" onclick="openMap()" class="contact-row">
+                <div class="contact-icon" style="background:#EA4335;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">موقعنا على الخريطة</div><div class="contact-sub">اضغط لفتح Google Maps</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="https://zamzam-gold.com.iq/" target="_blank" class="contact-row">
+                <div class="contact-icon" style="background:#D4AF37;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">موقع ويب</div><div class="contact-sub">zamzam-gold.com.iq</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+
+            <a href="mailto:zamzamcompany0@gmail.com" class="contact-row">
+                <div class="contact-icon" style="background:#D44638;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg></div>
+                <div class="contact-info"><div class="contact-name">البريد الإلكتروني</div><div class="contact-sub">zamzamcompany0@gmail.com</div></div>
+                <div class="contact-arrow">←</div>
+            </a>
+            </div><!-- end contact-list -->
+        </div>
+
+        <!-- العروض الحصرية -->
+        <div class="section-card" onclick="showPage('offers')" style="cursor:pointer;background:linear-gradient(135deg,#1a1a1a,#2a1f00);border-color:#D4AF37;">
+            <h3 style="font-size:16px;">✨ العروض الحصرية للبضاعة المستوردة حديثاً</h3>
+            <div style="text-align:center;padding:15px;color:#D4AF37;font-size:15px;font-weight:bold;">اضغط هنا لمشاهدة العروض ←</div>
+        </div>
+
+        <!-- العروض الخاصة بالكسر -->
+        <div class="section-card" style="cursor:pointer;background:linear-gradient(135deg,#1a1a1a,#001a0a);border-color:#4CAF50;">
+            <h3 style="font-size:16px;">💎 العروض الخاصة بالكسر النضيف</h3>
+            <div style="text-align:center;padding:15px;color:#4CAF50;font-size:15px;font-weight:bold;">قريباً...</div>
+        </div>
+
+    </div>
+
+    <!-- صفحة العروض الحصرية -->
+    <div id="page-offers" style="display:none; max-width:500px; margin:0 auto; padding:15px; padding-bottom:100px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
+            <button onclick="showPage('store')" style="background:none;border:1px solid #D4AF37;color:#D4AF37;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;">← رجوع</button>
+            <h2 style="color:#D4AF37;font-size:16px;">✨ العروض الحصرية</h2>
+        </div>
+        <div id="offers-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل المنتج -->
+    <div id="product-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;overflow-y:auto;">
+        <div style="max-width:500px;margin:0 auto;padding:20px;">
+            <button onclick="closeProductModal()" style="background:none;border:1px solid #D4AF37;color:#D4AF37;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:15px;">← رجوع</button>
+            <div id="product-modal-content"></div>
+        </div>
+    </div>
+
+    <!-- صفحة الساعات -->
+    <div id="page-watches" style="display:none; max-width:500px; margin:0 auto; padding:20px; padding-bottom:100px;">
+        <div class="section-card">
+            <h3>⌚ الساعات والفضيات</h3>
+            <div style="text-align:center;padding:30px;color:#888;">قريباً...</div>
+        </div>
+    </div>
     <div class="overlay" id="overlay" onclick="closeSettings()"></div>
 
     <!-- SETTINGS PANEL -->
@@ -490,6 +264,58 @@
 
             <button class="save-btn" onclick="saveSettings()">💾 حفظ وتطبيق</button>
             <div class="saved-msg" id="savedMsg">✅ تم الحفظ بنجاح!</div>
+
+            <!-- إعدادات العروض الحصرية -->
+            <div class="settings-section" style="margin-top:20px;">
+                <h3>✨ إضافة عرض حصري جديد</h3>
+
+                <div class="input-group">
+                    <label>صورة المنتج</label>
+                    <input type="file" id="prod-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                    <div id="prod-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                        <img id="prod-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>الوصف</label>
+                    <textarea id="prod-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: خاتم ذهب عيار 21..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>الوزن بالغرام</label>
+                    <input type="number" id="prod-weight" step="0.01" placeholder="مثال: 5.5" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <div class="input-group">
+                    <label>أجور الغرام (دينار)</label>
+                    <input type="number" id="prod-wage" placeholder="مثال: 15000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <div class="input-group">
+                    <label>نسبة الخصم على الأجور (%)</label>
+                    <input type="number" id="prod-discount" placeholder="مثال: 10" min="0" max="100" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <div class="input-group">
+                    <label>مدة العرض (أيام)</label>
+                    <input type="number" id="prod-days" placeholder="مثال: 2" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <!-- معاينة الأسعار -->
+                <div id="prod-preview-prices" style="display:none;background:#0a0a0a;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #333;">
+                    <div style="font-size:12px;color:#888;margin-bottom:8px;">معاينة الأسعار:</div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">سعر الذهب</span><span id="prev-gold" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الأجور</span><span id="prev-wages" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">المبلغ قبل الخصم</span><span id="prev-before" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الخصم</span><span id="prev-discount-amt" style="color:#ff6b6b;font-size:13px;font-weight:bold;">--</span></div>
+                    <div style="display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:8px;margin-top:4px;"><span style="color:#D4AF37;font-size:13px;font-weight:bold;">السعر النهائي</span><span id="prev-final" style="color:#4CAF50;font-size:15px;font-weight:bold;">--</span></div>
+                </div>
+
+                <button class="save-btn" onclick="calcProductPreview()" style="background:#333;color:#D4AF37;margin-bottom:10px;">🔢 احسب الأسعار</button>
+                <button class="save-btn" onclick="publishProduct()">🚀 نشر المنتج</button>
+                <div id="prod-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+            </div>
 
         </div>
     </div>
@@ -580,6 +406,9 @@
 
             document.getElementById('sell-gram').textContent = fmt(sellGram);
             document.getElementById('sell-mithqal').textContent = fmt(sellMithqal);
+
+            // حفظ سعر الغرام للاستخدام في العروض
+            localStorage.setItem('lastSellGram', sellGram);
             document.getElementById('buyGulf-gram').textContent = fmt(buyGulfGram);
             document.getElementById('buyGulf-mithqal').textContent = fmt(buyGulfMithqal);
             document.getElementById('buyIraqi-gram').textContent = fmt(buyIraqiGram);
@@ -632,6 +461,256 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
+        // فتح/إخفاء التواصل
+        function toggleContact() {
+            const list = document.getElementById('contact-list');
+            const arrow = document.getElementById('contact-arrow');
+            const isOpen = list.style.display !== 'none';
+            list.style.display = isOpen ? 'none' : 'block';
+            arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        // فتح الخريطة حسب نوع الجهاز
+        function openMap() {
+            const lat = 33.429813;
+            const lng = 43.299900;
+            const label = 'زمزم للمجوهرات';
+
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+
+            if (isIOS) {
+                // آيفون: يفتح Apple Maps أو يعطي خيار
+                window.location.href = `maps://?q=${label}&ll=${lat},${lng}`;
+            } else if (isAndroid) {
+                // أندرويد: يفتح التطبيق الافتراضي (Google Maps أو Waze أو غيره)
+                window.location.href = `geo:${lat},${lng}?q=${lat},${lng}(${encodeURIComponent(label)})`;
+            } else {
+                // كمبيوتر: يفتح Google Maps في المتصفح
+                window.open(`https://maps.google.com/?q=${lat},${lng}`, '_blank');
+            }
+        }
+
+        // PAGE NAVIGATION
+        function showPage(page) {
+            ['prices','store','watches','offers'].forEach(p => {
+                const el = document.getElementById('page-' + p);
+                if (el) el.style.display = p === page ? 'block' : 'none';
+            });
+            ['prices','store','watches'].forEach(p => {
+                const nav = document.getElementById('nav-' + p);
+                if (nav) nav.classList.toggle('active', p === page);
+            });
+            if (page === 'offers') loadOffers();
+        }
+
+        // ===== نظام العروض الحصرية =====
+        let currentSellGram = 0;
+
+        // مشاهدة صورة قبل الرفع
+        document.addEventListener('DOMContentLoaded', () => {
+            const imgInput = document.getElementById('prod-image');
+            if (imgInput) {
+                imgInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            document.getElementById('prod-img-preview-el').src = e.target.result;
+                            document.getElementById('prod-image-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+
+        function calcProductPreview() {
+            const weight = parseFloat(document.getElementById('prod-weight').value) || 0;
+            const wage = parseFloat(document.getElementById('prod-wage').value) || 0;
+            const discount = parseFloat(document.getElementById('prod-discount').value) || 0;
+
+            if (!weight || !wage) {
+                alert('أدخل الوزن والأجور أولاً');
+                return;
+            }
+
+            const sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
+            if (!sellGram) {
+                alert('انتظر حتى يتحمّل سعر الذهب أولاً');
+                return;
+            }
+
+            const goldAmount = sellGram * weight;
+            const wagesAmount = wage * weight;
+            const beforeDiscount = goldAmount + wagesAmount;
+            const discountAmount = (discount / 100) * wagesAmount;
+            const finalPrice = beforeDiscount - discountAmount;
+
+            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+
+            document.getElementById('prev-gold').textContent = fmt(goldAmount) + ' دينار';
+            document.getElementById('prev-wages').textContent = fmt(wagesAmount) + ' دينار';
+            document.getElementById('prev-before').textContent = fmt(beforeDiscount) + ' دينار';
+            document.getElementById('prev-discount-amt').textContent = '- ' + fmt(discountAmount) + ' دينار';
+            document.getElementById('prev-final').textContent = fmt(finalPrice) + ' دينار';
+            document.getElementById('prod-preview-prices').style.display = 'block';
+        }
+
+        async function publishProduct() {
+            const imageFile = document.getElementById('prod-image').files[0];
+            const desc = document.getElementById('prod-desc').value.trim();
+            const weight = parseFloat(document.getElementById('prod-weight').value);
+            const wage = parseFloat(document.getElementById('prod-wage').value);
+            const discount = parseFloat(document.getElementById('prod-discount').value) || 0;
+            const days = parseInt(document.getElementById('prod-days').value) || 1;
+
+            if (!imageFile || !desc || !weight || !wage) {
+                showProdMsg('❌ أكمل جميع الحقول والصورة', 'red');
+                return;
+            }
+
+            showProdMsg('⏳ جاري الرفع...', '#D4AF37');
+
+            try {
+                // رفع الصورة كـ base64 في Firebase Database
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const imageBase64 = e.target.result;
+                    const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+
+                    const product = {
+                        desc,
+                        weight,
+                        wage,
+                        discount,
+                        days,
+                        expiresAt,
+                        imageBase64,
+                        createdAt: Date.now()
+                    };
+
+                    await database.ref('zamzam-company/exclusive-offers').push(product);
+                    showProdMsg('✅ تم نشر المنتج بنجاح!', '#4CAF50');
+
+                    // تصفير الحقول
+                    document.getElementById('prod-image').value = '';
+                    document.getElementById('prod-desc').value = '';
+                    document.getElementById('prod-weight').value = '';
+                    document.getElementById('prod-wage').value = '';
+                    document.getElementById('prod-discount').value = '';
+                    document.getElementById('prod-days').value = '';
+                    document.getElementById('prod-image-preview').style.display = 'none';
+                    document.getElementById('prod-preview-prices').style.display = 'none';
+                };
+                reader.readAsDataURL(imageFile);
+
+            } catch (err) {
+                showProdMsg('❌ خطأ: ' + err.message, 'red');
+            }
+        }
+
+        function showProdMsg(text, color) {
+            const msg = document.getElementById('prod-msg');
+            msg.textContent = text;
+            msg.style.color = color;
+            msg.style.display = 'block';
+            if (color === '#4CAF50') setTimeout(() => msg.style.display = 'none', 3000);
+        }
+
+        function loadOffers() {
+            const grid = document.getElementById('offers-grid');
+            grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
+
+            database.ref('zamzam-company/exclusive-offers').once('value', snapshot => {
+                const data = snapshot.val();
+                const now = Date.now();
+
+                if (!data) {
+                    grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد عروض حالياً</div>';
+                    return;
+                }
+
+                const products = Object.entries(data)
+                    .map(([id, p]) => ({ id, ...p }))
+                    .filter(p => p.expiresAt > now)
+                    .sort((a, b) => b.createdAt - a.createdAt);
+
+                if (products.length === 0) {
+                    grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد عروض حالياً</div>';
+                    return;
+                }
+
+                grid.innerHTML = products.map(p => {
+                    const remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
+                    return `
+                    <div onclick="openProductModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #333;position:relative;">
+                        <img src="${p.imageBase64}" style="width:100%;aspect-ratio:1;object-fit:cover;">
+                        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #D4AF37;border-radius:20px;padding:3px 8px;font-size:11px;color:#D4AF37;">⏰ ${remaining} يوم</div>
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                            <div style="font-size:11px;color:#fff;line-height:1.3;">${p.desc.substring(0,40)}${p.desc.length>40?'...':''}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                // حفظ المنتجات للوصول لاحقاً
+                window._offersData = {};
+                products.forEach(p => window._offersData[p.id] = p);
+            });
+        }
+
+        function openProductModal(id) {
+            const p = window._offersData[id];
+            if (!p) return;
+
+            const sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
+            const goldAmount = sellGram * p.weight;
+            const wagesAmount = p.wage * p.weight;
+            const beforeDiscount = goldAmount + wagesAmount;
+            const discountAmount = (p.discount / 100) * wagesAmount;
+            const finalPrice = beforeDiscount - discountAmount;
+            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            const remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
+
+            const waMsg = encodeURIComponent(
+                `مرحباً 👋\nأنا مهتم بهذا المنتج:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر النهائي: ${fmt(finalPrice)} دينار\n🏷️ الخصم: ${p.discount}%\n\nأرجو التواصل معي للاستفسار`
+            );
+
+            document.getElementById('product-modal-content').innerHTML = `
+                <img src="${p.imageBase64}" style="width:100%;border-radius:14px;margin-bottom:15px;">
+
+                <div style="background:#1a1a1a;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #333;">
+                    <div style="color:#D4AF37;font-size:15px;font-weight:bold;margin-bottom:10px;">📋 تفاصيل المنتج</div>
+                    <div style="color:#ccc;font-size:13px;line-height:1.6;margin-bottom:10px;">${p.desc}</div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">الوزن</span><span style="color:#fff;font-size:13px;">${p.weight} غرام</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">سعر الذهب</span><span style="color:#FFD700;font-size:13px;">${fmt(goldAmount)} دينار</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">مبلغ الأجور</span><span style="color:#FFD700;font-size:13px;">${fmt(wagesAmount)} دينار</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">المبلغ قبل الخصم</span><span style="color:#FFD700;font-size:13px;">${fmt(beforeDiscount)} دينار</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">الخصم (${p.discount}% على الأجور)</span><span style="color:#ff6b6b;font-size:13px;">- ${fmt(discountAmount)} دينار</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #444;margin-top:4px;"><span style="color:#D4AF37;font-size:14px;font-weight:bold;">السعر النهائي</span><span style="color:#4CAF50;font-size:18px;font-weight:bold;">${fmt(finalPrice)} دينار</span></div>
+                </div>
+
+                <div style="background:#1a1a1a;border-radius:14px;padding:12px;margin-bottom:12px;border:1px solid #D4AF37;text-align:center;">
+                    <div style="color:#D4AF37;font-size:13px;">⏰ ينتهي العرض خلال <strong>${remaining} يوم</strong></div>
+                </div>
+
+                <div style="color:#D4AF37;font-size:14px;font-weight:bold;margin-bottom:10px;text-align:center;">📲 تواصل معنا للاستفسار</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <a href="https://wa.me/9647901196926?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب سيف</a>
+                    <a href="https://wa.me/9647805747247?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب حسام</a>
+                    <a href="https://www.instagram.com/zamzm_gold" target="_blank" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">إنستغرام</a>
+                    <a href="https://www.facebook.com/share/14gg7LDqFps/" target="_blank" style="background:#1877F2;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">فيسبوك</a>
+                </div>
+            `;
+
+            document.getElementById('product-modal').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').style.display = 'none';
+        }
+
         // INIT
         loadSettings();
         fetchGoldPrice();
@@ -639,4 +718,4 @@
     </script>
 
 
-</body></html>
+</body>
