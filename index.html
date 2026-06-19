@@ -531,9 +531,9 @@
         </div>
 
         <!-- العروض الخاصة بالكسر -->
-        <div class="section-card" style="cursor:pointer;background:linear-gradient(135deg,#1a1a1a,#001a0a);border-color:#4CAF50;">
+        <div class="section-card" onclick="showPage('scrap')" style="cursor:pointer;background:linear-gradient(135deg,#1a1a1a,#001a0a);border-color:#4CAF50;">
             <h3 style="font-size:16px;">💎 العروض الخاصة بالكسر النضيف</h3>
-            <div style="text-align:center;padding:15px;color:#4CAF50;font-size:15px;font-weight:bold;">قريباً...</div>
+            <div style="text-align:center;padding:15px;color:#4CAF50;font-size:15px;font-weight:bold;">اضغط هنا لمشاهدة العروض ←</div>
         </div>
 
     </div>
@@ -546,6 +546,25 @@
         </div>
         <div id="offers-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>
+        </div>
+    </div>
+
+    <!-- صفحة الكسر النضيف -->
+    <div id="page-scrap" style="display:none; max-width:500px; margin:0 auto; padding:15px; padding-bottom:100px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
+            <button onclick="showPage('store')" style="background:none;border:1px solid #4CAF50;color:#4CAF50;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;">← رجوع</button>
+            <h2 style="color:#4CAF50;font-size:16px;">💎 الكسر النضيف</h2>
+        </div>
+        <div id="scrap-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل الكسر -->
+    <div id="scrap-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;overflow-y:auto;">
+        <div style="max-width:500px;margin:0 auto;padding:20px;">
+            <button onclick="closeScrapModal()" style="background:none;border:1px solid #4CAF50;color:#4CAF50;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:15px;">← رجوع</button>
+            <div id="scrap-modal-content"></div>
         </div>
     </div>
 
@@ -681,6 +700,49 @@
                 </div>
 
                 <div id="prod-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+            </div>
+
+            <!-- إعدادات الكسر النضيف -->
+            <div class="settings-section" style="margin-top:20px;border-color:#4CAF50;">
+                <h3 style="color:#4CAF50;">💎 إضافة كسر نضيف جديد</h3>
+
+                <div class="input-group">
+                    <label>صورة القطعة</label>
+                    <input type="file" id="scrap-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                    <div id="scrap-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                        <img id="scrap-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>الوصف</label>
+                    <textarea id="scrap-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: كسر ذهب عيار 21..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>الوزن بالغرام</label>
+                    <input type="number" id="scrap-weight" step="0.01" placeholder="مثال: 3.75" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <div class="input-group">
+                    <label>السعر الكلي (دينار عراقي)</label>
+                    <input type="number" id="scrap-price" placeholder="مثال: 1930000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <div class="input-group">
+                    <label>مدة العرض (أيام)</label>
+                    <input type="number" id="scrap-days" placeholder="مثال: 1" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                </div>
+
+                <button class="save-btn" onclick="publishScrap()" style="background:#4CAF50;color:#fff;">🚀 نشر القطعة</button>
+
+                <div id="scrap-progress-wrap" style="display:none;margin-top:12px;">
+                    <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                        <div id="scrap-progress-bar" style="height:100%;width:0%;background:#4CAF50;border-radius:20px;transition:width 0.3s;"></div>
+                    </div>
+                    <div id="scrap-progress-txt" style="text-align:center;font-size:13px;color:#4CAF50;"></div>
+                </div>
+                <div id="scrap-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
             </div>
 
         </div>
@@ -875,9 +937,190 @@
             }
         }
 
+        // ===== نظام الكسر النضيف =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrapInput = document.getElementById('scrap-image');
+            if (scrapInput) {
+                scrapInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            document.getElementById('scrap-img-preview-el').src = e.target.result;
+                            document.getElementById('scrap-image-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+
+        async function publishScrap() {
+            const imageFile = document.getElementById('scrap-image').files[0];
+            const desc = document.getElementById('scrap-desc').value.trim();
+            const weight = parseFloat(document.getElementById('scrap-weight').value);
+            const price = parseFloat(document.getElementById('scrap-price').value);
+            const days = parseInt(document.getElementById('scrap-days').value) || 1;
+
+            if (!imageFile || !desc || !weight || !price) {
+                showScrapMsg('❌ أكمل جميع الحقول والصورة', 'red');
+                return;
+            }
+
+            showScrapProgress(0);
+
+            try {
+                showScrapProgress(10);
+                const compressedBase64 = await compressImage(imageFile, 600, 0.5);
+                showScrapProgress(30);
+
+                const base64Data = compressedBase64.split(',')[1];
+                const formData = new FormData();
+                formData.append('image', base64Data);
+                formData.append('type', 'base64');
+
+                showScrapProgress(50);
+                const imgurRes = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
+                    body: formData
+                });
+                const imgurData = await imgurRes.json();
+                if (!imgurData.success) throw new Error('فشل رفع الصورة');
+                const imageUrl = imgurData.data.link;
+                showScrapProgress(70);
+
+                const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                const product = { desc, weight, price, days, expiresAt, imageUrl, createdAt: Date.now() };
+
+                await database.ref('zamzam-company/scrap-offers').push(product);
+                showScrapProgress(100);
+
+                setTimeout(() => {
+                    document.getElementById('scrap-image').value = '';
+                    document.getElementById('scrap-desc').value = '';
+                    document.getElementById('scrap-weight').value = '';
+                    document.getElementById('scrap-price').value = '';
+                    document.getElementById('scrap-days').value = '';
+                    document.getElementById('scrap-image-preview').style.display = 'none';
+                    document.getElementById('scrap-progress-wrap').style.display = 'none';
+                    closeSettings();
+                    showPage('scrap');
+                }, 800);
+
+            } catch (err) {
+                showScrapMsg('❌ خطأ: ' + err.message, 'red');
+                document.getElementById('scrap-progress-wrap').style.display = 'none';
+            }
+        }
+
+        function showScrapProgress(percent) {
+            const wrap = document.getElementById('scrap-progress-wrap');
+            const bar = document.getElementById('scrap-progress-bar');
+            const txt = document.getElementById('scrap-progress-txt');
+            wrap.style.display = 'block';
+            bar.style.width = percent + '%';
+            txt.textContent = percent === 100 ? '✅ تم النشر بنجاح!' : `⏳ جاري الرفع... ${percent}%`;
+        }
+
+        function showScrapMsg(text, color) {
+            const msg = document.getElementById('scrap-msg');
+            msg.textContent = text;
+            msg.style.color = color;
+            msg.style.display = 'block';
+        }
+
+        function loadScrap() {
+            const grid = document.getElementById('scrap-grid');
+            grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
+
+            database.ref('zamzam-company/scrap-offers').once('value', snapshot => {
+                const data = snapshot.val();
+                const now = Date.now();
+
+                if (data) {
+                    Object.entries(data).forEach(([id, p]) => {
+                        if (p.expiresAt <= now) database.ref('zamzam-company/scrap-offers/' + id).remove();
+                    });
+                }
+
+                if (!data) {
+                    grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد قطع متاحة حالياً</div>';
+                    return;
+                }
+
+                const products = Object.entries(data)
+                    .map(([id, p]) => ({ id, ...p }))
+                    .filter(p => p.expiresAt > now)
+                    .sort((a, b) => b.createdAt - a.createdAt);
+
+                if (products.length === 0) {
+                    grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد قطع متاحة حالياً</div>';
+                    return;
+                }
+
+                grid.innerHTML = products.map(p => {
+                    const remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
+                    const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+                    return `
+                    <div onclick="openScrapModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #4CAF50;position:relative;">
+                        <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;">
+                        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #4CAF50;border-radius:20px;padding:3px 8px;font-size:11px;color:#4CAF50;">⏰ ${remaining} يوم</div>
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                            <div style="font-size:11px;color:#fff;line-height:1.3;">${p.desc.substring(0,40)}${p.desc.length>40?'...':''}</div>
+                            <div style="font-size:12px;color:#4CAF50;font-weight:bold;margin-top:3px;">${fmt(p.price)} دينار</div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                window._scrapData = {};
+                products.forEach(p => window._scrapData[p.id] = p);
+            });
+        }
+
+        function openScrapModal(id) {
+            const p = window._scrapData[id];
+            if (!p) return;
+
+            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            const remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
+
+            const waMsg = encodeURIComponent(
+                `مرحباً 👋\nأنا مهتم بهذه القطعة:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر الكلي: ${fmt(p.price)} دينار\n🖼️ صورة القطعة: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار عن هذه القطعة`
+            );
+
+            document.getElementById('scrap-modal-content').innerHTML = `
+                <img src="${p.imageUrl}" style="width:100%;border-radius:14px;margin-bottom:15px;">
+
+                <div style="background:#1a1a1a;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #4CAF50;">
+                    <div style="color:#4CAF50;font-size:15px;font-weight:bold;margin-bottom:10px;">📋 تفاصيل القطعة</div>
+                    <div style="color:#ccc;font-size:13px;line-height:1.6;margin-bottom:10px;">${p.desc}</div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">الوزن</span><span style="color:#fff;font-size:13px;">${p.weight} غرام</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #444;margin-top:4px;"><span style="color:#4CAF50;font-size:14px;font-weight:bold;">السعر الكلي</span><span style="color:#4CAF50;font-size:18px;font-weight:bold;">${fmt(p.price)} دينار</span></div>
+                </div>
+
+                <div style="background:#1a1a1a;border-radius:14px;padding:12px;margin-bottom:12px;border:1px solid #4CAF50;text-align:center;">
+                    <div style="color:#4CAF50;font-size:13px;">⏰ ينتهي العرض خلال <strong>${remaining} يوم</strong></div>
+                </div>
+
+                <div style="color:#4CAF50;font-size:14px;font-weight:bold;margin-bottom:10px;text-align:center;">📲 تواصل معنا للاستفسار</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <a href="https://wa.me/9647901196926?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب سيف</a>
+                    <a href="https://wa.me/9647805747247?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب حسام</a>
+                </div>
+            `;
+
+            document.getElementById('scrap-modal').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function closeScrapModal() {
+            document.getElementById('scrap-modal').style.display = 'none';
+        }
+
         // PAGE NAVIGATION
         function showPage(page) {
-            ['prices','store','watches','offers'].forEach(p => {
+            ['prices','store','watches','offers','scrap'].forEach(p => {
                 const el = document.getElementById('page-' + p);
                 if (el) el.style.display = p === page ? 'block' : 'none';
             });
@@ -886,6 +1129,7 @@
                 if (nav) nav.classList.toggle('active', p === page);
             });
             if (page === 'offers') loadOffers();
+            if (page === 'scrap') loadScrap();
         }
 
         // ===== نظام العروض الحصرية =====
