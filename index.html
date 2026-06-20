@@ -350,19 +350,19 @@
         /* ===== TABS ===== */
         .tabs {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 18px;
-            background: #111;
-            border-radius: 16px;
             padding: 5px;
-            border: 1px solid #222;
+            background: #0d0d0d;
+            border-radius: 16px;
+            border: 1px solid #1e1e1e;
         }
 
         .tab-btn {
             background: transparent;
-            border: none;
+            border: 2px solid transparent;
             color: #555;
-            padding: 10px 14px;
+            padding: 10px 10px;
             border-radius: 12px;
             cursor: pointer;
             font-size: 12px;
@@ -370,18 +370,50 @@
             transition: all 0.25s ease;
             flex: 1;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .tab-btn.active {
+        /* بيع المصوغات - ذهبي */
+        .tab-btn[onclick*="sell"] {
+            color: #888;
+        }
+        .tab-btn[onclick*="sell"].active {
             background: linear-gradient(135deg, #D4AF37, #B8860B);
-            color: #0a0a0a;
-            font-weight: 800;
-            box-shadow: 0 4px 12px rgba(212,175,55,0.35);
-            transform: translateY(-1px);
+            color: #000;
+            border-color: #D4AF37;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+            transform: translateY(-2px);
         }
 
-        .tab-btn:not(.active):hover { color: #D4AF37; background: rgba(212,175,55,0.08); }
+        /* شراء الخليجي - أزرق */
+        .tab-btn[onclick*="buyGulf"] {
+            color: #888;
+        }
+        .tab-btn[onclick*="buyGulf"].active {
+            background: linear-gradient(135deg, #1e88e5, #1565c0);
+            color: #fff;
+            border-color: #1e88e5;
+            box-shadow: 0 4px 15px rgba(30,136,229,0.4);
+            transform: translateY(-2px);
+        }
+
+        /* شراء العراقي - أخضر */
+        .tab-btn[onclick*="buyIraqi"] {
+            color: #888;
+        }
+        .tab-btn[onclick*="buyIraqi"].active {
+            background: linear-gradient(135deg, #43a047, #2e7d32);
+            color: #fff;
+            border-color: #43a047;
+            box-shadow: 0 4px 15px rgba(67,160,71,0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn:not(.active):hover {
+            color: #D4AF37;
+            background: rgba(212,175,55,0.06);
+            border-color: rgba(212,175,55,0.2);
+        }
 
         /* ===== CONTACT ===== */
         .contact-row {
@@ -1017,7 +1049,14 @@
                     calculatePrices(goldPrice);
                 }
             } catch (e) {
-                document.getElementById('updateTime').textContent = 'خطأ في جلب السعر';
+                // استخدام آخر سعر محفوظ عند الخطأ
+                const cached = parseFloat(localStorage.getItem('lastGoldPrice') || 0);
+                if (cached) {
+                    document.getElementById('updateTime').textContent = `⚡ آخر سعر محفوظ`;
+                    calculatePrices(cached);
+                } else {
+                    document.getElementById('updateTime').textContent = '⏳ جاري إعادة الاتصال...';
+                }
             }
         }
 
