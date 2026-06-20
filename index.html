@@ -1743,19 +1743,7 @@
         }
 
         function copyLink() {
-            navigator.clipboard.writeText(APP_URL).then(() => {
-                const btn = event.target;
-                btn.textContent = '✅ تم النسخ!';
-                btn.style.background = '#1a3a1a';
-                btn.style.color = '#4CAF50';
-                btn.style.borderColor = '#4CAF50';
-                setTimeout(() => {
-                    btn.textContent = '📋 نسخ الرابط';
-                    btn.style.background = '#1a1a1a';
-                    btn.style.color = '#D4AF37';
-                    btn.style.borderColor = '#D4AF37';
-                }, 2000);
-            });
+            copyAppMessage();
         }
 
         // ===== نظام التقييم =====
@@ -1933,7 +1921,7 @@
 
             <!-- زر النسخ -->
             <button id="copy-msg-btn" onclick="copyAppMessage()" style="width:100%;background:#25D366;color:#fff;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(37,211,102,0.3);margin-bottom:10px;">
-                📋 انسخ الرسالة
+                📋 انسخ الرسالة كاملة
             </button>
 
             <!-- فتح واتساب -->
