@@ -1276,8 +1276,8 @@
             updateSignBtn('buyGulf');
             updateSignBtn('buyIraqiExtra');
 
-            // ثم نجلب من Firebase ونحدّث (مزامنة)
-            database.ref('zamzam-company/settings').once('value', snap => {
+            // مستمع real-time - يتحدث تلقائياً عند أي تغيير من أي جهاز
+            database.ref('zamzam-company/settings').on('value', snap => {
                 let s = snap.val();
                 if (!s) return;
 
@@ -1632,7 +1632,7 @@
             let grid = document.getElementById('scrap-grid');
             grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
 
-            database.ref('zamzam-company/scrap-offers').once('value', snapshot => {
+            database.ref('zamzam-company/scrap-offers').on('value', snapshot => {
                 let data = snapshot.val();
                 let now = Date.now();
 
@@ -1918,7 +1918,7 @@
             let grid = document.getElementById('offers-grid');
             grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
 
-            database.ref('zamzam-company/exclusive-offers').once('value', snapshot => {
+            database.ref('zamzam-company/exclusive-offers').on('value', snapshot => {
                 let data = snapshot.val();
                 let now = Date.now();
 
@@ -2310,7 +2310,7 @@
             if (!grid) return;
             grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
 
-            database.ref('zamzam-company/silver-offers').once('value', snap => {
+            database.ref('zamzam-company/silver-offers').on('value', snap => {
                 let data = snap.val();
                 let now = Date.now();
                 if (data) Object.entries(data).forEach(([id, p]) => {
@@ -2348,7 +2348,7 @@
             let dbPath = type === 'watches' ? 'watches-offers' : 'glasses-offers';
             let color = type === 'watches' ? '#60a5fa' : '#a78bfa';
 
-            database.ref('zamzam-company/' + dbPath).once('value', snap => {
+            database.ref('zamzam-company/' + dbPath).on('value', snap => {
                 let data = snap.val();
                 let now = Date.now();
                 if (data) Object.entries(data).forEach(([id,p]) => {
