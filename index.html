@@ -508,9 +508,9 @@
 
         <!-- TABS -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('sell')">بيع المصوغات</button>
-            <button class="tab-btn" onclick="showTab('buyGulf')">شراء الخليجي</button>
-            <button class="tab-btn" onclick="showTab('buyIraqi')">شراء العراقي</button>
+            <button class="tab-btn active" onclick="showTab('sell')" style="color:#D4AF37;">بيع المصوغات</button>
+            <button class="tab-btn" onclick="showTab('buyGulf')" style="color:#60a5fa;">شراء الخليجي</button>
+            <button class="tab-btn" onclick="showTab('buyIraqi')" style="color:#4CAF50;">شراء العراقي</button>
         </div>
 
         <!-- القسم 1: بيع المصوغات الذهبية -->
@@ -1066,7 +1066,10 @@
                 document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
             });
             document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.classList.toggle('active', ['sell','buyGulf','buyIraqi'][i] === tab);
+                const tabs = ['sell','buyGulf','buyIraqi'];
+                const txtColors = ['#D4AF37','#60a5fa','#4CAF50'];
+                btn.classList.toggle('active', tabs[i] === tab);
+                btn.style.color = tabs[i] === tab ? '#000' : txtColors[i];
             });
 
             // تغيير لون البطاقة حسب التاب
