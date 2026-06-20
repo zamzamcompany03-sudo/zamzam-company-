@@ -1454,9 +1454,6 @@
         }
 
         // ===== نظام الكسر النضيف =====
-        
-            }
-        });
 
         async function publishScrap() {
             let imageFile = document.getElementById('scrap-image').files[0];
@@ -1677,11 +1674,6 @@
 
         // ===== نظام العروض الحصرية =====
         let currentSellGram = 0;
-
-        // مشاهدة صورة قبل الرفع
-        
-            }
-        });
 
         function calcProductPreview() {
             let weight = parseFloat(document.getElementById('prod-weight').value) || 0;
@@ -1970,33 +1962,7 @@
             }
         }
 
-        // رفع صورة الفضيات
-        
-            let wi = document.getElementById('watch-image');
-            if (wi) wi.addEventListener('change', function() {
-                let file = this.files[0];
-                if (file) {
-                    let r = new FileReader();
-                    r.onload = e => {
-                        document.getElementById('watch-img-preview-el').src = e.target.result;
-                        document.getElementById('watch-image-preview').style.display = 'block';
-                    };
-                    r.readAsDataURL(file);
-                }
-            });
-            let gi = document.getElementById('glasses-image');
-            if (gi) gi.addEventListener('change', function() {
-                let file = this.files[0];
-                if (file) {
-                    let r = new FileReader();
-                    r.onload = e => {
-                        document.getElementById('glasses-img-preview-el').src = e.target.result;
-                        document.getElementById('glasses-image-preview').style.display = 'block';
-                    };
-                    r.readAsDataURL(file);
-                }
-            });
-        });
+        // رفع صورة الفضيات والساعات والنضارات — يتم في DOMContentLoaded أسفل الكود
 
         function calcGlassesPreview() {
             let price = parseFloat(document.getElementById('glasses-price').value) || 0;
@@ -2739,49 +2705,32 @@
             });
         }
 
-document.addEventListener('DOMContentLoaded', () => {
-
-            let scrapInput = document.getElementById('scrap-image');
-            if (scrapInput) {
-                scrapInput.addEventListener('change', function() {
+        // ===== Image previews =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const ids = [
+                ['scrap-image', 'scrap-img-preview-el', 'scrap-image-preview'],
+                ['prod-image', 'prod-img-preview-el', 'prod-image-preview'],
+                ['silver-image', 'silver-img-preview-el', 'silver-image-preview'],
+                ['watch-image', 'watch-img-preview-el', 'watch-image-preview'],
+                ['glasses-image', 'glasses-img-preview-el', 'glasses-image-preview']
+            ];
+            ids.forEach(([inputId, previewImgId, previewDivId]) => {
+                let input = document.getElementById(inputId);
+                if (!input) return;
+                input.addEventListener('change', function() {
                     let file = this.files[0];
-                    if (file) {
-                        let reader = new FileReader();
-                        reader.onload = e => {
-                            document.getElementById('scrap-img-preview-el').src = e.target.result;
-                            document.getElementById('scrap-image-preview').style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                
-
-            let imgInput = document.getElementById('prod-image');
-            if (imgInput) {
-                imgInput.addEventListener('change', function() {
-                    let file = this.files[0];
-                    if (file) {
-                        let reader = new FileReader();
-                        reader.onload = e => {
-                            document.getElementById('prod-img-preview-el').src = e.target.result;
-                            document.getElementById('prod-image-preview').style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                
-
-            let si = document.getElementById('silver-image');
-            if (si) si.addEventListener('change', function() {
-                let file = this.files[0];
-                if (file) {
+                    if (!file) return;
                     let r = new FileReader();
                     r.onload = e => {
-                        document.getElementById('silver-img-preview-el').src = e.target.result;
-                        document.getElementById('silver-image-preview').style.display = 'block';
+                        let img = document.getElementById(previewImgId);
+                        let div = document.getElementById(previewDivId);
+                        if (img) img.src = e.target.result;
+                        if (div) div.style.display = 'block';
                     };
                     r.readAsDataURL(file);
-                }
-            
-});
+                });
+            });
+        });
 
         // INIT
         loadSettings();
