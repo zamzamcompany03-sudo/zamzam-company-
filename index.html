@@ -1359,40 +1359,94 @@
             document.getElementById('buyIraqi-mithqal').textContent = fmt(buyIraqiMithqal);
         }
 
-        // جلب سعر الذهب
+        // جلب سعر الذهب - مع مصادر احتياطية متعددة
         async function fetchGoldPrice() {
+            let goldPrice = null;
+
+            // المصدر 1: Cloudflare Worker الخاص
             try {
-                let response = await fetch(WORKER_URL);
-                let data = await response.json();
-                if (data && data.success && data.price) {
-                    let goldPrice = parseFloat(data.price);
-                    let lastPrice = parseFloat(localStorage.getItem('lastGoldPrice') || goldPrice);
-                    let change = (goldPrice - lastPrice).toFixed(2);
-                    let changePercent = ((change / lastPrice) * 100).toFixed(2);
-
-                    document.getElementById('goldPrice').textContent = `$${goldPrice.toFixed(2)}`;
-                    document.getElementById('priceChange').textContent = `${change > 0 ? '↑' : '↓'} $${Math.abs(change)}`;
-                    document.getElementById('pricePercent').textContent = `(${changePercent}%)`;
-                    document.getElementById('pricePercent').style.color = change > 0 ? '#4CAF50' : '#ff6b6b';
-                    document.getElementById('updateTime').textContent = `آخر تحديث: ${new Date().toLocaleTimeString('ar-IQ')}`;
-
-                    localStorage.setItem('lastGoldPrice', goldPrice);
-                    calculatePrices(goldPrice);
-                    startCountdown();
-
-                    // رسالة الترحيب مقارنة بآخر زيارة (مرة واحدة فقط عند أول تحميل)
-                    if (!window._welcomeShown) {
-                        window._welcomeShown = true;
-                        showWelcomeBack(goldPrice);
-                    }
+                let res = await Promise.race([
+                    fetch(WORKER_URL),
+                    new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                ]);
+                let data = await res.json();
+                if (data && data.price && parseFloat(data.price) > 100) {
+                    goldPrice = parseFloat(data.price);
                 }
-            } catch (e) {
-                // استخدام آخر سعر محفوظ عند الخطأ
+            } catch (e) {}
+
+            // المصدر 2: Metals.live (مجاني بدون مفتاح)
+            if (!goldPrice) {
+                try {
+                    let res = await Promise.race([
+                        fetch('https://api.metals.live/v1/spot/gold'),
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                    ]);
+                    let data = await res.json();
+                    let price = Array.isArray(data) ? data[0]?.price : data?.price;
+                    if (price && parseFloat(price) > 100) {
+                        goldPrice = parseFloat(price);
+                    }
+                } catch (e) {}
+            }
+
+            // المصدر 3: Coinbase مباشرة
+            if (!goldPrice) {
+                try {
+                    let res = await Promise.race([
+                        fetch('https://api.coinbase.com/v2/prices/XAU-USD/spot'),
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                    ]);
+                    let data = await res.json();
+                    let price = data?.data?.amount;
+                    if (price && parseFloat(price) > 100) {
+                        goldPrice = parseFloat(price);
+                    }
+                } catch (e) {}
+            }
+
+            // المصدر 4: Frankfurter XAU
+            if (!goldPrice) {
+                try {
+                    let res = await Promise.race([
+                        fetch('https://api.frankfurter.app/latest?from=XAU&to=USD'),
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                    ]);
+                    let data = await res.json();
+                    let price = data?.rates?.USD;
+                    if (price && parseFloat(price) > 100) {
+                        goldPrice = parseFloat(price);
+                    }
+                } catch (e) {}
+            }
+
+            if (goldPrice) {
+                let lastPrice = parseFloat(localStorage.getItem('lastGoldPrice') || goldPrice);
+                let change = (goldPrice - lastPrice).toFixed(2);
+                let changePercent = ((change / lastPrice) * 100).toFixed(2);
+
+                document.getElementById('goldPrice').textContent = `$${goldPrice.toFixed(2)}`;
+                document.getElementById('priceChange').textContent = `${change > 0 ? '↑' : '↓'} $${Math.abs(change)}`;
+                document.getElementById('pricePercent').textContent = `(${changePercent}%)`;
+                document.getElementById('pricePercent').style.color = change >= 0 ? '#4CAF50' : '#ff6b6b';
+                document.getElementById('updateTime').textContent = `آخر تحديث: ${new Date().toLocaleTimeString('ar-IQ')}`;
+
+                localStorage.setItem('lastGoldPrice', goldPrice);
+                calculatePrices(goldPrice);
+                startCountdown();
+
+                if (!window._welcomeShown) {
+                    window._welcomeShown = true;
+                    showWelcomeBack(goldPrice);
+                }
+            } else {
+                // كل المصادر فشلت - استخدام آخر سعر محفوظ
                 let cached = parseFloat(localStorage.getItem('lastGoldPrice') || 0);
                 if (cached) {
                     document.getElementById('updateTime').textContent = `⚡ آخر سعر محفوظ`;
                     calculatePrices(cached);
                 } else {
+                    document.getElementById('goldPrice').textContent = `تعذّر التحميل`;
                     document.getElementById('updateTime').textContent = '⏳ جاري إعادة الاتصال...';
                 }
             }
