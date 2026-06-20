@@ -1700,17 +1700,17 @@
         // ===== إرسال ومشاركة التطبيق =====
         const APP_URL = 'https://zamzamcompany03-sudo.github.io/zamzam-company-/';
 
-        function sendAppLink(who) {
-            const phone = document.getElementById('customer-phone').value.trim();
-            if (!phone || phone.length < 9) {
-                document.getElementById('customer-phone').style.borderColor = '#ff4444';
-                document.getElementById('customer-phone').placeholder = '⚠️ أدخل رقم صحيح';
-                return;
-            }
-            const fullPhone = '964' + phone.replace(/^0/, '');
-            const msg = encodeURIComponent(`مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n\n🔗 ${APP_URL}\n\nيمكنك من خلاله مشاهدة أسعار الذهب الحية والعروض الحصرية 🥇`);
-            const waNum = who === 'saif' ? '9647901196926' : '9647805747247';
-            window.open(`https://wa.me/${waNum}?text=${msg}`);
+        function copyAppMessage() {
+            const msg = `مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n\n🔗 ${APP_URL}\n\nيمكنك من خلاله مشاهدة أسعار الذهب الحية والعروض الحصرية 🥇`;
+            navigator.clipboard.writeText(msg).then(() => {
+                const btn = document.getElementById('copy-msg-btn');
+                btn.textContent = '✅ تم النسخ! الآن افتح واتساب واختر الزبون';
+                btn.style.background = '#1a4a1a';
+                setTimeout(() => {
+                    btn.textContent = '📋 انسخ الرسالة';
+                    btn.style.background = '#25D366';
+                }, 3000);
+            });
         }
 
         async function shareApp() {
@@ -1894,35 +1894,34 @@
         showTab('sell'); // تطبيق الألوان الافتراضية
     </script>
 
-    <!-- نافذة إرسال رابط التطبيق عبر واتساب -->
+    <!-- نافذة إرسال رابط التطبيق -->
     <div id="send-link-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:600;align-items:center;justify-content:center;padding:20px;">
         <div style="background:linear-gradient(135deg,#111,#1a1a1a);border:2px solid #25D366;border-radius:24px;padding:24px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(37,211,102,0.2);">
             <div style="text-align:center;margin-bottom:20px;">
                 <div style="font-size:36px;">📲</div>
                 <h2 style="color:#25D366;font-size:18px;font-weight:800;margin-top:8px;">إرسال رابط التطبيق</h2>
-                <p style="color:#888;font-size:12px;margin-top:4px;">أدخل رقم الزبون وسيصله الرابط مباشرة</p>
+                <p style="color:#888;font-size:12px;margin-top:4px;">انسخ الرسالة واختار الزبون من واتساب مباشرة</p>
             </div>
 
-            <div style="margin-bottom:16px;">
-                <label style="display:block;color:#888;font-size:12px;margin-bottom:6px;">رقم هاتف الزبون</label>
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <div style="background:#0d0d0d;border:2px solid #333;border-radius:12px;padding:12px 14px;color:#25D366;font-size:15px;font-weight:700;white-space:nowrap;">🇮🇶 964</div>
-                    <input id="customer-phone" type="tel" placeholder="7XX XXX XXXX" style="flex:1;padding:12px;background:#0d0d0d;border:2px solid #333;border-radius:12px;color:#fff;font-size:15px;" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                </div>
+            <!-- الرسالة الجاهزة -->
+            <div style="background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:14px;margin-bottom:16px;color:#ccc;font-size:13px;line-height:1.8;text-align:right;">
+                مرحباً 👋<br>
+                تفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:<br><br>
+                🔗 https://zamzamcompany03-sudo.github.io/zamzam-company-/<br><br>
+                يمكنك من خلاله مشاهدة أسعار الذهب الحية والعروض الحصرية 🥇
             </div>
 
-            <div style="color:#888;font-size:12px;margin-bottom:14px;text-align:center;">اختر من يرسل الرابط:</div>
+            <!-- زر النسخ -->
+            <button id="copy-msg-btn" onclick="copyAppMessage()" style="width:100%;background:#25D366;color:#fff;border:none;padding:14px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(37,211,102,0.3);margin-bottom:10px;">
+                📋 انسخ الرسالة
+            </button>
 
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-                <button onclick="sendAppLink('saif')" style="background:#25D366;color:#fff;border:none;padding:14px;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(37,211,102,0.3);">
-                    📱 إرسال عبر سيف
-                </button>
-                <button onclick="sendAppLink('husam')" style="background:#128C7E;color:#fff;border:none;padding:14px;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(18,140,126,0.3);">
-                    📱 إرسال عبر حسام
-                </button>
-            </div>
+            <!-- فتح واتساب -->
+            <button onclick="window.open('https://wa.me/');document.getElementById('send-link-modal').style.display='none';" style="width:100%;background:linear-gradient(135deg,#075E54,#128C7E);color:#fff;border:none;padding:14px;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;">
+                💬 افتح واتساب واختر الزبون
+            </button>
 
-            <button onclick="document.getElementById('send-link-modal').style.display='none'" style="width:100%;padding:12px;background:transparent;color:#555;border:1px solid #333;border-radius:14px;font-size:13px;cursor:pointer;">إغلاق</button>
+            <button onclick="document.getElementById('send-link-modal').style.display='none';document.getElementById('customer-phone').value='';" style="width:100%;padding:12px;background:transparent;color:#555;border:1px solid #333;border-radius:14px;font-size:13px;cursor:pointer;">إغلاق</button>
         </div>
     </div>
 
