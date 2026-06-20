@@ -12,7 +12,7 @@
             background: linear-gradient(180deg, #080808 0%, #0f0f0f 100%);
             color: #ffffff;
             min-height: 100vh;
-            padding-bottom: 90px;
+            padding-bottom: 120px;
         }
 
         /* ===== HEADER ===== */
@@ -561,6 +561,19 @@
         <div class="nav-item" onclick="openSettings()">
             <div class="nav-icon">⚙️</div>
             <div style="font-size:10px;color:#f97316;">الإعدادات</div>
+        </div>
+    </div>
+
+    <!-- شريط الإحصائيات -->
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:199;background:linear-gradient(135deg,#0a0a0a,#111);border-top:1px solid #1e1e1e;padding:6px 20px;display:flex;justify-content:space-around;align-items:center;">
+        <div style="text-align:center;">
+            <div style="font-size:10px;color:#555;margin-bottom:2px;">👁️ إجمالي المشاهدات</div>
+            <div id="total-views" style="font-size:16px;font-weight:800;color:#D4AF37;">--</div>
+        </div>
+        <div style="width:1px;height:30px;background:#222;"></div>
+        <div style="text-align:center;">
+            <div style="font-size:10px;color:#555;margin-bottom:2px;">📅 مشاهدات اليوم</div>
+            <div id="today-views" style="font-size:16px;font-weight:800;color:#4CAF50;">--</div>
         </div>
     </div>
     </div><!-- end page-prices -->
@@ -1523,6 +1536,31 @@
             arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
+        // ===== إحصائيات المشاهدات =====
+        function trackAndShowViews() {
+            const today = new Date().toISOString().split('T')[0];
+            const viewsRef = database.ref('zamzam-company/views');
+            const BASE_COUNT = 2160; // رصيد التطبيق السابق
+
+            // زيادة الإجمالي
+            viewsRef.child('total').transaction(val => (val || 0) + 1);
+
+            // زيادة مشاهدات اليوم
+            viewsRef.child('days/' + today).transaction(val => (val || 0) + 1);
+
+            // عرض الأرقام بشكل مباشر
+            viewsRef.on('value', snap => {
+                const data = snap.val() || {};
+                const total = (data.total || 0) + BASE_COUNT;
+                const todayCount = (data.days && data.days[today]) || 0;
+
+                const totalEl = document.getElementById('total-views');
+                const todayEl = document.getElementById('today-views');
+                if (totalEl) totalEl.textContent = total.toLocaleString('ar-IQ');
+                if (todayEl) todayEl.textContent = todayCount.toLocaleString('ar-IQ');
+            });
+        }
+
         // ===== نظام التقييم =====
         let selectedStars = 0;
 
@@ -1669,6 +1707,7 @@
         fetchGoldPrice();
         setInterval(fetchGoldPrice, 10000);
         checkVisitCount();
+        trackAndShowViews();
     </script>
 
     <!-- نافذة التقييم -->
