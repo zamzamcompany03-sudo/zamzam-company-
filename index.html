@@ -1068,6 +1068,27 @@
             document.querySelectorAll('.tab-btn').forEach((btn, i) => {
                 btn.classList.toggle('active', ['sell','buyGulf','buyIraqi'][i] === tab);
             });
+
+            // تغيير لون البطاقة حسب التاب
+            const colors = {
+                sell:     { border: '#D4AF37', shadow: 'rgba(212,175,55,0.2)', title: '#D4AF37', bg: 'linear-gradient(135deg,#1a1a1a,#1a1400)' },
+                buyGulf:  { border: '#1e88e5', shadow: 'rgba(30,136,229,0.2)', title: '#60a5fa', bg: 'linear-gradient(135deg,#1a1a1a,#001428)' },
+                buyIraqi: { border: '#43a047', shadow: 'rgba(67,160,71,0.2)', title: '#4CAF50', bg: 'linear-gradient(135deg,#1a1a1a,#001408)' }
+            };
+            // تطبيق اللون على البطاقة النشطة فقط
+            const c = colors[tab];
+            const activeCard = document.getElementById('tab-' + tab);
+            if (activeCard) {
+                activeCard.style.border = `2px solid ${c.border}`;
+                activeCard.style.boxShadow = `0 8px 30px ${c.shadow}`;
+                activeCard.style.background = c.bg;
+                const h3 = activeCard.querySelector('h3');
+                if (h3) h3.style.color = c.title;
+                activeCard.querySelectorAll('.result-value').forEach(el => {
+                    el.style.color = c.title;
+                    el.style.textShadow = `0 0 10px ${c.shadow}`;
+                });
+            }
         }
 
         // SETTINGS
@@ -1751,6 +1772,8 @@
         setInterval(fetchGoldPrice, 10000);
         checkVisitCount();
         trackAndShowViews();
+        showTab('sell'); // تطبيق ألوان التاب الافتراضي
+        showTab('sell'); // تطبيق الألوان الافتراضية
     </script>
 
     <!-- نافذة التقييم -->
