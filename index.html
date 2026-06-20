@@ -553,9 +553,12 @@
             <!-- حالة السوق -->
             <div id="market-status-box" style="background:linear-gradient(135deg,#1a1a1a,#141414);border:1px solid #2a2a2a;border-radius:14px;padding:12px;text-align:center;">
                 <div style="font-size:11px;color:#888;margin-bottom:4px;">حالة السوق</div>
-                <div id="market-dot" style="font-size:18px;">🔴</div>
-                <div id="market-text" style="font-size:11px;font-weight:700;margin-top:2px;">جاري الفحص...</div>
-                <div style="font-size:9px;color:#555;margin-top:3px;">٩:٣٠ص - ٩:٠٠م | إجازة الجمعة</div>
+                <div id="market-dot" style="font-size:22px;margin:4px 0;">🔴</div>
+                <div id="market-text" style="font-size:12px;font-weight:800;margin-top:2px;">جاري الفحص...</div>
+                <div style="font-size:11px;color:#D4AF37;margin-top:6px;font-weight:700;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:5px 8px;line-height:1.6;">
+                    🕒 ٩:٣٠ص — ٩:٠٠م<br>
+                    <span style="color:#888;font-size:10px;">إجازة الجمعة</span>
+                </div>
             </div>
         </div>
 
@@ -653,7 +656,7 @@
         <!-- الساعات - أزرق -->
         <div id="nav-watches" onclick="showPage('watches')" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;background:linear-gradient(135deg,#001428,#001e3c);border:2px solid #60a5fa;border-radius:14px;padding:8px 4px;transition:all 0.3s;box-shadow:0 4px 15px rgba(96,165,250,0.2);">
             <div style="font-size:20px;">⌚</div>
-            <div style="font-size:9px;color:#60a5fa;text-align:center;font-weight:700;line-height:1.3;">اضغط هنا<br>للساعات</div>
+            <div style="font-size:9px;color:#60a5fa;text-align:center;font-weight:700;line-height:1.4;">اضغط هنا<br>متجر الفضيات<br>والساعات والنضارات</div>
         </div>
 
         <!-- الإعدادات - بسيط -->
@@ -801,11 +804,49 @@
         </div>
     </div>
 
-    <!-- صفحة الساعات -->
-    <div id="page-watches" style="display:none; max-width:500px; margin:0 auto; padding:20px; padding-bottom:100px;">
-        <div class="section-card">
-            <h3>⌚ الساعات والفضيات</h3>
-            <div style="text-align:center;padding:30px;color:#888;">قريباً...</div>
+    <!-- صفحة الساعات والفضيات والنضارات -->
+    <div id="page-watches" style="display:none; max-width:500px; margin:0 auto; padding:15px; padding-bottom:150px;">
+
+        <!-- هيدر -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
+            <button onclick="showPage('prices')" style="background:none;border:1px solid #60a5fa;color:#60a5fa;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;">← رجوع</button>
+            <h2 style="color:#60a5fa;font-size:16px;">متجر الفضيات والساعات والنضارات</h2>
+        </div>
+
+        <!-- تابات -->
+        <div style="display:flex;gap:6px;margin-bottom:16px;background:#0d0d0d;border-radius:16px;padding:5px;border:1px solid #1e1e1e;">
+            <button id="wtab-silver" onclick="showWatchTab('silver')" style="flex:1;padding:10px 6px;border-radius:12px;border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.25s;background:linear-gradient(135deg,#C0C0C0,#888);color:#000;box-shadow:0 4px 12px rgba(192,192,192,0.35);transform:translateY(-1px);">🥈 الفضيات</button>
+            <button id="wtab-watches" onclick="showWatchTab('watches')" style="flex:1;padding:10px 6px;border-radius:12px;border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.25s;background:transparent;color:#60a5fa;">⌚ الساعات</button>
+            <button id="wtab-glasses" onclick="showWatchTab('glasses')" style="flex:1;padding:10px 6px;border-radius:12px;border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all 0.25s;background:transparent;color:#a78bfa;">🕶️ النضارات</button>
+        </div>
+
+        <!-- قسم الفضيات -->
+        <div id="wtab-silver-content">
+            <div id="silver-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>
+            </div>
+        </div>
+
+        <!-- قسم الساعات -->
+        <div id="wtab-watches-content" style="display:none;">
+            <div id="watches-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>
+            </div>
+        </div>
+
+        <!-- قسم النضارات -->
+        <div id="wtab-glasses-content" style="display:none;">
+            <div id="glasses-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل الفضيات/ساعات/نضارات -->
+    <div id="watch-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;overflow-y:auto;">
+        <div style="max-width:500px;margin:0 auto;padding:20px;">
+            <button onclick="closeWatchModal()" style="background:none;border:1px solid #60a5fa;color:#60a5fa;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:15px;">← رجوع</button>
+            <div id="watch-modal-content"></div>
         </div>
     </div>
     <div class="overlay" id="overlay" onclick="closeSettings()"></div>
@@ -825,181 +866,367 @@
                 </button>
             </div>
 
-            <!-- إعدادات مشتركة -->
+            <!-- ==================== القسم ١: الإعدادات المشتركة ==================== -->
             <div class="settings-section">
-                <h3>💵 الإعدادات المشتركة</h3>
-                <div class="input-group">
-                    <label>سعر الورقة (دينار عراقي)</label>
-                    <input type="number" id="set-paperRate" value="1550" placeholder="مثال: 1550">
-                </div>
-            </div>
-
-            <!-- بيع المصوغات -->
-            <div class="settings-section">
-                <h3>🥇 بيع المصوغات الذهبية</h3>
-                <div class="input-group">
-                    <label>تعديل على سعر الأونصة (+ أو -)</label>
-                    <div class="input-row">
-                        <button class="sign-btn active-plus" id="sell-sign-btn" onclick="toggleSign('sell')">+</button>
-                        <input type="number" id="set-sellAdj" value="0" placeholder="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- شراء الخليجي -->
-            <div class="settings-section">
-                <h3>🛒 شراء الذهب الخليجي</h3>
-                <div class="input-group">
-                    <label>تعديل على سعر الأونصة (+ أو -)</label>
-                    <div class="input-row">
-                        <button class="sign-btn active-plus" id="buyGulf-sign-btn" onclick="toggleSign('buyGulf')">+</button>
-                        <input type="number" id="set-buyGulfAdj" value="0" placeholder="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- شراء العراقي -->
-            <div class="settings-section">
-                <h3>🛒 شراء الذهب العراقي</h3>
-                <div class="input-group">
-                    <label>الفرق عن سعر الخليجي (+ أو -)</label>
-                    <div class="input-row">
-                        <button class="sign-btn active-minus" id="buyIraqiExtra-sign-btn" onclick="toggleSign('buyIraqiExtra')">-</button>
-                        <input type="number" id="set-buyIraqiExtra" value="25000" placeholder="مثال: 25000">
-                    </div>
-                </div>
-            </div>
-
-            <button class="save-btn" onclick="saveSettings()">💾 حفظ وتطبيق</button>
-            <div class="saved-msg" id="savedMsg">✅ تم الحفظ بنجاح!</div>
-
-            <!-- قسم التقييمات -->
-            <div class="settings-section" style="margin-top:20px;">
-                <h3 onclick="toggleReviews()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
-                    <span>⭐ تقييمات الزوار</span>
-                    <span id="reviews-arrow" style="color:#D4AF37;font-size:20px;transition:transform 0.3s;">▼</span>
+                <h3 onclick="toggleSection('shared-all','shared-all-arrow')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;">
+                    <span>💵 الإعدادات المشتركة</span>
+                    <span id="shared-all-arrow" style="color:#D4AF37;font-size:22px;transition:transform 0.3s;">▼</span>
                 </h3>
-                <div id="reviews-list-settings" style="display:none;"></div>
-                <button onclick="localStorage.removeItem('zmzm_visits');localStorage.removeItem('zmzm_reviewed');alert('تم إعادة تعيين العداد - افتح التطبيق 10 مرات');" style="margin-top:10px;width:100%;padding:10px;background:#333;color:#888;border:1px solid #444;border-radius:10px;cursor:pointer;font-size:12px;">🔄 إعادة تعيين عداد التقييم (للاختبار)</button>
+                <div id="shared-all" style="display:none;margin-top:16px;">
+
+                    <!-- سعر الورقة -->
+                    <div class="input-group">
+                        <label>سعر الورقة (دينار عراقي)</label>
+                        <input type="number" id="set-paperRate" value="1550" placeholder="مثال: 1550">
+                    </div>
+
+                    <!-- بيع المصوغات -->
+                    <div style="background:#111;border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid #2a2a2a;">
+                        <div style="color:#D4AF37;font-size:13px;font-weight:700;margin-bottom:10px;">🥇 بيع المصوغات الذهبية</div>
+                        <div class="input-group" style="margin-bottom:0;">
+                            <label>تعديل على سعر الأونصة (+ أو -)</label>
+                            <div class="input-row">
+                                <button class="sign-btn active-plus" id="sell-sign-btn" onclick="toggleSign('sell')">+</button>
+                                <input type="number" id="set-sellAdj" value="0" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- شراء الخليجي -->
+                    <div style="background:#111;border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid #2a2a2a;">
+                        <div style="color:#60a5fa;font-size:13px;font-weight:700;margin-bottom:10px;">🛒 شراء الذهب الخليجي</div>
+                        <div class="input-group" style="margin-bottom:0;">
+                            <label>تعديل على سعر الأونصة (+ أو -)</label>
+                            <div class="input-row">
+                                <button class="sign-btn active-plus" id="buyGulf-sign-btn" onclick="toggleSign('buyGulf')">+</button>
+                                <input type="number" id="set-buyGulfAdj" value="0" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- شراء العراقي -->
+                    <div style="background:#111;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #2a2a2a;">
+                        <div style="color:#4CAF50;font-size:13px;font-weight:700;margin-bottom:10px;">🛒 شراء الذهب العراقي</div>
+                        <div class="input-group" style="margin-bottom:0;">
+                            <label>الفرق عن سعر الخليجي (+ أو -)</label>
+                            <div class="input-row">
+                                <button class="sign-btn active-minus" id="buyIraqiExtra-sign-btn" onclick="toggleSign('buyIraqiExtra')">-</button>
+                                <input type="number" id="set-buyIraqiExtra" value="25000" placeholder="مثال: 25000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="save-btn" onclick="saveSettings()">💾 حفظ وتطبيق</button>
+                    <div class="saved-msg" id="savedMsg">✅ تم الحفظ بنجاح!</div>
+                </div>
             </div>
 
-            <!-- إعدادات العروض الحصرية -->
-            <div class="settings-section" style="margin-top:20px;">
-                <h3>✨ إضافة عرض حصري جديد</h3>
+            <!-- ==================== القسم ٢: العروض الحصرية ==================== -->
+            <div class="settings-section" style="margin-top:14px;">
+                <h3 onclick="toggleSection('offers-all','offers-all-arrow')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;">
+                    <span>✨ إضافة عرض حصري جديد</span>
+                    <span id="offers-all-arrow" style="color:#D4AF37;font-size:22px;transition:transform 0.3s;">▼</span>
+                </h3>
+                <div id="offers-all" style="display:none;margin-top:16px;">
 
-                <div class="input-group">
-                    <label>صورة المنتج</label>
-                    <input type="file" id="prod-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
-                    <div id="prod-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
-                        <img id="prod-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                    <div class="input-group">
+                        <label>صورة المنتج</label>
+                        <input type="file" id="prod-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                        <div id="prod-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                            <img id="prod-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group">
-                    <label>الوصف</label>
-                    <textarea id="prod-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: خاتم ذهب عيار 21..."></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label>الوزن بالغرام</label>
-                    <input type="number" id="prod-weight" step="0.01" placeholder="مثال: 5.5" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <div class="input-group">
-                    <label>أجور الغرام (دينار)</label>
-                    <input type="number" id="prod-wage" placeholder="مثال: 15000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <div class="input-group">
-                    <label>نسبة الخصم على الأجور (%)</label>
-                    <input type="number" id="prod-discount" placeholder="مثال: 10" min="0" max="100" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <div class="input-group">
-                    <label>مدة العرض (أيام)</label>
-                    <input type="number" id="prod-days" placeholder="مثال: 2" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <!-- معاينة الأسعار -->
-                <div id="prod-preview-prices" style="display:none;background:#0a0a0a;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #333;">
-                    <div style="font-size:12px;color:#888;margin-bottom:8px;">معاينة الأسعار:</div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">سعر الذهب</span><span id="prev-gold" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الأجور</span><span id="prev-wages" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">المبلغ قبل الخصم</span><span id="prev-before" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الخصم</span><span id="prev-discount-amt" style="color:#ff6b6b;font-size:13px;font-weight:bold;">--</span></div>
-                    <div style="display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:8px;margin-top:4px;"><span style="color:#D4AF37;font-size:13px;font-weight:bold;">السعر النهائي</span><span id="prev-final" style="color:#4CAF50;font-size:15px;font-weight:bold;">--</span></div>
-                </div>
-
-                <button class="save-btn" onclick="calcProductPreview()" style="background:#333;color:#D4AF37;margin-bottom:10px;">🔢 احسب الأسعار</button>
-                <button class="save-btn" onclick="publishProduct()">🚀 نشر المنتج</button>
-
-                <!-- شريط التقدم -->
-                <div id="prod-progress-wrap" style="display:none;margin-top:12px;">
-                    <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
-                        <div id="prod-progress-bar" style="height:100%;width:0%;background:#D4AF37;border-radius:20px;transition:width 0.3s;"></div>
+                    <div class="input-group">
+                        <label>الوصف</label>
+                        <textarea id="prod-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: خاتم ذهب عيار 21..."></textarea>
                     </div>
-                    <div id="prod-progress-txt" style="text-align:center;font-size:13px;color:#D4AF37;"></div>
-                </div>
 
-                <div id="prod-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+                    <div class="input-group">
+                        <label>الوزن بالغرام</label>
+                        <input type="number" id="prod-weight" step="0.01" placeholder="مثال: 5.5" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>أجور الغرام (دينار)</label>
+                        <input type="number" id="prod-wage" placeholder="مثال: 15000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>نسبة الخصم على الأجور (%)</label>
+                        <input type="number" id="prod-discount" placeholder="مثال: 10" min="0" max="100" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>مدة العرض (أيام)</label>
+                        <input type="number" id="prod-days" placeholder="مثال: 2" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div id="prod-preview-prices" style="display:none;background:#0a0a0a;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #333;">
+                        <div style="font-size:12px;color:#888;margin-bottom:8px;">معاينة الأسعار:</div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">سعر الذهب</span><span id="prev-gold" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الأجور</span><span id="prev-wages" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">المبلغ قبل الخصم</span><span id="prev-before" style="color:#FFD700;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الخصم</span><span id="prev-discount-amt" style="color:#ff6b6b;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:8px;margin-top:4px;"><span style="color:#D4AF37;font-size:13px;font-weight:bold;">السعر النهائي</span><span id="prev-final" style="color:#4CAF50;font-size:15px;font-weight:bold;">--</span></div>
+                    </div>
+
+                    <button class="save-btn" onclick="calcProductPreview()" style="background:#333;color:#D4AF37;margin-bottom:10px;">🔢 احسب الأسعار</button>
+                    <button class="save-btn" onclick="publishProduct()">🚀 نشر المنتج</button>
+
+                    <div id="prod-progress-wrap" style="display:none;margin-top:12px;">
+                        <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                            <div id="prod-progress-bar" style="height:100%;width:0%;background:#D4AF37;border-radius:20px;transition:width 0.3s;"></div>
+                        </div>
+                        <div id="prod-progress-txt" style="text-align:center;font-size:13px;color:#D4AF37;"></div>
+                    </div>
+                    <div id="prod-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+                </div>
             </div>
 
-            <!-- إعدادات الكسر النضيف -->
-            <div class="settings-section" style="margin-top:20px;border-color:#4CAF50;">
-                <h3 style="color:#4CAF50;">💎 إضافة كسر نضيف جديد</h3>
+            <!-- ==================== القسم ٣: الكسر النضيف ==================== -->
+            <div class="settings-section" style="margin-top:14px;border-color:#4CAF50;">
+                <h3 onclick="toggleSection('scrap-all','scrap-all-arrow')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;color:#4CAF50;">
+                    <span>💎 إضافة كسر نضيف جديد</span>
+                    <span id="scrap-all-arrow" style="color:#4CAF50;font-size:22px;transition:transform 0.3s;">▼</span>
+                </h3>
+                <div id="scrap-all" style="display:none;margin-top:16px;">
 
-                <div class="input-group">
-                    <label>صورة القطعة</label>
-                    <input type="file" id="scrap-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
-                    <div id="scrap-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
-                        <img id="scrap-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                    <div class="input-group">
+                        <label>صورة القطعة</label>
+                        <input type="file" id="scrap-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                        <div id="scrap-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                            <img id="scrap-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group">
-                    <label>الوصف</label>
-                    <textarea id="scrap-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: كسر ذهب عيار 21..."></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label>الوزن بالغرام</label>
-                    <input type="number" id="scrap-weight" step="0.01" placeholder="مثال: 3.75" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <div class="input-group">
-                    <label>السعر الكلي (دينار عراقي)</label>
-                    <input type="number" id="scrap-price" placeholder="مثال: 1930000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <div class="input-group">
-                    <label>مدة العرض (أيام)</label>
-                    <input type="number" id="scrap-days" placeholder="مثال: 1" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
-                </div>
-
-                <button class="save-btn" onclick="publishScrap()" style="background:#4CAF50;color:#fff;">🚀 نشر القطعة</button>
-
-                <div id="scrap-progress-wrap" style="display:none;margin-top:12px;">
-                    <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
-                        <div id="scrap-progress-bar" style="height:100%;width:0%;background:#4CAF50;border-radius:20px;transition:width 0.3s;"></div>
+                    <div class="input-group">
+                        <label>الوصف</label>
+                        <textarea id="scrap-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: كسر ذهب عيار 21..."></textarea>
                     </div>
-                    <div id="scrap-progress-txt" style="text-align:center;font-size:13px;color:#4CAF50;"></div>
+
+                    <div class="input-group">
+                        <label>الوزن بالغرام</label>
+                        <input type="number" id="scrap-weight" step="0.01" placeholder="مثال: 3.75" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>السعر الكلي (دينار عراقي)</label>
+                        <input type="number" id="scrap-price" placeholder="مثال: 1930000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>مدة العرض (أيام)</label>
+                        <input type="number" id="scrap-days" placeholder="مثال: 1" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <button class="save-btn" onclick="publishScrap()" style="background:#4CAF50;color:#fff;">🚀 نشر القطعة</button>
+
+                    <div id="scrap-progress-wrap" style="display:none;margin-top:12px;">
+                        <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                            <div id="scrap-progress-bar" style="height:100%;width:0%;background:#4CAF50;border-radius:20px;transition:width 0.3s;"></div>
+                        </div>
+                        <div id="scrap-progress-txt" style="text-align:center;font-size:13px;color:#4CAF50;"></div>
+                    </div>
+                    <div id="scrap-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
                 </div>
-                <div id="scrap-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+            </div>
+
+            <!-- ==================== القسم ٤: الفضيات ==================== -->
+            <div class="settings-section" style="margin-top:14px;border-color:#C0C0C0;">
+                <h3 onclick="toggleSection('silver-all','silver-all-arrow')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;color:#C0C0C0;">
+                    <span>🥈 إضافة فضية جديدة</span>
+                    <span id="silver-all-arrow" style="color:#C0C0C0;font-size:22px;transition:transform 0.3s;">▼</span>
+                </h3>
+                <div id="silver-all" style="display:none;margin-top:16px;">
+
+                    <div class="input-group">
+                        <label>صورة المنتج</label>
+                        <input type="file" id="silver-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                        <div id="silver-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                            <img id="silver-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>الوصف</label>
+                        <textarea id="silver-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: سلسلة فضة عيار 925..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>الوزن بالغرام</label>
+                        <input type="number" id="silver-weight" step="0.01" placeholder="مثال: 10.5" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>سعر الغرام (دينار عراقي)</label>
+                        <input type="number" id="silver-price-gram" placeholder="مثال: 14000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>نسبة الخصم (%)</label>
+                        <input type="number" id="silver-discount" placeholder="مثال: 10" min="0" max="100" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <!-- معاينة الأسعار -->
+                    <div id="silver-preview-prices" style="display:none;background:#0a0a0a;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #333;">
+                        <div style="font-size:12px;color:#888;margin-bottom:8px;">معاينة الأسعار:</div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">المبلغ قبل الخصم</span><span id="silver-prev-before" style="color:#C0C0C0;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الخصم</span><span id="silver-prev-discount-amt" style="color:#ff6b6b;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:8px;margin-top:4px;"><span style="color:#C0C0C0;font-size:13px;font-weight:bold;">السعر النهائي</span><span id="silver-prev-final" style="color:#4CAF50;font-size:15px;font-weight:bold;">--</span></div>
+                    </div>
+
+                    <button class="save-btn" onclick="calcSilverPreview()" style="background:#333;color:#C0C0C0;margin-bottom:10px;">🔢 احسب الأسعار</button>
+                        <label>مدة العرض (أيام)</label>
+                        <input type="number" id="silver-days" placeholder="مثال: 3" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <button class="save-btn" onclick="publishSilver()" style="background:linear-gradient(135deg,#C0C0C0,#888);color:#000;">🚀 نشر المنتج</button>
+
+                    <div id="silver-progress-wrap" style="display:none;margin-top:12px;">
+                        <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                            <div id="silver-progress-bar" style="height:100%;width:0%;background:#C0C0C0;border-radius:20px;transition:width 0.3s;"></div>
+                        </div>
+                        <div id="silver-progress-txt" style="text-align:center;font-size:13px;color:#C0C0C0;"></div>
+                    </div>
+                    <div id="silver-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+                </div>
+            </div>
+
+            <!-- ==================== القسم ٥: الساعات ==================== -->
+            <div class="settings-section" style="margin-top:14px;border-color:#60a5fa;">
+                <h3 onclick="toggleSection('watches-all','watches-all-arrow')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;color:#60a5fa;">
+                    <span>⌚ إضافة ساعة جديدة</span>
+                    <span id="watches-all-arrow" style="color:#60a5fa;font-size:22px;transition:transform 0.3s;">▼</span>
+                </h3>
+                <div id="watches-all" style="display:none;margin-top:16px;">
+
+                    <div class="input-group">
+                        <label>صورة الساعة</label>
+                        <input type="file" id="watch-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                        <div id="watch-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                            <img id="watch-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>الوصف</label>
+                        <textarea id="watch-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: ساعة كاسيو G-Shock أصلية..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>المبلغ قبل الخصم (دينار عراقي)</label>
+                        <input type="number" id="watch-price" placeholder="مثال: 500000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;" oninput="document.getElementById('watch-preview-prices').style.display='none'">
+                    </div>
+
+                    <div class="input-group">
+                        <label>نسبة الخصم (%)</label>
+                        <input type="number" id="watch-discount" placeholder="مثال: 10" min="0" max="100" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;" oninput="document.getElementById('watch-preview-prices').style.display='none'">
+                    </div>
+
+                    <!-- معاينة الأسعار -->
+                    <div id="watch-preview-prices" style="display:none;background:#0a0a0a;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #1e88e5;">
+                        <div style="font-size:12px;color:#888;margin-bottom:8px;">معاينة الأسعار:</div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">المبلغ قبل الخصم</span><span id="watch-prev-before" style="color:#60a5fa;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الخصم</span><span id="watch-prev-discount-amt" style="color:#ff6b6b;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:8px;margin-top:4px;"><span style="color:#60a5fa;font-size:13px;font-weight:bold;">السعر النهائي</span><span id="watch-prev-final" style="color:#4CAF50;font-size:15px;font-weight:bold;">--</span></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>مدة العرض (أيام)</label>
+                        <input type="number" id="watch-days" placeholder="مثال: 3" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <button class="save-btn" onclick="calcWatchPreview()" style="background:#333;color:#60a5fa;margin-bottom:10px;">🔢 احسب الأسعار</button>
+                    <button class="save-btn" onclick="publishWatch()" style="background:linear-gradient(135deg,#1e88e5,#1565c0);color:#fff;">🚀 نشر الساعة</button>
+
+                    <div id="watch-progress-wrap" style="display:none;margin-top:12px;">
+                        <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                            <div id="watch-progress-bar" style="height:100%;width:0%;background:#60a5fa;border-radius:20px;transition:width 0.3s;"></div>
+                        </div>
+                        <div id="watch-progress-txt" style="text-align:center;font-size:13px;color:#60a5fa;"></div>
+                    </div>
+                    <div id="watch-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+                </div>
+            </div>
+
+            <!-- ==================== القسم ٦: النضارات ==================== -->
+            <div class="settings-section" style="margin-top:14px;border-color:#a78bfa;">
+                <h3 onclick="toggleSection('glasses-all','glasses-all-arrow')" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;color:#a78bfa;">
+                    <span>🕶️ إضافة نضارة جديدة</span>
+                    <span id="glasses-all-arrow" style="color:#a78bfa;font-size:22px;transition:transform 0.3s;">▼</span>
+                </h3>
+                <div id="glasses-all" style="display:none;margin-top:16px;">
+
+                    <div class="input-group">
+                        <label>صورة النضارة</label>
+                        <input type="file" id="glasses-image" accept="image/*" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:13px;">
+                        <div id="glasses-image-preview" style="margin-top:8px;border-radius:10px;overflow:hidden;display:none;">
+                            <img id="glasses-img-preview-el" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px;">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>الوصف</label>
+                        <textarea id="glasses-desc" rows="3" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;resize:none;" placeholder="مثال: نضارة راي بان أصلية..."></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label>المبلغ قبل الخصم (دينار عراقي)</label>
+                        <input type="number" id="glasses-price" placeholder="مثال: 150000" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <div class="input-group">
+                        <label>نسبة الخصم (%)</label>
+                        <input type="number" id="glasses-discount" placeholder="مثال: 10" min="0" max="100" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <!-- معاينة الأسعار -->
+                    <div id="glasses-preview-prices" style="display:none;background:#0a0a0a;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #7c3aed;">
+                        <div style="font-size:12px;color:#888;margin-bottom:8px;">معاينة الأسعار:</div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">المبلغ قبل الخصم</span><span id="glasses-prev-before" style="color:#a78bfa;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="color:#999;font-size:12px;">مبلغ الخصم</span><span id="glasses-prev-discount-amt" style="color:#ff6b6b;font-size:13px;font-weight:bold;">--</span></div>
+                        <div style="display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:8px;margin-top:4px;"><span style="color:#a78bfa;font-size:13px;font-weight:bold;">السعر النهائي</span><span id="glasses-prev-final" style="color:#4CAF50;font-size:15px;font-weight:bold;">--</span></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>مدة العرض (أيام)</label>
+                        <input type="number" id="glasses-days" placeholder="مثال: 3" min="1" style="width:100%;padding:10px;background:#0a0a0a;border:1px solid #333;border-radius:10px;color:#fff;font-size:14px;text-align:center;">
+                    </div>
+
+                    <button class="save-btn" onclick="calcGlassesPreview()" style="background:#333;color:#a78bfa;margin-bottom:10px;">🔢 احسب الأسعار</button>
+                    <button class="save-btn" onclick="publishGlasses()" style="background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;">🚀 نشر النضارة</button>
+
+                    <div id="glasses-progress-wrap" style="display:none;margin-top:12px;">
+                        <div style="background:#222;border-radius:20px;height:10px;overflow:hidden;margin-bottom:6px;">
+                            <div id="glasses-progress-bar" style="height:100%;width:0%;background:#a78bfa;border-radius:20px;transition:width 0.3s;"></div>
+                        </div>
+                        <div id="glasses-progress-txt" style="text-align:center;font-size:13px;color:#a78bfa;"></div>
+                    </div>
+                    <div id="glasses-msg" style="text-align:center;font-size:13px;margin-top:8px;display:none;"></div>
+                </div>
+            </div>
+
+            <div class="settings-section" style="margin-top:14px;">
+                <h3 onclick="toggleReviews()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;">
+                    <span>⭐ تقييمات الزوار</span>
+                    <span id="reviews-arrow" style="color:#D4AF37;font-size:22px;transition:transform 0.3s;">▼</span>
+                </h3>
+                <div id="reviews-list-settings" style="display:none;margin-top:14px;"></div>
+                <button onclick="localStorage.removeItem('zmzm_visits');localStorage.removeItem('zmzm_reviewed');alert('تم إعادة تعيين العداد');" style="margin-top:10px;width:100%;padding:10px;background:#333;color:#888;border:1px solid #444;border-radius:10px;cursor:pointer;font-size:12px;">🔄 إعادة تعيين عداد التقييم</button>
             </div>
 
         </div>
-    </div>
 
     <!-- ===== FIREBASE ===== -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js" crossorigin="anonymous"></script>
 
     <script>
-        const WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
+        let WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
 
         // تهيئة Firebase
-        const firebaseConfig = {
+        let firebaseConfig = {
             apiKey: "AIzaSyDaoYP--jTj3V3eNhI4jU6roMB1XQ_4490",
             authDomain: "zamzam-company.firebaseapp.com",
             databaseURL: "https://zamzam-company-default-rtdb.firebaseio.com",
@@ -1009,10 +1236,10 @@
             appId: "1:559764163886:web:cb441430ff69c888b57ebf"
         };
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        let database = firebase.database();
 
         // علامات + أو - لكل قسم
-        const signs = {
+        let signs = {
             'sell': '+',
             'buyGulf': '+',
             'buyIraqi': '+',
@@ -1040,7 +1267,7 @@
         }
 
         function updateSignBtn(key) {
-            const btn = document.getElementById(key + '-sign-btn');
+            let btn = document.getElementById(key + '-sign-btn');
             if (!btn) return;
             if (signs[key] === '+') {
                 btn.textContent = '+';
@@ -1061,7 +1288,7 @@
             localStorage.setItem('sign-buyGulf', signs.buyGulf);
             localStorage.setItem('sign-buyIraqiExtra', signs.buyIraqiExtra);
 
-            const msg = document.getElementById('savedMsg');
+            let msg = document.getElementById('savedMsg');
             msg.style.display = 'block';
             setTimeout(() => msg.style.display = 'none', 2000);
 
@@ -1072,25 +1299,25 @@
         function calculatePrices(ouncePrice) {
             if (!ouncePrice) return;
 
-            const paperRate = parseFloat(localStorage.getItem('paperRate') || 1550);
-            const sellAdj = parseFloat(localStorage.getItem('sellAdj') || 0) * (localStorage.getItem('sign-sell') === '-' ? -1 : 1);
-            const buyGulfAdj = parseFloat(localStorage.getItem('buyGulfAdj') || 0) * (localStorage.getItem('sign-buyGulf') === '-' ? -1 : 1);
-            const buyIraqiExtra = parseFloat(localStorage.getItem('buyIraqiExtra') || 25000) * (localStorage.getItem('sign-buyIraqiExtra') === '-' ? -1 : 1);
+            let paperRate = parseFloat(localStorage.getItem('paperRate') || 1550);
+            let sellAdj = parseFloat(localStorage.getItem('sellAdj') || 0) * (localStorage.getItem('sign-sell') === '-' ? -1 : 1);
+            let buyGulfAdj = parseFloat(localStorage.getItem('buyGulfAdj') || 0) * (localStorage.getItem('sign-buyGulf') === '-' ? -1 : 1);
+            let buyIraqiExtra = parseFloat(localStorage.getItem('buyIraqiExtra') || 25000) * (localStorage.getItem('sign-buyIraqiExtra') === '-' ? -1 : 1);
 
             // بيع المصوغات: (أونصة ± تعديل) ÷ 31.1 × 0.88 × سعر الورقة
-            const sellGram = ((ouncePrice + sellAdj) / 31.1) * 0.88 * paperRate;
-            const sellMithqal = sellGram * 5;
+            let sellGram = ((ouncePrice + sellAdj) / 31.1) * 0.88 * paperRate;
+            let sellMithqal = sellGram * 5;
 
             // شراء الخليجي: (أونصة ÷ 31.1 ± تعديل) × 0.875 × سعر الورقة
-            const buyGulfGram = ((ouncePrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
-            const buyGulfMithqal = buyGulfGram * 5;
+            let buyGulfGram = ((ouncePrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
+            let buyGulfMithqal = buyGulfGram * 5;
 
             // شراء العراقي: سعر الغرام الخليجي ± تعديل إضافي
-            const buyIraqiGram = buyGulfGram + buyIraqiExtra;
-            const buyIraqiMithqal = buyIraqiGram * 5;
+            let buyIraqiGram = buyGulfGram + buyIraqiExtra;
+            let buyIraqiMithqal = buyIraqiGram * 5;
 
             // عرض النتائج
-            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
 
             document.getElementById('sell-gram').textContent = fmt(sellGram);
             document.getElementById('sell-mithqal').textContent = fmt(sellMithqal);
@@ -1106,13 +1333,13 @@
         // جلب سعر الذهب
         async function fetchGoldPrice() {
             try {
-                const response = await fetch(WORKER_URL);
-                const data = await response.json();
+                let response = await fetch(WORKER_URL);
+                let data = await response.json();
                 if (data && data.success && data.price) {
-                    const goldPrice = parseFloat(data.price);
-                    const lastPrice = parseFloat(localStorage.getItem('lastGoldPrice') || goldPrice);
-                    const change = (goldPrice - lastPrice).toFixed(2);
-                    const changePercent = ((change / lastPrice) * 100).toFixed(2);
+                    let goldPrice = parseFloat(data.price);
+                    let lastPrice = parseFloat(localStorage.getItem('lastGoldPrice') || goldPrice);
+                    let change = (goldPrice - lastPrice).toFixed(2);
+                    let changePercent = ((change / lastPrice) * 100).toFixed(2);
 
                     document.getElementById('goldPrice').textContent = `$${goldPrice.toFixed(2)}`;
                     document.getElementById('priceChange').textContent = `${change > 0 ? '↑' : '↓'} $${Math.abs(change)}`;
@@ -1132,7 +1359,7 @@
                 }
             } catch (e) {
                 // استخدام آخر سعر محفوظ عند الخطأ
-                const cached = parseFloat(localStorage.getItem('lastGoldPrice') || 0);
+                let cached = parseFloat(localStorage.getItem('lastGoldPrice') || 0);
                 if (cached) {
                     document.getElementById('updateTime').textContent = `⚡ آخر سعر محفوظ`;
                     calculatePrices(cached);
@@ -1148,26 +1375,26 @@
                 document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
             });
             document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                const tabs = ['sell','buyGulf','buyIraqi'];
-                const txtColors = ['#D4AF37','#60a5fa','#4CAF50'];
+                let tabs = ['sell','buyGulf','buyIraqi'];
+                let txtColors = ['#D4AF37','#60a5fa','#4CAF50'];
                 btn.classList.toggle('active', tabs[i] === tab);
                 btn.style.color = tabs[i] === tab ? '#000' : txtColors[i];
             });
 
             // تغيير لون البطاقة حسب التاب
-            const colors = {
+            let colors = {
                 sell:     { border: '#D4AF37', shadow: 'rgba(212,175,55,0.2)', title: '#D4AF37', bg: 'linear-gradient(135deg,#1a1a1a,#1a1400)' },
                 buyGulf:  { border: '#1e88e5', shadow: 'rgba(30,136,229,0.2)', title: '#60a5fa', bg: 'linear-gradient(135deg,#1a1a1a,#001428)' },
                 buyIraqi: { border: '#43a047', shadow: 'rgba(67,160,71,0.2)', title: '#4CAF50', bg: 'linear-gradient(135deg,#1a1a1a,#001408)' }
             };
             // تطبيق اللون على البطاقة النشطة فقط
-            const c = colors[tab];
-            const activeCard = document.getElementById('tab-' + tab);
+            let c = colors[tab];
+            let activeCard = document.getElementById('tab-' + tab);
             if (activeCard) {
                 activeCard.style.border = `2px solid ${c.border}`;
                 activeCard.style.boxShadow = `0 8px 30px ${c.shadow}`;
                 activeCard.style.background = c.bg;
-                const h3 = activeCard.querySelector('h3');
+                let h3 = activeCard.querySelector('h3');
                 if (h3) h3.style.color = c.title;
                 activeCard.querySelectorAll('.result-value').forEach(el => {
                     el.style.color = c.title;
@@ -1188,22 +1415,31 @@
         }
 
         // فتح/إخفاء التواصل
+        function toggleSection(id, arrowId) {
+            let el = document.getElementById(id);
+            let arrow = document.getElementById(arrowId);
+            if (!el) return;
+            let isOpen = el.style.display !== 'none';
+            el.style.display = isOpen ? 'none' : 'block';
+            if (arrow) arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
         function toggleContact() {
-            const list = document.getElementById('contact-list');
-            const arrow = document.getElementById('contact-arrow');
-            const isOpen = list.style.display !== 'none';
+            let list = document.getElementById('contact-list');
+            let arrow = document.getElementById('contact-arrow');
+            let isOpen = list.style.display !== 'none';
             list.style.display = isOpen ? 'none' : 'block';
             arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
         // فتح الخريطة حسب نوع الجهاز
         function openMap() {
-            const lat = 33.429813;
-            const lng = 43.299900;
-            const label = 'زمزم للمجوهرات';
+            let lat = 33.429813;
+            let lng = 43.299900;
+            let label = 'زمزم للمجوهرات';
 
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            const isAndroid = /Android/.test(navigator.userAgent);
+            let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            let isAndroid = /Android/.test(navigator.userAgent);
 
             if (isIOS) {
                 // آيفون: يفتح Apple Maps أو يعطي خيار
@@ -1218,29 +1454,16 @@
         }
 
         // ===== نظام الكسر النضيف =====
-        document.addEventListener('DOMContentLoaded', () => {
-            const scrapInput = document.getElementById('scrap-image');
-            if (scrapInput) {
-                scrapInput.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = e => {
-                            document.getElementById('scrap-img-preview-el').src = e.target.result;
-                            document.getElementById('scrap-image-preview').style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+        
             }
         });
 
         async function publishScrap() {
-            const imageFile = document.getElementById('scrap-image').files[0];
-            const desc = document.getElementById('scrap-desc').value.trim();
-            const weight = parseFloat(document.getElementById('scrap-weight').value);
-            const price = parseFloat(document.getElementById('scrap-price').value);
-            const days = parseInt(document.getElementById('scrap-days').value) || 1;
+            let imageFile = document.getElementById('scrap-image').files[0];
+            let desc = document.getElementById('scrap-desc').value.trim();
+            let weight = parseFloat(document.getElementById('scrap-weight').value);
+            let price = parseFloat(document.getElementById('scrap-price').value);
+            let days = parseInt(document.getElementById('scrap-days').value) || 1;
 
             if (!imageFile || !desc || !weight || !price) {
                 showScrapMsg('❌ أكمل جميع الحقول والصورة', 'red');
@@ -1251,27 +1474,27 @@
 
             try {
                 showScrapProgress(10);
-                const compressedBase64 = await compressImage(imageFile, 600, 0.5);
+                let compressedBase64 = await compressImage(imageFile, 600, 0.5);
                 showScrapProgress(30);
 
-                const base64Data = compressedBase64.split(',')[1];
-                const formData = new FormData();
+                let base64Data = compressedBase64.split(',')[1];
+                let formData = new FormData();
                 formData.append('image', base64Data);
                 formData.append('type', 'base64');
 
                 showScrapProgress(50);
-                const imgurRes = await fetch('https://api.imgur.com/3/image', {
+                let imgurRes = await fetch('https://api.imgur.com/3/image', {
                     method: 'POST',
                     headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
                     body: formData
                 });
-                const imgurData = await imgurRes.json();
+                let imgurData = await imgurRes.json();
                 if (!imgurData.success) throw new Error('فشل رفع الصورة');
-                const imageUrl = imgurData.data.link;
+                let imageUrl = imgurData.data.link;
                 showScrapProgress(70);
 
-                const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
-                const product = { desc, weight, price, days, expiresAt, imageUrl, createdAt: Date.now() };
+                let expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                let product = { desc, weight, price, days, expiresAt, imageUrl, createdAt: Date.now() };
 
                 await database.ref('zamzam-company/scrap-offers').push(product);
                 showScrapProgress(100);
@@ -1295,28 +1518,28 @@
         }
 
         function showScrapProgress(percent) {
-            const wrap = document.getElementById('scrap-progress-wrap');
-            const bar = document.getElementById('scrap-progress-bar');
-            const txt = document.getElementById('scrap-progress-txt');
+            let wrap = document.getElementById('scrap-progress-wrap');
+            let bar = document.getElementById('scrap-progress-bar');
+            let txt = document.getElementById('scrap-progress-txt');
             wrap.style.display = 'block';
             bar.style.width = percent + '%';
             txt.textContent = percent === 100 ? '✅ تم النشر بنجاح!' : `⏳ جاري الرفع... ${percent}%`;
         }
 
         function showScrapMsg(text, color) {
-            const msg = document.getElementById('scrap-msg');
+            let msg = document.getElementById('scrap-msg');
             msg.textContent = text;
             msg.style.color = color;
             msg.style.display = 'block';
         }
 
         function loadScrap() {
-            const grid = document.getElementById('scrap-grid');
+            let grid = document.getElementById('scrap-grid');
             grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
 
             database.ref('zamzam-company/scrap-offers').once('value', snapshot => {
-                const data = snapshot.val();
-                const now = Date.now();
+                let data = snapshot.val();
+                let now = Date.now();
 
                 if (data) {
                     Object.entries(data).forEach(([id, p]) => {
@@ -1329,7 +1552,7 @@
                     return;
                 }
 
-                const products = Object.entries(data)
+                let products = Object.entries(data)
                     .map(([id, p]) => ({ id, ...p }))
                     .filter(p => p.expiresAt > now)
                     .sort((a, b) => b.createdAt - a.createdAt);
@@ -1340,8 +1563,8 @@
                 }
 
                 grid.innerHTML = products.map(p => {
-                    const remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
-                    const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+                    let remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
+                    let fmt = n => Math.round(n).toLocaleString('ar-IQ');
                     return `
                     <div onclick="openScrapModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #4CAF50;position:relative;">
                         <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;">
@@ -1359,13 +1582,13 @@
         }
 
         function openScrapModal(id) {
-            const p = window._scrapData[id];
+            let p = window._scrapData[id];
             if (!p) return;
 
-            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
-            const remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
 
-            const waMsg = encodeURIComponent(
+            let waMsg = encodeURIComponent(
                 `مرحباً 👋\nأنا مهتم بهذه القطعة:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر الكلي: ${fmt(p.price)} دينار\n🖼️ صورة القطعة: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار عن هذه القطعة`
             );
 
@@ -1401,12 +1624,12 @@
         // PAGE NAVIGATION
         function showPage(page) {
             ['prices','store','watches','offers','scrap'].forEach(p => {
-                const el = document.getElementById('page-' + p);
+                let el = document.getElementById('page-' + p);
                 if (el) el.style.display = p === page ? 'block' : 'none';
             });
 
             // تحديث مظهر أزرار التنقل
-            const navConfig = {
+            let navConfig = {
                 prices:  { id: 'nav-prices',  border: '#4CAF50', shadow: 'rgba(76,175,80,0.5)',    bg: 'linear-gradient(135deg,#0d3a0d,#1a5a1a)' },
                 store:   { id: 'nav-store',   border: '#D4AF37', shadow: 'rgba(212,175,55,0.5)',   bg: 'linear-gradient(135deg,#2a1f00,#3a2a00)' },
                 watches: { id: 'nav-watches', border: '#60a5fa', shadow: 'rgba(96,165,250,0.5)',   bg: 'linear-gradient(135deg,#001e3c,#002a50)' },
@@ -1414,9 +1637,9 @@
 
             // إعادة الكل للحالة العادية
             Object.values(navConfig).forEach(cfg => {
-                const el = document.getElementById(cfg.id);
+                let el = document.getElementById(cfg.id);
                 if (!el) return;
-                const defaults = {
+                let defaults = {
                     prices:  'linear-gradient(135deg,#0d2e0d,#1a4a1a)',
                     store:   'linear-gradient(135deg,#1a1400,#2a2000)',
                     watches: 'linear-gradient(135deg,#001428,#001e3c)',
@@ -1424,9 +1647,9 @@
             });
 
             // تمييز الزر النشط
-            const active = navConfig[page];
+            let active = navConfig[page];
             if (active) {
-                const el = document.getElementById(active.id);
+                let el = document.getElementById(active.id);
                 if (el) {
                     el.style.boxShadow = `0 6px 25px ${active.shadow}`;
                     el.style.background = active.bg;
@@ -1435,7 +1658,7 @@
                 // إعادة باقي الأزرار
                 Object.entries(navConfig).forEach(([key, cfg]) => {
                     if (key !== page) {
-                        const navEl = document.getElementById(cfg.id);
+                        let navEl = document.getElementById(cfg.id);
                         if (navEl) {
                             navEl.style.boxShadow = `0 4px 15px ${cfg.shadow.replace('0.5','0.2')}`;
                             navEl.style.transform = 'translateY(0)';
@@ -1446,52 +1669,43 @@
 
             if (page === 'offers') loadOffers();
             if (page === 'scrap') loadScrap();
+            if (page === 'watches') {
+                // نتأكد أن Firebase جاهز قبل تحميل البيانات
+                setTimeout(() => showWatchTab('silver'), 300);
+            }
         }
 
         // ===== نظام العروض الحصرية =====
         let currentSellGram = 0;
 
         // مشاهدة صورة قبل الرفع
-        document.addEventListener('DOMContentLoaded', () => {
-            const imgInput = document.getElementById('prod-image');
-            if (imgInput) {
-                imgInput.addEventListener('change', function() {
-                    const file = this.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = e => {
-                            document.getElementById('prod-img-preview-el').src = e.target.result;
-                            document.getElementById('prod-image-preview').style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+        
             }
         });
 
         function calcProductPreview() {
-            const weight = parseFloat(document.getElementById('prod-weight').value) || 0;
-            const wage = parseFloat(document.getElementById('prod-wage').value) || 0;
-            const discount = parseFloat(document.getElementById('prod-discount').value) || 0;
+            let weight = parseFloat(document.getElementById('prod-weight').value) || 0;
+            let wage = parseFloat(document.getElementById('prod-wage').value) || 0;
+            let discount = parseFloat(document.getElementById('prod-discount').value) || 0;
 
             if (!weight || !wage) {
                 alert('أدخل الوزن والأجور أولاً');
                 return;
             }
 
-            const sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
+            let sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
             if (!sellGram) {
                 alert('انتظر حتى يتحمّل سعر الذهب أولاً');
                 return;
             }
 
-            const goldAmount = sellGram * weight;
-            const wagesAmount = wage * weight;
-            const beforeDiscount = goldAmount + wagesAmount;
-            const discountAmount = (discount / 100) * wagesAmount;
-            const finalPrice = beforeDiscount - discountAmount;
+            let goldAmount = sellGram * weight;
+            let wagesAmount = wage * weight;
+            let beforeDiscount = goldAmount + wagesAmount;
+            let discountAmount = (discount / 100) * wagesAmount;
+            let finalPrice = beforeDiscount - discountAmount;
 
-            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
 
             document.getElementById('prev-gold').textContent = fmt(goldAmount) + ' دينار';
             document.getElementById('prev-wages').textContent = fmt(wagesAmount) + ' دينار';
@@ -1502,12 +1716,12 @@
         }
 
         async function publishProduct() {
-            const imageFile = document.getElementById('prod-image').files[0];
-            const desc = document.getElementById('prod-desc').value.trim();
-            const weight = parseFloat(document.getElementById('prod-weight').value);
-            const wage = parseFloat(document.getElementById('prod-wage').value);
-            const discount = parseFloat(document.getElementById('prod-discount').value) || 0;
-            const days = parseInt(document.getElementById('prod-days').value) || 1;
+            let imageFile = document.getElementById('prod-image').files[0];
+            let desc = document.getElementById('prod-desc').value.trim();
+            let weight = parseFloat(document.getElementById('prod-weight').value);
+            let wage = parseFloat(document.getElementById('prod-wage').value);
+            let discount = parseFloat(document.getElementById('prod-discount').value) || 0;
+            let days = parseInt(document.getElementById('prod-days').value) || 1;
 
             if (!imageFile || !desc || !weight || !wage) {
                 showProdMsg('❌ أكمل جميع الحقول والصورة', 'red');
@@ -1519,30 +1733,30 @@
             try {
                 // ضغط الصورة أولاً
                 showProgress(10);
-                const compressedBase64 = await compressImage(imageFile, 600, 0.5);
+                let compressedBase64 = await compressImage(imageFile, 600, 0.5);
                 showProgress(30);
 
                 // رفع الصورة على Imgur (مجاني بدون تسجيل)
-                const base64Data = compressedBase64.split(',')[1];
-                const formData = new FormData();
+                let base64Data = compressedBase64.split(',')[1];
+                let formData = new FormData();
                 formData.append('image', base64Data);
                 formData.append('type', 'base64');
 
                 showProgress(50);
-                const imgurRes = await fetch('https://api.imgur.com/3/image', {
+                let imgurRes = await fetch('https://api.imgur.com/3/image', {
                     method: 'POST',
                     headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
                     body: formData
                 });
-                const imgurData = await imgurRes.json();
+                let imgurData = await imgurRes.json();
 
                 if (!imgurData.success) throw new Error('فشل رفع الصورة');
-                const imageUrl = imgurData.data.link;
+                let imageUrl = imgurData.data.link;
                 showProgress(70);
 
                 // حفظ بيانات المنتج في Firebase (رابط الصورة فقط، لا base64)
-                const expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
-                const product = { desc, weight, wage, discount, days, expiresAt, imageUrl, createdAt: Date.now() };
+                let expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                let product = { desc, weight, wage, discount, days, expiresAt, imageUrl, createdAt: Date.now() };
 
                 await database.ref('zamzam-company/exclusive-offers').push(product);
                 showProgress(100);
@@ -1570,14 +1784,14 @@
         // ضغط الصورة بشكل قوي للتخزين في Firebase
         function compressImage(file, maxSize, quality) {
             return new Promise((resolve) => {
-                const reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = e => {
-                    const img = new Image();
+                    let img = new Image();
                     img.onload = () => {
-                        const canvas = document.createElement('canvas');
+                        let canvas = document.createElement('canvas');
                         // تصغير الصورة إلى حد أقصى 600px للحفاظ على الجودة ضمن حد Firebase
                         let w = img.width, h = img.height;
-                        const limit = 600;
+                        let limit = 600;
                         if (w > h) { if (w > limit) { h = Math.round(h * limit / w); w = limit; } }
                         else { if (h > limit) { w = Math.round(w * limit / h); h = limit; } }
                         canvas.width = w;
@@ -1593,9 +1807,9 @@
         }
 
         function showProgress(percent) {
-            const wrap = document.getElementById('prod-progress-wrap');
-            const bar = document.getElementById('prod-progress-bar');
-            const txt = document.getElementById('prod-progress-txt');
+            let wrap = document.getElementById('prod-progress-wrap');
+            let bar = document.getElementById('prod-progress-bar');
+            let txt = document.getElementById('prod-progress-txt');
             wrap.style.display = 'block';
             bar.style.width = percent + '%';
             txt.textContent = percent === 100 ? '✅ تم النشر بنجاح!' : `⏳ جاري الرفع... ${percent}%`;
@@ -1603,7 +1817,7 @@
         }
 
         function showProdMsg(text, color) {
-            const msg = document.getElementById('prod-msg');
+            let msg = document.getElementById('prod-msg');
             msg.textContent = text;
             msg.style.color = color;
             msg.style.display = 'block';
@@ -1611,12 +1825,12 @@
         }
 
         function loadOffers() {
-            const grid = document.getElementById('offers-grid');
+            let grid = document.getElementById('offers-grid');
             grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
 
             database.ref('zamzam-company/exclusive-offers').once('value', snapshot => {
-                const data = snapshot.val();
-                const now = Date.now();
+                let data = snapshot.val();
+                let now = Date.now();
 
                 // حذف المنتجات المنتهية تلقائياً
                 if (data) {
@@ -1632,7 +1846,7 @@
                     return;
                 }
 
-                const products = Object.entries(data)
+                let products = Object.entries(data)
                     .map(([id, p]) => ({ id, ...p }))
                     .filter(p => p.expiresAt > now)
                     .sort((a, b) => b.createdAt - a.createdAt);
@@ -1643,8 +1857,8 @@
                 }
 
                 grid.innerHTML = products.map(p => {
-                    const remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
-                    const imgSrc = p.imageUrl || p.imageBase64 || '';
+                    let remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
+                    let imgSrc = p.imageUrl || p.imageBase64 || '';
                     return `
                     <div onclick="openProductModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #333;position:relative;">
                         <img src="${imgSrc}" style="width:100%;aspect-ratio:1;object-fit:cover;">
@@ -1662,23 +1876,23 @@
         }
 
         function openProductModal(id) {
-            const p = window._offersData[id];
+            let p = window._offersData[id];
             if (!p) return;
 
-            const sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
-            const goldAmount = sellGram * p.weight;
-            const wagesAmount = p.wage * p.weight;
-            const beforeDiscount = goldAmount + wagesAmount;
-            const discountAmount = (p.discount / 100) * wagesAmount;
-            const finalPrice = beforeDiscount - discountAmount;
-            const fmt = n => Math.round(n).toLocaleString('ar-IQ');
-            const remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
+            let sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
+            let goldAmount = sellGram * p.weight;
+            let wagesAmount = p.wage * p.weight;
+            let beforeDiscount = goldAmount + wagesAmount;
+            let discountAmount = (p.discount / 100) * wagesAmount;
+            let finalPrice = beforeDiscount - discountAmount;
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let remaining = Math.ceil((p.expiresAt - Date.now()) / (1000 * 60 * 60 * 24));
 
-            const waMsg = encodeURIComponent(
+            let waMsg = encodeURIComponent(
                 `مرحباً 👋\nأنا مهتم بهذا المنتج:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر النهائي: ${fmt(finalPrice)} دينار\n🏷️ الخصم: ${p.discount}%\n🖼️ صورة المنتج: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار`
             );
 
-            const imgSrc = p.imageUrl || p.imageBase64 || '';
+            let imgSrc = p.imageUrl || p.imageBase64 || '';
             document.getElementById('product-modal-content').innerHTML = `
                 <img src="${imgSrc}" style="width:100%;border-radius:14px;margin-bottom:15px;">
 
@@ -1713,19 +1927,456 @@
         }
 
         function toggleReviews() {
-            const list = document.getElementById('reviews-list-settings');
-            const arrow = document.getElementById('reviews-arrow');
-            const isOpen = list.style.display !== 'none';
+            let list = document.getElementById('reviews-list-settings');
+            let arrow = document.getElementById('reviews-arrow');
+            let isOpen = list.style.display !== 'none';
             if (!isOpen) loadReviews();
             list.style.display = isOpen ? 'none' : 'block';
             arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
+        // ===== تابات صفحة الساعات/الفضيات/النضارات =====
+        let watchTabColors = {
+            silver:  { bg: 'linear-gradient(135deg,#C0C0C0,#888)', color: '#000', shadow: 'rgba(192,192,192,0.35)', text: '#C0C0C0' },
+            watches: { bg: 'linear-gradient(135deg,#1e88e5,#1565c0)', color: '#fff', shadow: 'rgba(30,136,229,0.35)', text: '#60a5fa' },
+            glasses: { bg: 'linear-gradient(135deg,#7c3aed,#5b21b6)', color: '#fff', shadow: 'rgba(124,58,237,0.35)', text: '#a78bfa' }
+        };
+
+        function showWatchTab(tab) {
+            try {
+                ['silver','watches','glasses'].forEach(t => {
+                    let content = document.getElementById('wtab-' + t + '-content');
+                    if (content) content.style.display = t === tab ? 'block' : 'none';
+                    let btn = document.getElementById('wtab-' + t);
+                    if (!btn) return;
+                    let c = watchTabColors[t];
+                    if (t === tab) {
+                        btn.style.background = c.bg;
+                        btn.style.color = c.color;
+                        btn.style.boxShadow = `0 4px 12px ${c.shadow}`;
+                        btn.style.transform = 'translateY(-1px)';
+                    } else {
+                        btn.style.background = 'transparent';
+                        btn.style.color = c.text;
+                        btn.style.boxShadow = 'none';
+                        btn.style.transform = 'none';
+                    }
+                });
+                if (tab === 'silver') loadSilver();
+                if (tab === 'watches') loadWatchItems('watches');
+                if (tab === 'glasses') loadWatchItems('glasses');
+            } catch(e) {
+                console.error('showWatchTab error:', e);
+            }
+        }
+
+        // رفع صورة الفضيات
+        
+            let wi = document.getElementById('watch-image');
+            if (wi) wi.addEventListener('change', function() {
+                let file = this.files[0];
+                if (file) {
+                    let r = new FileReader();
+                    r.onload = e => {
+                        document.getElementById('watch-img-preview-el').src = e.target.result;
+                        document.getElementById('watch-image-preview').style.display = 'block';
+                    };
+                    r.readAsDataURL(file);
+                }
+            });
+            let gi = document.getElementById('glasses-image');
+            if (gi) gi.addEventListener('change', function() {
+                let file = this.files[0];
+                if (file) {
+                    let r = new FileReader();
+                    r.onload = e => {
+                        document.getElementById('glasses-img-preview-el').src = e.target.result;
+                        document.getElementById('glasses-image-preview').style.display = 'block';
+                    };
+                    r.readAsDataURL(file);
+                }
+            });
+        });
+
+        function calcGlassesPreview() {
+            let price = parseFloat(document.getElementById('glasses-price').value) || 0;
+            let discount = parseFloat(document.getElementById('glasses-discount').value) || 0;
+            if (!price) { alert('أدخل المبلغ أولاً'); return; }
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let discountAmt = (discount / 100) * price;
+            let final = price - discountAmt;
+            document.getElementById('glasses-prev-before').textContent = fmt(price) + ' دينار';
+            document.getElementById('glasses-prev-discount-amt').textContent = '- ' + fmt(discountAmt) + ' دينار';
+            document.getElementById('glasses-prev-final').textContent = fmt(final) + ' دينار';
+            document.getElementById('glasses-preview-prices').style.display = 'block';
+        }
+
+        async function publishGlasses() {
+            let imageFile = document.getElementById('glasses-image').files[0];
+            let desc = document.getElementById('glasses-desc').value.trim();
+            let price = parseFloat(document.getElementById('glasses-price').value);
+            let discount = parseFloat(document.getElementById('glasses-discount').value) || 0;
+            let days = parseInt(document.getElementById('glasses-days').value) || 3;
+
+            if (!imageFile || !desc || !price) {
+                document.getElementById('glasses-msg').textContent = '❌ أكمل جميع الحقول';
+                document.getElementById('glasses-msg').style.cssText = 'display:block;color:red;text-align:center;font-size:13px;margin-top:8px;';
+                return;
+            }
+
+            showGlassesProgress(0);
+            try {
+                showGlassesProgress(10);
+                let compressed = await compressImage(imageFile, 600, 0.5);
+                showGlassesProgress(30);
+                let b64 = compressed.split(',')[1];
+                let fd = new FormData();
+                fd.append('image', b64); fd.append('type', 'base64');
+                showGlassesProgress(50);
+                let res = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST', headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' }, body: fd
+                });
+                let imgData = await res.json();
+                if (!imgData.success) throw new Error('فشل رفع الصورة');
+                showGlassesProgress(70);
+
+                let discountAmt = (discount / 100) * price;
+                let finalPrice = price - discountAmt;
+                let expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+
+                await database.ref('zamzam-company/glasses-offers').push({
+                    desc, price, discount, discountAmt, finalPrice,
+                    days, expiresAt, imageUrl: imgData.data.link, createdAt: Date.now()
+                });
+                showGlassesProgress(100);
+
+                setTimeout(() => {
+                    ['glasses-image','glasses-desc','glasses-price','glasses-discount','glasses-days'].forEach(id => {
+                        let el = document.getElementById(id); if (el) el.value = '';
+                    });
+                    document.getElementById('glasses-image-preview').style.display = 'none';
+                    document.getElementById('glasses-preview-prices').style.display = 'none';
+                    document.getElementById('glasses-progress-wrap').style.display = 'none';
+                    closeSettings();
+                    showPage('watches');
+                    showWatchTab('glasses');
+                }, 800);
+            } catch(e) {
+                document.getElementById('glasses-msg').textContent = '❌ خطأ: ' + e.message;
+                document.getElementById('glasses-msg').style.display = 'block';
+                document.getElementById('glasses-progress-wrap').style.display = 'none';
+            }
+        }
+
+        function showGlassesProgress(p) {
+            document.getElementById('glasses-progress-wrap').style.display = 'block';
+            document.getElementById('glasses-progress-bar').style.width = p + '%';
+            document.getElementById('glasses-progress-txt').textContent = p === 100 ? '✅ تم النشر!' : `⏳ ${p}%`;
+            document.getElementById('glasses-progress-bar').style.background = p === 100 ? '#4CAF50' : '#a78bfa';
+        }
+
+        function calcWatchPreview() {
+            let price = parseFloat(document.getElementById('watch-price').value) || 0;
+            let discount = parseFloat(document.getElementById('watch-discount').value) || 0;
+            if (!price) { alert('أدخل المبلغ أولاً'); return; }
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let discountAmt = (discount / 100) * price;
+            let final = price - discountAmt;
+            document.getElementById('watch-prev-before').textContent = fmt(price) + ' دينار';
+            document.getElementById('watch-prev-discount-amt').textContent = '- ' + fmt(discountAmt) + ' دينار';
+            document.getElementById('watch-prev-final').textContent = fmt(final) + ' دينار';
+            document.getElementById('watch-preview-prices').style.display = 'block';
+        }
+
+        async function publishWatch() {
+            let imageFile = document.getElementById('watch-image').files[0];
+            let desc = document.getElementById('watch-desc').value.trim();
+            let price = parseFloat(document.getElementById('watch-price').value);
+            let discount = parseFloat(document.getElementById('watch-discount').value) || 0;
+            let days = parseInt(document.getElementById('watch-days').value) || 3;
+
+            if (!imageFile || !desc || !price) {
+                document.getElementById('watch-msg').textContent = '❌ أكمل جميع الحقول';
+                document.getElementById('watch-msg').style.cssText = 'display:block;color:red;text-align:center;font-size:13px;margin-top:8px;';
+                return;
+            }
+
+            showWatchProgress(0);
+            try {
+                showWatchProgress(10);
+                let compressed = await compressImage(imageFile, 600, 0.5);
+                showWatchProgress(30);
+                let b64 = compressed.split(',')[1];
+                let fd = new FormData();
+                fd.append('image', b64); fd.append('type', 'base64');
+                showWatchProgress(50);
+                let res = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST', headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' }, body: fd
+                });
+                let imgData = await res.json();
+                if (!imgData.success) throw new Error('فشل رفع الصورة');
+                showWatchProgress(70);
+
+                let discountAmt = (discount / 100) * price;
+                let finalPrice = price - discountAmt;
+                let expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+
+                await database.ref('zamzam-company/watches-offers').push({
+                    desc, price, discount, discountAmt, finalPrice,
+                    days, expiresAt, imageUrl: imgData.data.link, createdAt: Date.now()
+                });
+                showWatchProgress(100);
+
+                setTimeout(() => {
+                    ['watch-image','watch-desc','watch-price','watch-discount','watch-days'].forEach(id => {
+                        let el = document.getElementById(id); if (el) el.value = '';
+                    });
+                    document.getElementById('watch-image-preview').style.display = 'none';
+                    document.getElementById('watch-preview-prices').style.display = 'none';
+                    document.getElementById('watch-progress-wrap').style.display = 'none';
+                    closeSettings();
+                    showPage('watches');
+                    showWatchTab('watches');
+                }, 800);
+            } catch(e) {
+                document.getElementById('watch-msg').textContent = '❌ خطأ: ' + e.message;
+                document.getElementById('watch-msg').style.display = 'block';
+                document.getElementById('watch-progress-wrap').style.display = 'none';
+            }
+        }
+
+        function showWatchProgress(p) {
+            document.getElementById('watch-progress-wrap').style.display = 'block';
+            document.getElementById('watch-progress-bar').style.width = p + '%';
+            document.getElementById('watch-progress-txt').textContent = p === 100 ? '✅ تم النشر!' : `⏳ ${p}%`;
+            document.getElementById('watch-progress-bar').style.background = p === 100 ? '#4CAF50' : '#60a5fa';
+        }
+
+        function calcSilverPreview() {
+            let weight = parseFloat(document.getElementById('silver-weight').value) || 0;
+            let priceGram = parseFloat(document.getElementById('silver-price-gram').value) || 0;
+            let discount = parseFloat(document.getElementById('silver-discount').value) || 0;
+
+            if (!weight || !priceGram) { alert('أدخل الوزن وسعر الغرام أولاً'); return; }
+
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let before = weight * priceGram;
+            let discountAmt = (discount / 100) * before;
+            let final = before - discountAmt;
+
+            document.getElementById('silver-prev-before').textContent = fmt(before) + ' دينار';
+            document.getElementById('silver-prev-discount-amt').textContent = '- ' + fmt(discountAmt) + ' دينار';
+            document.getElementById('silver-prev-final').textContent = fmt(final) + ' دينار';
+            document.getElementById('silver-preview-prices').style.display = 'block';
+        }
+
+        async function publishSilver() {
+            let imageFile = document.getElementById('silver-image').files[0];
+            let desc = document.getElementById('silver-desc').value.trim();
+            let weight = parseFloat(document.getElementById('silver-weight').value);
+            let priceGram = parseFloat(document.getElementById('silver-price-gram').value);
+            let discount = parseFloat(document.getElementById('silver-discount').value) || 0;
+            let days = parseInt(document.getElementById('silver-days').value) || 3;
+
+            if (!imageFile || !desc || !weight || !priceGram) {
+                document.getElementById('silver-msg').textContent = '❌ أكمل جميع الحقول';
+                document.getElementById('silver-msg').style.cssText = 'display:block;color:red;text-align:center;font-size:13px;margin-top:8px;';
+                return;
+            }
+
+            showSilverProgress(0);
+            try {
+                showSilverProgress(10);
+                let compressed = await compressImage(imageFile, 600, 0.5);
+                showSilverProgress(30);
+
+                let b64 = compressed.split(',')[1];
+                let fd = new FormData();
+                fd.append('image', b64);
+                fd.append('type', 'base64');
+
+                showSilverProgress(50);
+                let res = await fetch('https://api.imgur.com/3/image', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
+                    body: fd
+                });
+                let imgData = await res.json();
+                if (!imgData.success) throw new Error('فشل رفع الصورة');
+
+                showSilverProgress(70);
+                let expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+                let beforeDiscount = weight * priceGram;
+                let discountAmt = (discount / 100) * beforeDiscount;
+                let finalPrice = beforeDiscount - discountAmt;
+
+                await database.ref('zamzam-company/silver-offers').push({
+                    desc, weight, priceGram, discount,
+                    beforeDiscount, discountAmt, finalPrice,
+                    days, expiresAt, imageUrl: imgData.data.link, createdAt: Date.now()
+                });
+                showSilverProgress(100);
+
+                setTimeout(() => {
+                    ['silver-image','silver-desc','silver-weight','silver-price-gram','silver-discount','silver-days'].forEach(id => {
+                        let el = document.getElementById(id);
+                        if (el) el.value = '';
+                    });
+                    document.getElementById('silver-image-preview').style.display = 'none';
+                    document.getElementById('silver-progress-wrap').style.display = 'none';
+                    closeSettings();
+                    showPage('watches');
+                    showWatchTab('silver');
+                }, 800);
+            } catch(e) {
+                document.getElementById('silver-msg').textContent = '❌ خطأ: ' + e.message;
+                document.getElementById('silver-msg').style.display = 'block';
+                document.getElementById('silver-progress-wrap').style.display = 'none';
+            }
+        }
+
+        function showSilverProgress(p) {
+            document.getElementById('silver-progress-wrap').style.display = 'block';
+            document.getElementById('silver-progress-bar').style.width = p + '%';
+            document.getElementById('silver-progress-txt').textContent = p === 100 ? '✅ تم النشر!' : `⏳ ${p}%`;
+        }
+
+        function loadSilver() {
+            let grid = document.getElementById('silver-grid');
+            if (!grid) return;
+            grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
+
+            database.ref('zamzam-company/silver-offers').once('value', snap => {
+                let data = snap.val();
+                let now = Date.now();
+                if (data) Object.entries(data).forEach(([id, p]) => {
+                    if (p.expiresAt <= now) database.ref('zamzam-company/silver-offers/' + id).remove();
+                });
+
+                let products = data ? Object.entries(data).map(([id,p]) => ({id,...p})).filter(p => p.expiresAt > now).sort((a,b) => b.createdAt - a.createdAt) : [];
+
+                if (!products.length) {
+                    grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد منتجات فضية حالياً</div>';
+                    return;
+                }
+
+                let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+                grid.innerHTML = products.map(p => {
+                    let rem = Math.ceil((p.expiresAt - now) / (1000*60*60*24));
+                    return `<div onclick="openWatchModal('silver','${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #C0C0C0;position:relative;">
+                        <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;">
+                        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #C0C0C0;border-radius:20px;padding:3px 8px;font-size:11px;color:#C0C0C0;">⏰ ${rem} يوم</div>
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                            <div style="font-size:11px;color:#fff;">${p.desc.substring(0,35)}${p.desc.length>35?'...':''}</div>
+                            <div style="font-size:12px;color:#C0C0C0;font-weight:bold;margin-top:2px;">${fmt(p.finalPrice)} دينار</div>
+                        </div>
+                    </div>`;
+                }).join('');
+                window._silverData = {};
+                products.forEach(p => window._silverData[p.id] = p);
+            });
+        }
+
+        function loadWatchItems(type) {
+            let grid = document.getElementById(type + '-grid');
+            if (!grid) return;
+            grid.innerHTML = '<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">جاري التحميل...</div>';
+            let dbPath = type === 'watches' ? 'watches-offers' : 'glasses-offers';
+            let color = type === 'watches' ? '#60a5fa' : '#a78bfa';
+
+            database.ref('zamzam-company/' + dbPath).once('value', snap => {
+                let data = snap.val();
+                let now = Date.now();
+                if (data) Object.entries(data).forEach(([id,p]) => {
+                    if (p.expiresAt <= now) database.ref('zamzam-company/' + dbPath + '/' + id).remove();
+                });
+                let products = data ? Object.entries(data).map(([id,p]) => ({id,...p})).filter(p => p.expiresAt > now).sort((a,b) => b.createdAt - a.createdAt) : [];
+
+                if (!products.length) {
+                    grid.innerHTML = `<div style="text-align:center;padding:40px;color:#555;grid-column:1/-1;">لا توجد منتجات حالياً</div>`;
+                    return;
+                }
+                let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+                grid.innerHTML = products.map(p => {
+                    let rem = Math.ceil((p.expiresAt - now) / (1000*60*60*24));
+                    return `<div onclick="openWatchModal('${type}','${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid ${color};position:relative;">
+                        <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22/></svg>'">
+                        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid ${color};border-radius:20px;padding:3px 8px;font-size:11px;color:${color};">⏰ ${rem} يوم</div>
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                            <div style="font-size:11px;color:#fff;">${p.desc.substring(0,35)}${p.desc.length>35?'...':''}</div>
+                            <div style="font-size:12px;color:${color};font-weight:bold;margin-top:2px;">${fmt(p.finalPrice)} دينار</div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                if (!window._watchData) window._watchData = {};
+                products.forEach(p => { window._watchData[p.id] = {...p, _type: type}; });
+            });
+        }
+
+        function openWatchModal(type, id) {
+            let p, color, label, emoji;
+            if (type === 'silver') {
+                p = window._silverData && window._silverData[id];
+                color = '#C0C0C0'; label = 'فضيات'; emoji = '🥈';
+            } else {
+                if (!window._watchData) window._watchData = {};
+                p = window._watchData[id];
+                if (type === 'watches') { color = '#60a5fa'; label = 'ساعات'; emoji = '⌚'; }
+                else { color = '#a78bfa'; label = 'نضارات'; emoji = '🕶️'; }
+            }
+            if (!p) { console.log('Product not found:', type, id); return; }
+
+            let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+            let rem = Math.ceil((p.expiresAt - Date.now()) / (1000*60*60*24));
+
+            let waMsg, priceRows;
+
+            if (type === 'silver') {
+                waMsg = encodeURIComponent(`مرحباً 👋\nأنا مهتم بهذه القطعة الفضية:\n\n🥈 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💵 سعر الغرام: ${fmt(p.priceGram)} دينار\n💰 المبلغ قبل الخصم: ${fmt(p.beforeDiscount)} دينار\n🏷️ الخصم: ${p.discount}%\n✅ السعر النهائي: ${fmt(p.finalPrice)} دينار\n🖼️ صورة المنتج: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار عن هذه القطعة`);
+                priceRows = `
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">الوزن</span><span style="color:#fff;">${p.weight} غرام</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">سعر الغرام</span><span style="color:${color};">${fmt(p.priceGram)} دينار</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">المبلغ قبل الخصم</span><span style="color:${color};">${fmt(p.beforeDiscount)} دينار</span></div>`;
+            } else {
+                waMsg = type === 'watches'
+                    ? encodeURIComponent(`مرحباً 👋\nأنا مهتم بهذه الساعة:\n\n⌚ الوصف: ${p.desc}\n💰 المبلغ قبل الخصم: ${fmt(p.price)} دينار\n🏷️ الخصم: ${p.discount}%\n✅ السعر النهائي: ${fmt(p.finalPrice)} دينار\n🖼️ صورة الساعة: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار عن هذه الساعة`)
+                    : encodeURIComponent(`مرحباً 👋\nأنا مهتم بهذه النضارة:\n\n🕶️ الوصف: ${p.desc}\n💰 المبلغ قبل الخصم: ${fmt(p.price)} دينار\n🏷️ الخصم: ${p.discount}%\n✅ السعر النهائي: ${fmt(p.finalPrice)} دينار\n🖼️ صورة النضارة: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار عن هذه النضارة`);
+                priceRows = `
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">المبلغ قبل الخصم</span><span style="color:${color};">${fmt(p.price)} دينار</span></div>`;
+            }
+
+            document.getElementById('watch-modal-content').innerHTML = `
+                <img src="${p.imageUrl}" style="width:100%;border-radius:14px;margin-bottom:15px;">
+                <div style="background:#1a1a1a;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid ${color};">
+                    <div style="color:${color};font-size:15px;font-weight:bold;margin-bottom:10px;">${emoji} ${label} — تفاصيل المنتج</div>
+                    <div style="color:#ccc;font-size:13px;line-height:1.6;margin-bottom:10px;">${p.desc}</div>
+                    ${priceRows}
+                    <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">الخصم (${p.discount}%)</span><span style="color:#ff6b6b;">- ${fmt(p.discountAmt || p.discountAmt)} دينار</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #444;margin-top:4px;"><span style="color:${color};font-size:14px;font-weight:bold;">السعر النهائي</span><span style="color:#4CAF50;font-size:18px;font-weight:bold;">${fmt(p.finalPrice)} دينار</span></div>
+                </div>
+                <div style="background:#1a1a1a;border-radius:12px;padding:10px;text-align:center;margin-bottom:12px;border:1px solid ${color};">
+                    <span style="color:${color};font-size:13px;">⏰ ينتهي العرض خلال <strong>${rem} يوم</strong></span>
+                </div>
+                <div style="color:${color};font-size:14px;font-weight:bold;margin-bottom:10px;text-align:center;">📲 تواصل معنا للاستفسار</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <a href="https://wa.me/9647901196926?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب سيف</a>
+                    <a href="https://wa.me/9647805747247?text=${waMsg}" target="_blank" style="background:#25D366;color:#fff;padding:12px;border-radius:12px;text-align:center;text-decoration:none;font-size:13px;font-weight:bold;">واتساب حسام</a>
+                </div>`;
+
+            document.getElementById('watch-modal').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function closeWatchModal() {
+            document.getElementById('watch-modal').style.display = 'none';
+        }
+
         // ===== إحصائيات المشاهدات =====
         function trackAndShowViews() {
-            const today = new Date().toISOString().split('T')[0];
-            const viewsRef = database.ref('zamzam-company/views');
-            const BASE_COUNT = 2160; // رصيد التطبيق السابق
+            let today = new Date().toISOString().split('T')[0];
+            let viewsRef = database.ref('zamzam-company/views');
+            let BASE_COUNT = 2160; // رصيد التطبيق السابق
 
             // زيادة الإجمالي
             viewsRef.child('total').transaction(val => (val || 0) + 1);
@@ -1735,12 +2386,12 @@
 
             // عرض الأرقام بشكل مباشر
             viewsRef.on('value', snap => {
-                const data = snap.val() || {};
-                const total = (data.total || 0) + BASE_COUNT;
-                const todayCount = (data.days && data.days[today]) || 0;
+                let data = snap.val() || {};
+                let total = (data.total || 0) + BASE_COUNT;
+                let todayCount = (data.days && data.days[today]) || 0;
 
-                const totalEl = document.getElementById('total-views');
-                const todayEl = document.getElementById('today-views');
+                let totalEl = document.getElementById('total-views');
+                let todayEl = document.getElementById('today-views');
                 if (totalEl) totalEl.textContent = total.toLocaleString('ar-IQ');
                 if (todayEl) todayEl.textContent = todayCount.toLocaleString('ar-IQ');
             });
@@ -1748,42 +2399,42 @@
 
         // ===== رسالة الترحيب مع مقارنة الأسعار =====
         function showWelcomeBack(currentPrice) {
-            const lastPrice = parseFloat(localStorage.getItem('lastVisitPrice') || 0);
+            let lastPrice = parseFloat(localStorage.getItem('lastVisitPrice') || 0);
             if (!lastPrice || lastPrice === currentPrice) {
                 localStorage.setItem('lastVisitPrice', currentPrice);
                 return;
             }
 
             // حساب التغييرات
-            const paperRate = parseFloat(localStorage.getItem('paperRate') || 1550);
-            const sellAdj = parseFloat(localStorage.getItem('sellAdj') || 0) * (localStorage.getItem('sign-sell') === '-' ? -1 : 1);
-            const buyGulfAdj = parseFloat(localStorage.getItem('buyGulfAdj') || 0) * (localStorage.getItem('sign-buyGulf') === '-' ? -1 : 1);
-            const buyIraqiExtra = parseFloat(localStorage.getItem('buyIraqiExtra') || 25000) * (localStorage.getItem('sign-buyIraqiExtra') === '-' ? -1 : 1);
+            let paperRate = parseFloat(localStorage.getItem('paperRate') || 1550);
+            let sellAdj = parseFloat(localStorage.getItem('sellAdj') || 0) * (localStorage.getItem('sign-sell') === '-' ? -1 : 1);
+            let buyGulfAdj = parseFloat(localStorage.getItem('buyGulfAdj') || 0) * (localStorage.getItem('sign-buyGulf') === '-' ? -1 : 1);
+            let buyIraqiExtra = parseFloat(localStorage.getItem('buyIraqiExtra') || 25000) * (localStorage.getItem('sign-buyIraqiExtra') === '-' ? -1 : 1);
 
-            const priceDiff = currentPrice - lastPrice;
-            const pricePercent = ((priceDiff / lastPrice) * 100).toFixed(2);
+            let priceDiff = currentPrice - lastPrice;
+            let pricePercent = ((priceDiff / lastPrice) * 100).toFixed(2);
 
             // سعر المثقال بيع
-            const oldSellGram = ((lastPrice + sellAdj) / 31.1) * 0.88 * paperRate;
-            const newSellGram = ((currentPrice + sellAdj) / 31.1) * 0.88 * paperRate;
-            const sellMithqalDiff = Math.round((newSellGram - oldSellGram) * 5);
+            let oldSellGram = ((lastPrice + sellAdj) / 31.1) * 0.88 * paperRate;
+            let newSellGram = ((currentPrice + sellAdj) / 31.1) * 0.88 * paperRate;
+            let sellMithqalDiff = Math.round((newSellGram - oldSellGram) * 5);
 
             // سعر المثقال خليجي
-            const oldGulfGram = ((lastPrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
-            const newGulfGram = ((currentPrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
-            const gulfMithqalDiff = Math.round((newGulfGram - oldGulfGram) * 5);
+            let oldGulfGram = ((lastPrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
+            let newGulfGram = ((currentPrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
+            let gulfMithqalDiff = Math.round((newGulfGram - oldGulfGram) * 5);
 
             // سعر المثقال عراقي
-            const iraqiMithqalDiff = gulfMithqalDiff; // نفس التغيير
+            let iraqiMithqalDiff = gulfMithqalDiff; // نفس التغيير
 
-            const up = priceDiff > 0;
-            const arrow = up ? '📈' : '📉';
-            const color = up ? '#4CAF50' : '#ff6b6b';
-            const word = up ? 'ارتفعت' : 'انخفضت';
-            const wordM = up ? 'ارتفع' : 'انخفض';
-            const fmt = n => Math.abs(Math.round(n)).toLocaleString('ar-IQ');
+            let up = priceDiff > 0;
+            let arrow = up ? '📈' : '📉';
+            let color = up ? '#4CAF50' : '#ff6b6b';
+            let word = up ? 'ارتفعت' : 'انخفضت';
+            let wordM = up ? 'ارتفع' : 'انخفض';
+            let fmt = n => Math.abs(Math.round(n)).toLocaleString('ar-IQ');
 
-            const toast = document.createElement('div');
+            let toast = document.createElement('div');
             toast.innerHTML = `
                 <div style="font-size:16px;font-weight:800;color:#D4AF37;margin-bottom:10px;text-align:center;">أهلاً بعودتك 👋</div>
                 <div style="font-size:13px;color:#ccc;line-height:2;">
@@ -1797,7 +2448,7 @@
             document.body.appendChild(toast);
 
             // إضافة animation
-            const style = document.createElement('style');
+            let style = document.createElement('style');
             style.textContent = `@keyframes slideDown{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}`;
             document.head.appendChild(style);
 
@@ -1815,11 +2466,11 @@
         let countdownVal = 10;
         function startCountdown() {
             countdownVal = 10;
-            const circle = document.getElementById('countdown-circle');
-            const text = document.getElementById('countdown-text');
+            let circle = document.getElementById('countdown-circle');
+            let text = document.getElementById('countdown-text');
             if (!circle || !text) return;
-            const total = 94.2;
-            const timer = setInterval(() => {
+            let total = 94.2;
+            let timer = setInterval(() => {
                 countdownVal--;
                 if (text) text.textContent = countdownVal;
                 if (circle) circle.style.strokeDashoffset = total - (total * countdownVal / 10);
@@ -1832,28 +2483,28 @@
 
         // ===== الوقت والتاريخ =====
         function updateDateTime() {
-            const now = new Date();
-            const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-            const day = days[now.getDay()];
-            const date = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
-            const time = now.toLocaleTimeString('ar-IQ', {hour:'2-digit', minute:'2-digit'});
-            const el = document.getElementById('current-datetime');
+            let now = new Date();
+            let days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+            let day = days[now.getDay()];
+            let date = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+            let time = now.toLocaleTimeString('ar-IQ', {hour:'2-digit', minute:'2-digit'});
+            let el = document.getElementById('current-datetime');
             if (el) el.textContent = `${day} ${date} | ${time}`;
         }
 
         // ===== حالة السوق =====
         function checkMarketStatus() {
-            const now = new Date();
-            const day = now.getDay(); // 5 = جمعة
-            const h = now.getHours();
-            const m = now.getMinutes();
-            const mins = h * 60 + m;
-            const open = 9 * 60 + 30;  // 9:30
-            const close = 21 * 60;      // 21:00
+            let now = new Date();
+            let day = now.getDay(); // 5 = جمعة
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let mins = h * 60 + m;
+            let open = 9 * 60 + 30;  // 9:30
+            let close = 21 * 60;      // 21:00
 
-            const dot = document.getElementById('market-dot');
-            const txt = document.getElementById('market-text');
-            const box = document.getElementById('market-status-box');
+            let dot = document.getElementById('market-dot');
+            let txt = document.getElementById('market-text');
+            let box = document.getElementById('market-status-box');
             if (!dot || !txt) return;
 
             if (day === 5 || mins < open || mins >= close) {
@@ -1871,29 +2522,29 @@
 
         // ===== الزوار المتصلون الآن عبر Firebase Presence =====
         function trackOnlineUsers() {
-            const sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
-            const userRef = database.ref('zamzam-company/online/' + sessionId);
+            let sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
+            let userRef = database.ref('zamzam-company/online/' + sessionId);
 
             userRef.set(true);
             userRef.onDisconnect().remove();
 
             database.ref('zamzam-company/online').on('value', snap => {
-                const count = snap.numChildren();
-                const el = document.getElementById('online-count');
+                let count = snap.numChildren();
+                let el = document.getElementById('online-count');
                 if (el) el.textContent = count + ' زائر';
             });
         }
 
         // ===== إرسال ومشاركة التطبيق =====
-        const APP_URL = 'https://zamzamcompany03-sudo.github.io/zamzam-company-/';
+        let APP_URL = 'https://zamzamcompany03-sudo.github.io/zamzam-company-/';
 
         function copyAppMessage() {
-            const msg = `مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n\n🔗 ${APP_URL}\n\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات`;
+            let msg = `مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n\n🔗 ${APP_URL}\n\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات`;
 
-            const btn = document.getElementById('copy-msg-btn');
+            let btn = document.getElementById('copy-msg-btn');
 
             try {
-                const ta = document.createElement('textarea');
+                let ta = document.createElement('textarea');
                 ta.value = msg;
                 ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
                 document.body.appendChild(ta);
@@ -1909,7 +2560,7 @@
                 btn.style.background = '#0d8a3a';
 
                 // رسالة Toast
-                const toast = document.createElement('div');
+                let toast = document.createElement('div');
                 toast.textContent = '✅ تم النسخ بنجاح، يمكنك اللصق في مكان آخر';
                 toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(13,138,58,0.97);color:#fff;padding:16px 24px;border-radius:16px;font-size:14px;font-weight:700;z-index:9999;box-shadow:0 8px 30px rgba(0,0,0,0.5);text-align:center;width:80%;max-width:300px;border:2px solid #25D366;';
                 document.body.appendChild(toast);
@@ -1979,11 +2630,11 @@
 
         function openReviewModal() {
             if (localStorage.getItem('zmzm_reviewed') === '1') return;
-            const modal = document.getElementById('review-modal');
+            let modal = document.getElementById('review-modal');
             if (modal) {
                 modal.style.display = 'flex';
                 // إخفاء زر لاحقاً إذا استخدمه سابقاً
-                const laterBtn = document.getElementById('later-btn');
+                let laterBtn = document.getElementById('later-btn');
                 if (laterBtn && localStorage.getItem('zmzm_later_used') === '1') {
                     laterBtn.style.display = 'none';
                 }
@@ -1993,7 +2644,7 @@
         function setStars(n) {
             selectedStars = n;
             for (let i = 1; i <= 5; i++) {
-                const star = document.getElementById('star-' + i);
+                let star = document.getElementById('star-' + i);
                 star.style.color = i <= n ? '#FFD700' : '#333';
                 star.style.textShadow = i <= n ? '0 0 10px rgba(255,215,0,0.5)' : 'none';
             }
@@ -2001,9 +2652,9 @@
         }
 
         async function submitReview() {
-            const name = document.getElementById('rev-name').value.trim();
-            const phone = document.getElementById('rev-phone').value.trim();
-            const msg = document.getElementById('rev-msg').value.trim();
+            let name = document.getElementById('rev-name').value.trim();
+            let phone = document.getElementById('rev-phone').value.trim();
+            let msg = document.getElementById('rev-msg').value.trim();
             let valid = true;
 
             // تحقق من النجوم
@@ -2013,7 +2664,7 @@
             }
 
             // تحقق من الاسم (إجباري)
-            const nameInput = document.getElementById('rev-name');
+            let nameInput = document.getElementById('rev-name');
             if (!name) {
                 nameInput.style.borderColor = '#ff4444';
                 nameInput.style.boxShadow = '0 0 0 3px rgba(255,68,68,0.2)';
@@ -2025,7 +2676,7 @@
             }
 
             // تحقق من الرسالة (إجبارية)
-            const msgInput = document.getElementById('rev-msg');
+            let msgInput = document.getElementById('rev-msg');
             if (!msg) {
                 msgInput.style.borderColor = '#ff4444';
                 msgInput.style.boxShadow = '0 0 0 3px rgba(255,68,68,0.2)';
@@ -2038,7 +2689,7 @@
 
             if (!valid) return;
 
-            const review = {
+            let review = {
                 name,
                 phone: phone || '---',
                 msg,
@@ -2051,7 +2702,7 @@
                 await database.ref('zamzam-company/reviews').push(review);
                 localStorage.setItem('zmzm_reviewed', '1');
                 document.getElementById('review-modal').style.display = 'none';
-                const toast = document.createElement('div');
+                let toast = document.createElement('div');
                 toast.textContent = '💛 شكراً لتقييمك! رأيك يهمنا كثيراً';
                 toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;padding:14px 24px;border-radius:25px;font-size:14px;font-weight:700;z-index:9999;box-shadow:0 8px 30px rgba(212,175,55,0.4);white-space:nowrap;';
                 document.body.appendChild(toast);
@@ -2062,16 +2713,16 @@
         }
 
         function loadReviews() {
-            const container = document.getElementById('reviews-list-settings');
+            let container = document.getElementById('reviews-list-settings');
             container.innerHTML = '<div style="text-align:center;color:#555;padding:20px;">جاري التحميل...</div>';
 
             database.ref('zamzam-company/reviews').once('value', snap => {
-                const data = snap.val();
+                let data = snap.val();
                 if (!data) {
                     container.innerHTML = '<div style="text-align:center;color:#555;padding:20px;">لا توجد تقييمات بعد</div>';
                     return;
                 }
-                const reviews = Object.values(data).reverse();
+                let reviews = Object.values(data).reverse();
                 container.innerHTML = reviews.map(r => `
                     <div style="background:#111;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #222;">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
@@ -2087,6 +2738,50 @@
                 `).join('');
             });
         }
+
+document.addEventListener('DOMContentLoaded', () => {
+
+            let scrapInput = document.getElementById('scrap-image');
+            if (scrapInput) {
+                scrapInput.addEventListener('change', function() {
+                    let file = this.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = e => {
+                            document.getElementById('scrap-img-preview-el').src = e.target.result;
+                            document.getElementById('scrap-image-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                
+
+            let imgInput = document.getElementById('prod-image');
+            if (imgInput) {
+                imgInput.addEventListener('change', function() {
+                    let file = this.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = e => {
+                            document.getElementById('prod-img-preview-el').src = e.target.result;
+                            document.getElementById('prod-image-preview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                
+
+            let si = document.getElementById('silver-image');
+            if (si) si.addEventListener('change', function() {
+                let file = this.files[0];
+                if (file) {
+                    let r = new FileReader();
+                    r.onload = e => {
+                        document.getElementById('silver-img-preview-el').src = e.target.result;
+                        document.getElementById('silver-image-preview').style.display = 'block';
+                    };
+                    r.readAsDataURL(file);
+                }
+            
+});
 
         // INIT
         loadSettings();
