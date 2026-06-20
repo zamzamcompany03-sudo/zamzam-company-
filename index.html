@@ -1246,6 +1246,21 @@
             'buyIraqiExtra': '-'
         };
 
+        // تحديث زر العلامة + أو -
+        function updateSignBtn(type) {
+            let btn = document.getElementById(type + '-sign-btn');
+            if (!btn) return;
+            let sign = signs[type] || '+';
+            btn.textContent = sign;
+            btn.className = 'sign-btn ' + (sign === '+' ? 'active-plus' : 'active-minus');
+        }
+
+        // تبديل العلامة عند الضغط
+        function toggleSign(type) {
+            signs[type] = signs[type] === '+' ? '-' : '+';
+            updateSignBtn(type);
+        }
+
         // تحميل الإعدادات المحفوظة
         function loadSettings() {
             // أولاً نحمّل من localStorage للسرعة
