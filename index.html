@@ -756,6 +756,7 @@
                     <span id="reviews-arrow" style="color:#D4AF37;font-size:20px;transition:transform 0.3s;">▼</span>
                 </h3>
                 <div id="reviews-list-settings" style="display:none;"></div>
+                <button onclick="localStorage.removeItem('zmzm_visits');localStorage.removeItem('zmzm_reviewed');alert('تم إعادة تعيين العداد - افتح التطبيق 10 مرات');" style="margin-top:10px;width:100%;padding:10px;background:#333;color:#888;border:1px solid #444;border-radius:10px;cursor:pointer;font-size:12px;">🔄 إعادة تعيين عداد التقييم (للاختبار)</button>
             </div>
 
             <!-- إعدادات العروض الحصرية -->
@@ -1526,37 +1527,30 @@
         let selectedStars = 0;
 
         function checkVisitCount() {
-            // إذا قيّم سابقاً لا نكمل
-            if (localStorage.getItem('reviewSubmitted')) return;
+            try {
+                // إذا قيّم سابقاً لا نكمل
+                if (localStorage.getItem('zmzm_reviewed') === '1') return;
 
-            // مفتاح فريد لهذا الجهاز
-            let deviceKey = localStorage.getItem('deviceKey');
-            if (!deviceKey) {
-                deviceKey = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
-                localStorage.setItem('deviceKey', deviceKey);
+                let count = parseInt(localStorage.getItem('zmzm_visits') || '0') + 1;
+                localStorage.setItem('zmzm_visits', count.toString());
+
+                console.log('زيارة رقم:', count);
+
+                // أظهر التقييم عند الزيارة العاشرة أو أكثر
+                if (count >= 10) {
+                    setTimeout(() => {
+                        openReviewModal();
+                    }, 1500);
+                }
+            } catch(e) {
+                console.log('خطأ في العداد:', e);
             }
-
-            // نقرأ العداد من Firebase
-            const ref = database.ref('zamzam-company/visit-counts/' + deviceKey);
-            ref.once('value', snap => {
-                const data = snap.val() || { count: 0, reviewed: false };
-                if (data.reviewed) {
-                    localStorage.setItem('reviewSubmitted', '1');
-                    return;
-                }
-                const newCount = (data.count || 0) + 1;
-                ref.set({ count: newCount, reviewed: false });
-
-                // أظهر التقييم عند الزيارة العاشرة
-                if (newCount >= 10) {
-                    setTimeout(() => openReviewModal(), 2000);
-                }
-            });
         }
 
         function openReviewModal() {
-            if (localStorage.getItem('reviewSubmitted')) return;
-            document.getElementById('review-modal').style.display = 'flex';
+            if (localStorage.getItem('zmzm_reviewed') === '1') return;
+            const modal = document.getElementById('review-modal');
+            if (modal) modal.style.display = 'flex';
         }
 
         function setStars(n) {
@@ -1607,12 +1601,7 @@
 
             try {
                 await database.ref('zamzam-company/reviews').push(review);
-                // تحديث حالة التقييم في Firebase
-                const deviceKey = localStorage.getItem('deviceKey');
-                if (deviceKey) {
-                    database.ref('zamzam-company/visit-counts/' + deviceKey).update({ reviewed: true });
-                }
-                localStorage.setItem('reviewSubmitted', '1');
+                localStorage.setItem('zmzm_reviewed', '1');
                 document.getElementById('review-modal').style.display = 'none';
                 // رسالة شكر مؤقتة
                 const toast = document.createElement('div');
