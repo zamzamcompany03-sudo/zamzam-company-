@@ -1080,6 +1080,12 @@
 
                     localStorage.setItem('lastGoldPrice', goldPrice);
                     calculatePrices(goldPrice);
+
+                    // رسالة الترحيب مقارنة بآخر زيارة (مرة واحدة فقط عند أول تحميل)
+                    if (!window._welcomeShown) {
+                        window._welcomeShown = true;
+                        showWelcomeBack(goldPrice);
+                    }
                 }
             } catch (e) {
                 // استخدام آخر سعر محفوظ عند الخطأ
@@ -1695,6 +1701,71 @@
                 if (totalEl) totalEl.textContent = total.toLocaleString('ar-IQ');
                 if (todayEl) todayEl.textContent = todayCount.toLocaleString('ar-IQ');
             });
+        }
+
+        // ===== رسالة الترحيب مع مقارنة الأسعار =====
+        function showWelcomeBack(currentPrice) {
+            const lastPrice = parseFloat(localStorage.getItem('lastVisitPrice') || 0);
+            if (!lastPrice || lastPrice === currentPrice) {
+                localStorage.setItem('lastVisitPrice', currentPrice);
+                return;
+            }
+
+            // حساب التغييرات
+            const paperRate = parseFloat(localStorage.getItem('paperRate') || 1550);
+            const sellAdj = parseFloat(localStorage.getItem('sellAdj') || 0) * (localStorage.getItem('sign-sell') === '-' ? -1 : 1);
+            const buyGulfAdj = parseFloat(localStorage.getItem('buyGulfAdj') || 0) * (localStorage.getItem('sign-buyGulf') === '-' ? -1 : 1);
+            const buyIraqiExtra = parseFloat(localStorage.getItem('buyIraqiExtra') || 25000) * (localStorage.getItem('sign-buyIraqiExtra') === '-' ? -1 : 1);
+
+            const priceDiff = currentPrice - lastPrice;
+            const pricePercent = ((priceDiff / lastPrice) * 100).toFixed(2);
+
+            // سعر المثقال بيع
+            const oldSellGram = ((lastPrice + sellAdj) / 31.1) * 0.88 * paperRate;
+            const newSellGram = ((currentPrice + sellAdj) / 31.1) * 0.88 * paperRate;
+            const sellMithqalDiff = Math.round((newSellGram - oldSellGram) * 5);
+
+            // سعر المثقال خليجي
+            const oldGulfGram = ((lastPrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
+            const newGulfGram = ((currentPrice / 31.1) + buyGulfAdj) * 0.875 * paperRate;
+            const gulfMithqalDiff = Math.round((newGulfGram - oldGulfGram) * 5);
+
+            // سعر المثقال عراقي
+            const iraqiMithqalDiff = gulfMithqalDiff; // نفس التغيير
+
+            const up = priceDiff > 0;
+            const arrow = up ? '📈' : '📉';
+            const color = up ? '#4CAF50' : '#ff6b6b';
+            const word = up ? 'ارتفعت' : 'انخفضت';
+            const wordM = up ? 'ارتفع' : 'انخفض';
+            const fmt = n => Math.abs(Math.round(n)).toLocaleString('ar-IQ');
+
+            const toast = document.createElement('div');
+            toast.innerHTML = `
+                <div style="font-size:16px;font-weight:800;color:#D4AF37;margin-bottom:10px;text-align:center;">أهلاً بعودتك 👋</div>
+                <div style="font-size:13px;color:#ccc;line-height:2;">
+                    <div>${arrow} الأونصة <span style="color:${color};font-weight:700;">${word} ${Math.abs(pricePercent)}%</span></div>
+                    <div>🥇 بيع المصاغ — المثقال <span style="color:${color};font-weight:700;">${wordM} ${fmt(sellMithqalDiff)} دينار</span></div>
+                    <div>🛒 شراء الخليجي — المثقال <span style="color:${color};font-weight:700;">${wordM} ${fmt(gulfMithqalDiff)} دينار</span></div>
+                    <div>🛒 شراء العراقي — المثقال <span style="color:${color};font-weight:700;">${wordM} ${fmt(iraqiMithqalDiff)} دينار</span></div>
+                </div>
+            `;
+            toast.style.cssText = `position:fixed;top:90px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#111,#1a1a1a);color:#fff;padding:18px 20px;border-radius:18px;font-size:13px;z-index:9999;box-shadow:0 8px 40px rgba(0,0,0,0.6);border:2px solid #D4AF37;width:88%;max-width:380px;animation:slideDown 0.4s ease;`;
+            document.body.appendChild(toast);
+
+            // إضافة animation
+            const style = document.createElement('style');
+            style.textContent = `@keyframes slideDown{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}`;
+            document.head.appendChild(style);
+
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.6s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 600);
+            }, 5000);
+
+            // حفظ السعر الحالي للزيارة القادمة
+            localStorage.setItem('lastVisitPrice', currentPrice);
         }
 
         // ===== إرسال ومشاركة التطبيق =====
