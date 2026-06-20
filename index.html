@@ -1702,15 +1702,30 @@
 
         function copyAppMessage() {
             const msg = `مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n\n🔗 ${APP_URL}\n\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات`;
-            navigator.clipboard.writeText(msg).then(() => {
-                const btn = document.getElementById('copy-msg-btn');
-                btn.textContent = '✅ تم النسخ! الآن افتح واتساب واختر الزبون';
+
+            const btn = document.getElementById('copy-msg-btn');
+
+            // طريقة تعمل على iPhone وAndroid
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = msg;
+                ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+
+                btn.textContent = '✅ تم النسخ! افتح واتساب والصق الرسالة';
                 btn.style.background = '#1a4a1a';
                 setTimeout(() => {
-                    btn.textContent = '📋 نسخ الرابط';
+                    btn.textContent = '📋 نسخ الرسالة';
                     btn.style.background = '#25D366';
                 }, 3000);
-            });
+            } catch(e) {
+                // إذا فشل، افتح نافذة انتقاء النص يدوياً
+                alert('اضغط مطولاً على الرسالة أعلاه ثم اختر "نسخ"');
+            }
         }
 
         async function shareApp() {
