@@ -1248,6 +1248,7 @@
 
         // تحميل الإعدادات المحفوظة
         function loadSettings() {
+            // أولاً نحمّل من localStorage للسرعة
             document.getElementById('set-paperRate').value = localStorage.getItem('paperRate') || '1550';
             document.getElementById('set-sellAdj').value = localStorage.getItem('sellAdj') || '0';
             document.getElementById('set-buyGulfAdj').value = localStorage.getItem('buyGulfAdj') || '0';
@@ -1259,34 +1260,62 @@
 
             updateSignBtn('buyGulf');
             updateSignBtn('buyIraqiExtra');
-        }
 
-        function toggleSign(key) {
-            signs[key] = signs[key] === '+' ? '-' : '+';
-            updateSignBtn(key);
-        }
+            // ثم نجلب من Firebase ونحدّث (مزامنة)
+            database.ref('zamzam-company/settings').once('value', snap => {
+                let s = snap.val();
+                if (!s) return;
 
-        function updateSignBtn(key) {
-            let btn = document.getElementById(key + '-sign-btn');
-            if (!btn) return;
-            if (signs[key] === '+') {
-                btn.textContent = '+';
-                btn.className = 'sign-btn active-plus';
-            } else {
-                btn.textContent = '-';
-                btn.className = 'sign-btn active-minus';
-            }
+                // حفظ في localStorage
+                if (s.paperRate)       localStorage.setItem('paperRate', s.paperRate);
+                if (s.sellAdj !== undefined) localStorage.setItem('sellAdj', s.sellAdj);
+                if (s.buyGulfAdj !== undefined) localStorage.setItem('buyGulfAdj', s.buyGulfAdj);
+                if (s.buyIraqiExtra !== undefined) localStorage.setItem('buyIraqiExtra', s.buyIraqiExtra);
+                if (s.signSell)        localStorage.setItem('sign-sell', s.signSell);
+                if (s.signBuyGulf)     localStorage.setItem('sign-buyGulf', s.signBuyGulf);
+                if (s.signBuyIraqiExtra) localStorage.setItem('sign-buyIraqiExtra', s.signBuyIraqiExtra);
+
+                // تحديث الواجهة
+                document.getElementById('set-paperRate').value = s.paperRate || '1550';
+                document.getElementById('set-sellAdj').value = s.sellAdj || '0';
+                document.getElementById('set-buyGulfAdj').value = s.buyGulfAdj || '0';
+                document.getElementById('set-buyIraqiExtra').value = s.buyIraqiExtra || '25000';
+
+                signs.sell = s.signSell || '+';
+                signs.buyGulf = s.signBuyGulf || '+';
+                signs.buyIraqiExtra = s.signBuyIraqiExtra || '-';
+                updateSignBtn('buyGulf');
+                updateSignBtn('buyIraqiExtra');
+
+                // إعادة حساب الأسعار بالإعدادات الجديدة
+                let lastPrice = parseFloat(localStorage.getItem('lastGoldPrice') || 0);
+                if (lastPrice) calculatePrices(lastPrice);
+            });
         }
 
         function saveSettings() {
-            localStorage.setItem('paperRate', document.getElementById('set-paperRate').value);
-            localStorage.setItem('sellAdj', document.getElementById('set-sellAdj').value);
-            localStorage.setItem('buyGulfAdj', document.getElementById('set-buyGulfAdj').value);
-            localStorage.setItem('buyIraqiExtra', document.getElementById('set-buyIraqiExtra').value);
+            let paperRate = document.getElementById('set-paperRate').value;
+            let sellAdj = document.getElementById('set-sellAdj').value;
+            let buyGulfAdj = document.getElementById('set-buyGulfAdj').value;
+            let buyIraqiExtra = document.getElementById('set-buyIraqiExtra').value;
 
+            // حفظ في localStorage
+            localStorage.setItem('paperRate', paperRate);
+            localStorage.setItem('sellAdj', sellAdj);
+            localStorage.setItem('buyGulfAdj', buyGulfAdj);
+            localStorage.setItem('buyIraqiExtra', buyIraqiExtra);
             localStorage.setItem('sign-sell', signs.sell);
             localStorage.setItem('sign-buyGulf', signs.buyGulf);
             localStorage.setItem('sign-buyIraqiExtra', signs.buyIraqiExtra);
+
+            // حفظ في Firebase للمزامنة
+            database.ref('zamzam-company/settings').set({
+                paperRate, sellAdj, buyGulfAdj, buyIraqiExtra,
+                signSell: signs.sell,
+                signBuyGulf: signs.buyGulf,
+                signBuyIraqiExtra: signs.buyIraqiExtra,
+                updatedAt: Date.now()
+            });
 
             let msg = document.getElementById('savedMsg');
             msg.style.display = 'block';
