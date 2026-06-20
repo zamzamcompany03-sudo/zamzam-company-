@@ -20,7 +20,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(180deg, #080808 0%, #0f0f0f 100%);
+            background: linear-gradient(180deg, #050d05 0%, #0a120a 50%, #0d1a0d 100%);
             color: #ffffff;
             min-height: 100vh;
             padding-bottom: 150px;
@@ -28,7 +28,7 @@
 
         /* ===== HEADER ===== */
         .header {
-            background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+            background: linear-gradient(135deg, #060e06 0%, #0d160d 100%);
             border-bottom: 2px solid #D4AF37;
             padding: 14px 15px;
             display: flex;
@@ -61,7 +61,7 @@
 
         /* ===== PRICE BOX ===== */
         .price-box {
-            background: linear-gradient(135deg, #1a1a1a, #141414);
+            background: linear-gradient(135deg, #111a11, #161e16);
             border: 2px solid #D4AF37;
             border-radius: 18px;
             padding: 12px 16px;
@@ -97,7 +97,7 @@
 
         /* ===== SECTION CARD ===== */
         .section-card {
-            background: linear-gradient(135deg, #1a1a1a, #141414);
+            background: linear-gradient(135deg, #111a11, #161e16);
             border: 1px solid #2a2a2a;
             border-radius: 18px;
             padding: 18px;
@@ -141,7 +141,7 @@
             bottom: 50px;
             left: 0;
             right: 0;
-            background: linear-gradient(180deg, #0d0d0d, #080808);
+            background: linear-gradient(180deg, #0a130a, #060e06);
             border-top: 2px solid #D4AF37;
             display: flex;
             justify-content: space-around;
@@ -215,7 +215,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: #0f0f0f;
+            background: #0b140b;
             z-index: 400;
             overflow-y: auto;
             transform: translateX(100%);
@@ -225,7 +225,7 @@
         .settings-panel.active { transform: translateX(0); }
 
         .settings-header {
-            background: linear-gradient(135deg, #0a0a0a, #111);
+            background: linear-gradient(135deg, #070f07, #0e160e);
             border-bottom: 2px solid #D4AF37;
             padding: 16px 20px;
             display: flex;
@@ -259,7 +259,7 @@
         .settings-body { padding: 16px; }
 
         .settings-section {
-            background: linear-gradient(135deg, #1a1a1a, #141414);
+            background: linear-gradient(135deg, #111a11, #161e16);
             border: 1px solid #2a2a2a;
             border-radius: 16px;
             padding: 16px;
@@ -289,7 +289,7 @@
         .input-row { display: flex; align-items: center; gap: 8px; }
 
         .sign-btn {
-            background: #1a1a1a;
+            background: #111a11;
             border: 2px solid #333;
             color: #888;
             width: 40px;
@@ -310,7 +310,7 @@
         .input-group input, .input-group textarea {
             width: 100%;
             padding: 12px;
-            background: #0d0d0d;
+            background: #0a130a;
             border: 2px solid #2a2a2a;
             border-radius: 12px;
             color: #fff;
@@ -359,7 +359,7 @@
             gap: 6px;
             margin-bottom: 18px;
             padding: 5px;
-            background: #0d0d0d;
+            background: #0a130a;
             border-radius: 16px;
             border: 1px solid #1e1e1e;
         }
@@ -539,39 +539,6 @@
             </div>
         </div>
 
-        <!-- شريط المعلومات -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-
-            <!-- الزوار الحاليون + الوقت والتاريخ -->
-            <div style="background:linear-gradient(135deg,#1a1a1a,#141414);border:1px solid #2a2a2a;border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;height:90px;">
-                <div style="font-size:11px;color:#888;margin-bottom:4px;">👥 زوار الآن</div>
-                <div id="online-count" style="font-size:20px;font-weight:800;color:#D4AF37;">--</div>
-                <div id="current-datetime" style="font-size:10px;color:#555;margin-top:4px;"></div>
-            </div>
-
-            <!-- حالة السوق -->
-            <div id="market-status-box" style="background:linear-gradient(135deg,#1a1a1a,#141414);border:1px solid #2a2a2a;border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:5px;height:90px;">
-                <div style="font-size:11px;color:#888;">حالة السوق</div>
-                <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
-                    <div id="market-dot" style="font-size:16px;">🔴</div>
-                    <div id="market-text" style="font-size:12px;font-weight:800;">جاري الفحص...</div>
-                </div>
-                <div style="font-size:10px;color:#D4AF37;font-weight:700;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:3px 6px;">
-                    🕒 ٩:٣٠ص — ٩:٠٠م &nbsp;<span style="color:#888;">إجازة الجمعة</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- زر مشاركة التطبيق - للجميع -->
-        <div onclick="document.getElementById('share-app-modal').style.display='flex'" style="cursor:pointer;background:linear-gradient(135deg,#1a1400,#2a2000);border:2px solid #D4AF37;border-radius:18px;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(212,175,55,0.2);transition:all 0.3s;" onmouseover="this.style.boxShadow='0 8px 30px rgba(212,175,55,0.4)'" onmouseout="this.style.boxShadow='0 6px 20px rgba(212,175,55,0.2)'">
-            <div style="font-size:26px;">🔗</div>
-            <div>
-                <div style="color:#D4AF37;font-size:14px;font-weight:800;">شارك تطبيق شركة زمزم</div>
-                <div style="color:#888;font-size:11px;margin-top:2px;">أرسل الرابط لأصدقائك أو احفظه على هاتفك</div>
-            </div>
-            <div style="color:#D4AF37;font-size:20px;margin-right:auto;">←</div>
-        </div>
-
         <!-- TABS -->
         <div class="tabs">
             <button class="tab-btn active" onclick="showTab('sell')" style="color:#D4AF37;">بيع المصوغات</button>
@@ -634,6 +601,39 @@
                     <span class="result-unit">دينار</span>
                 </div>
             </div>
+        </div>
+
+        <!-- شريط المعلومات -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+
+            <!-- الزوار الحاليون + الوقت والتاريخ -->
+            <div style="background:linear-gradient(135deg,#111a11,#161e16);border:1px solid #1e2e1e;border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;height:90px;">
+                <div style="font-size:11px;color:#888;margin-bottom:4px;">👥 زوار الآن</div>
+                <div id="online-count" style="font-size:20px;font-weight:800;color:#D4AF37;">--</div>
+                <div id="current-datetime" style="font-size:10px;color:#555;margin-top:4px;"></div>
+            </div>
+
+            <!-- حالة السوق -->
+            <div id="market-status-box" style="background:linear-gradient(135deg,#111a11,#161e16);border:1px solid #1e2e1e;border-radius:14px;padding:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:5px;height:90px;">
+                <div style="font-size:11px;color:#888;">حالة السوق</div>
+                <div style="display:flex;align-items:center;justify-content:center;gap:6px;">
+                    <div id="market-dot" style="font-size:16px;">🔴</div>
+                    <div id="market-text" style="font-size:12px;font-weight:800;">جاري الفحص...</div>
+                </div>
+                <div style="font-size:10px;color:#D4AF37;font-weight:700;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:3px 6px;">
+                    🕒 ٩:٣٠ص — ٩:٠٠م &nbsp;<span style="color:#888;">إجازة الجمعة</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- زر مشاركة التطبيق - للجميع -->
+        <div onclick="document.getElementById('share-app-modal').style.display='flex'" style="cursor:pointer;background:linear-gradient(135deg,#1a1400,#2a2000);border:2px solid #D4AF37;border-radius:18px;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(212,175,55,0.2);transition:all 0.3s;" onmouseover="this.style.boxShadow='0 8px 30px rgba(212,175,55,0.4)'" onmouseout="this.style.boxShadow='0 6px 20px rgba(212,175,55,0.2)'">
+            <div style="font-size:26px;">🔗</div>
+            <div>
+                <div style="color:#D4AF37;font-size:14px;font-weight:800;">شارك تطبيق شركة زمزم</div>
+                <div style="color:#888;font-size:11px;margin-top:2px;">أرسل الرابط لأصدقائك أو احفظه على هاتفك</div>
+            </div>
+            <div style="color:#D4AF37;font-size:20px;margin-right:auto;">←</div>
         </div>
 
     </div>
