@@ -454,7 +454,10 @@
         .contact-sub { font-size: 12px; color: #666; margin-top: 2px; }
         .contact-arrow { color: #D4AF37; font-size: 16px; opacity: 0.7; }
 
-        /* ===== HEADER ANIMATIONS ===== */
+        @keyframes marquee {
+            0%   { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
         @keyframes slideInRight {
             0% { transform: translateX(30px); opacity: 0; }
             100% { transform: translateX(0); opacity: 1; }
@@ -515,6 +518,45 @@
                 <span id="pricePercent">(0%)</span>
             </div>
             <div class="update-time" id="updateTime">آخر تحديث: الآن</div>
+
+            <!-- عداد التحديث -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;">
+                <svg width="32" height="32" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#2a2a2a" stroke-width="3"/>
+                    <circle id="countdown-circle" cx="18" cy="18" r="15" fill="none" stroke="#D4AF37" stroke-width="3"
+                        stroke-dasharray="94.2" stroke-dashoffset="0"
+                        stroke-linecap="round" transform="rotate(-90 18 18)"
+                        style="transition:stroke-dashoffset 1s linear;"/>
+                    <text x="18" y="23" text-anchor="middle" fill="#D4AF37" font-size="11" font-weight="bold" id="countdown-text">10</text>
+                </svg>
+                <span style="font-size:11px;color:#666;">ثانية للتحديث</span>
+            </div>
+        </div>
+
+        <!-- نص متحرك -->
+        <div style="overflow:hidden;margin-bottom:14px;background:rgba(0,100,255,0.05);border:1px solid rgba(0,150,255,0.2);border-radius:12px;padding:8px 0;">
+            <div id="marquee-text" style="white-space:nowrap;display:inline-block;animation:marquee 12s linear infinite;color:#60a5fa;font-size:13px;font-weight:600;">
+                &nbsp;&nbsp;&nbsp;&nbsp;❤️ الأسعار حقيقية خاصة بشركتنا &nbsp;&nbsp;&nbsp;❤️ الأسعار حقيقية خاصة بشركتنا &nbsp;&nbsp;&nbsp;❤️ الأسعار حقيقية خاصة بشركتنا&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+
+        <!-- شريط المعلومات -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+
+            <!-- الزوار الحاليون + الوقت والتاريخ -->
+            <div style="background:linear-gradient(135deg,#1a1a1a,#141414);border:1px solid #2a2a2a;border-radius:14px;padding:12px;text-align:center;">
+                <div style="font-size:11px;color:#888;margin-bottom:4px;">👥 زوار الآن</div>
+                <div id="online-count" style="font-size:20px;font-weight:800;color:#D4AF37;">--</div>
+                <div id="current-datetime" style="font-size:10px;color:#555;margin-top:4px;"></div>
+            </div>
+
+            <!-- حالة السوق -->
+            <div id="market-status-box" style="background:linear-gradient(135deg,#1a1a1a,#141414);border:1px solid #2a2a2a;border-radius:14px;padding:12px;text-align:center;">
+                <div style="font-size:11px;color:#888;margin-bottom:4px;">حالة السوق</div>
+                <div id="market-dot" style="font-size:18px;">🔴</div>
+                <div id="market-text" style="font-size:11px;font-weight:700;margin-top:2px;">جاري الفحص...</div>
+                <div style="font-size:9px;color:#555;margin-top:3px;">٩:٣٠ص - ٩:٠٠م | إجازة الجمعة</div>
+            </div>
         </div>
 
         <!-- زر مشاركة التطبيق - للجميع -->
@@ -1080,6 +1122,7 @@
 
                     localStorage.setItem('lastGoldPrice', goldPrice);
                     calculatePrices(goldPrice);
+                    startCountdown();
 
                     // رسالة الترحيب مقارنة بآخر زيارة (مرة واحدة فقط عند أول تحميل)
                     if (!window._welcomeShown) {
@@ -1768,6 +1811,79 @@
             localStorage.setItem('lastVisitPrice', currentPrice);
         }
 
+        // ===== عداد التحديث =====
+        let countdownVal = 10;
+        function startCountdown() {
+            countdownVal = 10;
+            const circle = document.getElementById('countdown-circle');
+            const text = document.getElementById('countdown-text');
+            if (!circle || !text) return;
+            const total = 94.2;
+            const timer = setInterval(() => {
+                countdownVal--;
+                if (text) text.textContent = countdownVal;
+                if (circle) circle.style.strokeDashoffset = total - (total * countdownVal / 10);
+                if (countdownVal <= 0) {
+                    clearInterval(timer);
+                    setTimeout(startCountdown, 500);
+                }
+            }, 1000);
+        }
+
+        // ===== الوقت والتاريخ =====
+        function updateDateTime() {
+            const now = new Date();
+            const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+            const day = days[now.getDay()];
+            const date = `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+            const time = now.toLocaleTimeString('ar-IQ', {hour:'2-digit', minute:'2-digit'});
+            const el = document.getElementById('current-datetime');
+            if (el) el.textContent = `${day} ${date} | ${time}`;
+        }
+
+        // ===== حالة السوق =====
+        function checkMarketStatus() {
+            const now = new Date();
+            const day = now.getDay(); // 5 = جمعة
+            const h = now.getHours();
+            const m = now.getMinutes();
+            const mins = h * 60 + m;
+            const open = 9 * 60 + 30;  // 9:30
+            const close = 21 * 60;      // 21:00
+
+            const dot = document.getElementById('market-dot');
+            const txt = document.getElementById('market-text');
+            const box = document.getElementById('market-status-box');
+            if (!dot || !txt) return;
+
+            if (day === 5 || mins < open || mins >= close) {
+                dot.textContent = '🔴';
+                txt.textContent = 'السوق مغلق حالياً';
+                txt.style.color = '#ff6b6b';
+                if (box) box.style.borderColor = '#3a1a1a';
+            } else {
+                dot.textContent = '🟢';
+                txt.textContent = 'السوق مفتوح الآن';
+                txt.style.color = '#4CAF50';
+                if (box) box.style.borderColor = '#1a3a1a';
+            }
+        }
+
+        // ===== الزوار المتصلون الآن عبر Firebase Presence =====
+        function trackOnlineUsers() {
+            const sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2,5);
+            const userRef = database.ref('zamzam-company/online/' + sessionId);
+
+            userRef.set(true);
+            userRef.onDisconnect().remove();
+
+            database.ref('zamzam-company/online').on('value', snap => {
+                const count = snap.numChildren();
+                const el = document.getElementById('online-count');
+                if (el) el.textContent = count + ' زائر';
+            });
+        }
+
         // ===== إرسال ومشاركة التطبيق =====
         const APP_URL = 'https://zamzamcompany03-sudo.github.io/zamzam-company-/';
 
@@ -1978,7 +2094,13 @@
         setInterval(fetchGoldPrice, 10000);
         checkVisitCount();
         trackAndShowViews();
-        showTab('sell'); // تطبيق ألوان التاب الافتراضي
+        showTab('sell');
+        startCountdown();
+        updateDateTime();
+        setInterval(updateDateTime, 30000);
+        checkMarketStatus();
+        setInterval(checkMarketStatus, 60000);
+        trackOnlineUsers();
         showTab('sell'); // تطبيق الألوان الافتراضية
     </script>
 
