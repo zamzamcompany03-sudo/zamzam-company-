@@ -2832,6 +2832,7 @@
 
         // INIT
         loadSettings();
+        setInterval(loadSettings, 10000); // تحديث الإعدادات كل 10 ثواني
         fetchGoldPrice();
         setInterval(fetchGoldPrice, 10000);
         checkVisitCount();
