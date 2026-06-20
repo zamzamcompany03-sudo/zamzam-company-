@@ -1504,9 +1504,22 @@
         }
 
         // SETTINGS
+        // حالة Auth - false = لم يتحقق بعد
+        let _authReady = false;
+        let _authUser = null;
+
+        auth.onAuthStateChanged(user => {
+            _authReady = true;
+            _authUser = user;
+        });
+
         function openSettings() {
-            let user = auth.currentUser;
-            if (user) {
+            if (!_authReady) {
+                // Firebase لم يتحقق بعد - انتظر قليلاً
+                setTimeout(openSettings, 300);
+                return;
+            }
+            if (_authUser) {
                 // مسجل دخول - افتح الإعدادات مباشرة
                 document.getElementById('settingsPanel').classList.add('active');
                 document.getElementById('overlay').classList.add('active');
