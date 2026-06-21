@@ -1846,7 +1846,6 @@
                 `مرحباً 👋\nأنا مهتم بهذه القطعة:\n\n📦 الوصف: ${p.desc}\n⚖️ الوزن: ${p.weight} غرام\n💰 السعر الكلي: ${fmt(p.price)} دينار\n🖼️ صورة القطعة: ${p.imageUrl}\n\nأرجو التواصل معي للاستفسار عن هذه القطعة`
             );
 
-            _waMsg = waMsg;
             document.getElementById('scrap-modal-content').innerHTML = `
                 <img src="${p.imageUrl}" style="width:100%;border-radius:14px;margin-bottom:15px;">
 
@@ -1861,13 +1860,16 @@
                     <div style="color:#4CAF50;font-size:13px;">⏰ ينتهي العرض خلال <strong>${remaining} يوم</strong></div>
                 </div>
 
-                <button onclick="openWaChooser(_waMsg)" style="width:100%;padding:14px;background:linear-gradient(135deg,#075E54,#25D366);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-                    <span style="font-size:20px;">💬</span> تواصل معنا للاستفسار
-                </button>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <a id="wa-saif-link" href="#" target="_blank" style="background:#25D366;color:#fff;padding:14px;border-radius:14px;text-align:center;text-decoration:none;font-size:14px;font-weight:800;">📞 سيف</a>
+                    <a id="wa-husam-link" href="#" target="_blank" style="background:#25D366;color:#fff;padding:14px;border-radius:14px;text-align:center;text-decoration:none;font-size:14px;font-weight:800;">📞 حسام</a>
+                </div>
             `;
 
             document.getElementById('scrap-modal').style.display = 'block';
             window.scrollTo(0, 0);
+            if(document.getElementById('wa-saif-link')) document.getElementById('wa-saif-link').href='https://wa.me/9647901196926?text='+waMsg;
+            if(document.getElementById('wa-husam-link')) document.getElementById('wa-husam-link').href='https://wa.me/9647805747247?text='+waMsg;
         }
 
         function closeScrapModal() {
@@ -2141,7 +2143,6 @@
             );
 
             let imgSrc = p.imageUrl || p.imageBase64 || '';
-            _waMsg = waMsg;
             document.getElementById('product-modal-content').innerHTML = `
                 <img src="${imgSrc}" style="width:100%;border-radius:14px;margin-bottom:15px;">
 
@@ -2161,13 +2162,16 @@
                 </div>
 
                 <div style="color:#D4AF37;font-size:14px;font-weight:bold;margin-bottom:10px;text-align:center;">📲 تواصل معنا للاستفسار</div>
-                <button onclick="openWaChooser(_waMsg)" style="width:100%;padding:14px;background:linear-gradient(135deg,#075E54,#25D366);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-                    <span style="font-size:20px;">💬</span> تواصل معنا للاستفسار
-                </button>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <a id="wa-saif-link" href="#" target="_blank" style="background:#25D366;color:#fff;padding:14px;border-radius:14px;text-align:center;text-decoration:none;font-size:14px;font-weight:800;">📞 سيف</a>
+                    <a id="wa-husam-link" href="#" target="_blank" style="background:#25D366;color:#fff;padding:14px;border-radius:14px;text-align:center;text-decoration:none;font-size:14px;font-weight:800;">📞 حسام</a>
+                </div>
             `;
 
             document.getElementById('product-modal').style.display = 'block';
             window.scrollTo(0, 0);
+            if(document.getElementById('wa-saif-link')) document.getElementById('wa-saif-link').href='https://wa.me/9647901196926?text='+waMsg;
+            if(document.getElementById('wa-husam-link')) document.getElementById('wa-husam-link').href='https://wa.me/9647805747247?text='+waMsg;
         }
 
         function closeProductModal() {
@@ -2568,7 +2572,6 @@
                     <div style="display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #222;"><span style="color:#888;font-size:12px;">المبلغ قبل الخصم</span><span style="color:${color};">${fmt(p.price)} دينار</span></div>`;
             }
 
-            _waMsg = waMsg;
             document.getElementById('watch-modal-content').innerHTML = `
                 <img src="${p.imageUrl}" style="width:100%;border-radius:14px;margin-bottom:15px;">
                 <div style="background:#1a1a1a;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid ${color};">
@@ -2582,12 +2585,15 @@
                     <span style="color:${color};font-size:13px;">⏰ ينتهي العرض خلال <strong>${rem} يوم</strong></span>
                 </div>
                 <div style="color:${color};font-size:14px;font-weight:bold;margin-bottom:10px;text-align:center;">📲 تواصل معنا للاستفسار</div>
-                <button onclick="openWaChooser(_waMsg)" style="width:100%;padding:14px;background:linear-gradient(135deg,#075E54,#25D366);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-                    <span style="font-size:20px;">💬</span> تواصل معنا للاستفسار
-                </button>`;
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <a id="wa-saif-link" href="#" target="_blank" style="background:#25D366;color:#fff;padding:14px;border-radius:14px;text-align:center;text-decoration:none;font-size:14px;font-weight:800;">📞 سيف</a>
+                    <a id="wa-husam-link" href="#" target="_blank" style="background:#25D366;color:#fff;padding:14px;border-radius:14px;text-align:center;text-decoration:none;font-size:14px;font-weight:800;">📞 حسام</a>
+                </div>`;
 
             document.getElementById('watch-modal').style.display = 'block';
             window.scrollTo(0, 0);
+            if(document.getElementById('wa-saif-link')) document.getElementById('wa-saif-link').href='https://wa.me/9647901196926?text='+waMsg;
+            if(document.getElementById('wa-husam-link')) document.getElementById('wa-husam-link').href='https://wa.me/9647805747247?text='+waMsg;
         }
 
         function closeWatchModal() {
