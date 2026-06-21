@@ -23,14 +23,18 @@
             background: linear-gradient(180deg, #050d05 0%, #0a120a 50%, #0d1a0d 100%);
             color: #ffffff;
             min-height: 100vh;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
             padding-bottom: 160px;
+            box-sizing: border-box;
         }
 
         /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, #060e06 0%, #0d160d 100%);
             border-bottom: 2px solid #D4AF37;
-            padding: 14px 15px;
+            padding: 10px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -54,9 +58,11 @@
 
         /* ===== CONTAINER ===== */
         .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 16px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 12px;
+            box-sizing: border-box;
         }
 
         /* ===== PRICE BOX ===== */
@@ -696,7 +702,7 @@
     </div><!-- end page-prices -->
 
     <!-- صفحة متجر الذهب -->
-    <div id="page-store" style="display:none; max-width:500px; margin:0 auto; padding:20px; padding-bottom:100px;">
+    <div id="page-store" style="display:none; width:100%;padding:12px;padding-bottom:120px;box-sizing:border-box;">
 
         <div class="section-card">
             <h3 onclick="toggleContact()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
@@ -777,7 +783,7 @@
     </div>
 
     <!-- صفحة العروض الحصرية -->
-    <div id="page-offers" style="display:none; max-width:500px; margin:0 auto; padding:15px; padding-bottom:100px;">
+    <div id="page-offers" style="display:none; width:100%;padding:12px;padding-bottom:120px;box-sizing:border-box;">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
             <button onclick="showPage('store')" style="background:none;border:1px solid #D4AF37;color:#D4AF37;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;">← رجوع</button>
             <h2 style="color:#D4AF37;font-size:16px;">✨ العروض الحصرية</h2>
@@ -788,7 +794,7 @@
     </div>
 
     <!-- صفحة الكسر النضيف -->
-    <div id="page-scrap" style="display:none; max-width:500px; margin:0 auto; padding:15px; padding-bottom:100px;">
+    <div id="page-scrap" style="display:none; width:100%;padding:12px;padding-bottom:120px;box-sizing:border-box;">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
             <button onclick="showPage('store')" style="background:none;border:1px solid #4CAF50;color:#4CAF50;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;">← رجوع</button>
             <h2 style="color:#4CAF50;font-size:16px;">💎 الكسر النضيف</h2>
@@ -800,7 +806,7 @@
 
     <!-- نافذة تفاصيل الكسر -->
     <div id="scrap-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;overflow-y:auto;">
-        <div style="max-width:500px;margin:0 auto;padding:20px;">
+        <div style="width:100%;padding:12px;box-sizing:border-box;">
             <button onclick="closeScrapModal()" style="background:none;border:1px solid #4CAF50;color:#4CAF50;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:15px;">← رجوع</button>
             <div id="scrap-modal-content"></div>
         </div>
@@ -808,19 +814,79 @@
 
     <!-- نافذة تفاصيل المنتج -->
     <div id="product-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;overflow-y:auto;">
-        <div style="max-width:500px;margin:0 auto;padding:20px;">
+        <div style="width:100%;padding:12px;box-sizing:border-box;">
             <button onclick="closeProductModal()" style="background:none;border:1px solid #D4AF37;color:#D4AF37;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:15px;">← رجوع</button>
             <div id="product-modal-content"></div>
         </div>
     </div>
 
     <!-- صفحة الساعات والفضيات والنضارات -->
-    <div id="page-watches" style="display:none; max-width:500px; margin:0 auto; padding:15px; padding-bottom:150px;">
+    <div id="page-watches" style="display:none; width:100%;padding:12px;padding-bottom:150px;box-sizing:border-box;">
 
         <!-- هيدر -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
             <button onclick="showPage('prices')" style="background:none;border:1px solid #60a5fa;color:#60a5fa;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;">← رجوع</button>
             <h2 style="color:#60a5fa;font-size:16px;">متجر الفضيات والساعات والنضارات</h2>
+        </div>
+
+        <!-- تواصل اجتماعي - منسدل -->
+        <div style="margin-bottom:12px;">
+            <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'flex':'none'; this.querySelector('.arrow-social').style.transform=this.nextElementSibling.style.display==='flex'?'rotate(180deg)':'rotate(0deg)'"
+                style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0a0f1a,#111827);border:1px solid #60a5fa33;border-radius:14px;padding:10px 16px;cursor:pointer;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:16px;">📱</span>
+                    <span style="color:#60a5fa;font-size:13px;font-weight:700;">تابعنا على التواصل الاجتماعي</span>
+                </div>
+                <span class="arrow-social" style="color:#60a5fa;font-size:18px;transition:transform 0.3s;">▼</span>
+            </div>
+            <div style="display:none;flex-direction:column;gap:8px;margin-top:8px;padding:0 4px;">
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@z925_z?_r=1&_t=ZS-97OYme4L6E1" target="_blank"
+                    style="display:flex;align-items:center;gap:12px;background:#0a0a0a;border:1px solid #333;border-radius:12px;padding:10px 14px;text-decoration:none;">
+                    <span style="font-size:22px;">🎵</span>
+                    <div>
+                        <div style="color:#fff;font-size:13px;font-weight:700;">TikTok</div>
+                        <div style="color:#888;font-size:11px;">@z925_z</div>
+                    </div>
+                    <span style="margin-right:auto;color:#555;font-size:14px;">←</span>
+                </a>
+                <a href="https://www.instagram.com/zamzam__silver" target="_blank"
+                    style="display:flex;align-items:center;gap:12px;background:#0a0a0a;border:1px solid #333;border-radius:12px;padding:10px 14px;text-decoration:none;">
+                    <span style="font-size:22px;">📸</span>
+                    <div>
+                        <div style="color:#fff;font-size:13px;font-weight:700;">Instagram</div>
+                        <div style="color:#888;font-size:11px;">@zamzam__silver</div>
+                    </div>
+                    <span style="margin-right:auto;color:#555;font-size:14px;">←</span>
+                </a>
+                <a href="https://www.facebook.com/share/1F5hP3suxu/?mibextid=wwXIfr" target="_blank"
+                    style="display:flex;align-items:center;gap:12px;background:#0a0a0a;border:1px solid #333;border-radius:12px;padding:10px 14px;text-decoration:none;">
+                    <span style="font-size:22px;">👍</span>
+                    <div>
+                        <div style="color:#fff;font-size:13px;font-weight:700;">Facebook</div>
+                        <div style="color:#888;font-size:11px;">zamzam silver</div>
+                    </div>
+                    <span style="margin-right:auto;color:#555;font-size:14px;">←</span>
+                </a>
+                <a href="https://wa.me/9647901196926" target="_blank"
+                    style="display:flex;align-items:center;gap:12px;background:#0a0a0a;border:1px solid #25D366;border-radius:12px;padding:10px 14px;text-decoration:none;">
+                    <span style="font-size:22px;">📞</span>
+                    <div>
+                        <div style="color:#25D366;font-size:13px;font-weight:700;">واتساب سيف</div>
+                        <div style="color:#888;font-size:11px;">+964 790 119 6926</div>
+                    </div>
+                    <span style="margin-right:auto;color:#555;font-size:14px;">←</span>
+                </a>
+                <a href="https://wa.me/9647805747247" target="_blank"
+                    style="display:flex;align-items:center;gap:12px;background:#0a0a0a;border:1px solid #25D366;border-radius:12px;padding:10px 14px;text-decoration:none;">
+                    <span style="font-size:22px;">📞</span>
+                    <div>
+                        <div style="color:#25D366;font-size:13px;font-weight:700;">واتساب حسام</div>
+                        <div style="color:#888;font-size:11px;">+964 780 574 7247</div>
+                    </div>
+                    <span style="margin-right:auto;color:#555;font-size:14px;">←</span>
+                </a>
+            </div>
         </div>
 
         <!-- تابات -->
@@ -854,7 +920,7 @@
 
     <!-- نافذة تفاصيل الفضيات/ساعات/نضارات -->
     <div id="watch-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:500;overflow-y:auto;">
-        <div style="max-width:500px;margin:0 auto;padding:20px;">
+        <div style="width:100%;padding:12px;box-sizing:border-box;">
             <button onclick="closeWatchModal()" style="background:none;border:1px solid #60a5fa;color:#60a5fa;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:15px;">← رجوع</button>
             <div id="watch-modal-content"></div>
         </div>
