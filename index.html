@@ -2994,9 +2994,12 @@
         let _waMsg = '';
         function openWaChooser(encodedMsg) {
             _waCurrentMsg = encodedMsg;
-            document.getElementById('wa-saif-btn').href = 'https://wa.me/9647901196926?text=' + encodedMsg;
-            document.getElementById('wa-husam-btn').href = 'https://wa.me/9647805747247?text=' + encodedMsg;
-            document.getElementById('wa-chooser').style.display = 'flex';
+            let saif = 'https://wa.me/9647901196926?text=' + encodedMsg;
+            let husam = 'https://wa.me/9647805747247?text=' + encodedMsg;
+            document.getElementById('wa-saif-btn').setAttribute('href', saif);
+            document.getElementById('wa-husam-btn').setAttribute('href', husam);
+            let el = document.getElementById('wa-chooser');
+            el.style.cssText = 'display:flex !important;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99999;align-items:flex-end;justify-content:center;';
         }
 
         // INIT - تمرير لعرض المحتوى الرئيسي وسطاً
@@ -3187,7 +3190,7 @@
     </div>
 
     <!-- نافذة اختيار واتساب -->
-    <div id="wa-chooser" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:flex-end;justify-content:center;">
+    <div id="wa-chooser" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99999;align-items:flex-end;justify-content:center;">
         <div style="background:#1a1a1a;border:1px solid #25D366;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;">
             <div style="text-align:center;margin-bottom:20px;">
                 <div style="font-size:24px;margin-bottom:6px;">📲</div>
