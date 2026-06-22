@@ -1371,6 +1371,7 @@
 
         // تحميل الإعدادات المحفوظة
         function loadSettings() {
+            if (_settingsOpen) return; // لا تحدث عند فتح الإعدادات
             // أولاً نحمّل من localStorage للسرعة
             document.getElementById('set-paperRate').value = localStorage.getItem('paperRate') || '1550';
             document.getElementById('set-sellAdj').value = localStorage.getItem('sellAdj') || '0';
@@ -1612,6 +1613,8 @@
         // SETTINGS
         // حالة Auth - false = لم يتحقق بعد
         let _authReady = false;
+        let _settingsOpen = false;
+        let _settingsInterval = null;
         let _authUser = null;
 
         auth.onAuthStateChanged(user => {
@@ -1620,6 +1623,7 @@
         });
 
         function openSettings() {
+            _settingsOpen = true;
             if (!_authReady) {
                 // Firebase لم يتحقق بعد - انتظر قليلاً
                 setTimeout(openSettings, 300);
@@ -1674,6 +1678,7 @@
         }
 
         function closeSettings() {
+            _settingsOpen = false;
             document.getElementById('settingsPanel').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
         }
