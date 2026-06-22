@@ -3251,7 +3251,21 @@
             <div style="color:#D4AF37;font-size:15px;font-weight:800;text-align:center;margin-bottom:12px;">📋 انسخ الرسالة</div>
             <textarea id="copy-msg-text" readonly style="width:100%;height:200px;background:#111;color:#fff;border:1px solid #333;border-radius:12px;padding:12px;font-size:12px;line-height:1.6;resize:none;box-sizing:border-box;direction:rtl;"></textarea>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
-                <button onclick="let t=document.getElementById('copy-msg-text');t.select();t.setSelectionRange(0,99999);document.execCommand('copy');alert('✅ تم النسخ!')" style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">📋 نسخ</button>
+                <button onclick="
+                    let t=document.getElementById('copy-msg-text');
+                    t.contentEditable=true;
+                    t.readOnly=false;
+                    let r=document.createRange();
+                    r.selectNodeContents(t);
+                    let s=window.getSelection();
+                    s.removeAllRanges();
+                    s.addRange(r);
+                    t.setSelectionRange(0,999999);
+                    let ok=document.execCommand('copy');
+                    t.contentEditable=false;
+                    t.readOnly=true;
+                    if(ok){alert('✅ تم النسخ! الصقها الآن');}else{alert('حدد النص يدوياً واضغط نسخ');}
+                " style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">📋 نسخ</button>
                 <button onclick="document.getElementById('copy-msg-modal').style.cssText='display:none'" style="padding:12px;background:transparent;color:#666;border:1px solid #333;border-radius:12px;font-size:13px;cursor:pointer;">إغلاق</button>
             </div>
         </div>
