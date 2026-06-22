@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" style="width:100%;height:100%;margin:0;padding:0;" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>شركة زمزم</title>
     <!-- PWA & Share Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,10 +24,12 @@
             color: #ffffff;
             min-height: 100vh;
             width: 100%;
-            max-width: 100vw;
+            max-width: 100%;
             overflow-x: hidden;
             padding-bottom: 160px;
             box-sizing: border-box;
+            margin: 0;
+            padding-top: 0;
         }
 
         /* Toast */
@@ -2707,6 +2709,7 @@
                 if (circle) circle.style.strokeDashoffset = total - (total * countdownVal / 10);
                 if (countdownVal <= 0) {
                     clearInterval(timer);
+                    fetchGoldPrice();
                     setTimeout(startCountdown, 500);
                 }
             }, 1000);
