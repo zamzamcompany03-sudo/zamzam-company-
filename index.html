@@ -1434,11 +1434,9 @@
                 updatedAt: Date.now()
             });
 
-            let msg = document.getElementById('savedMsg');
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 2000);
-
             calculatePrices(parseFloat(localStorage.getItem('lastGoldPrice') || 0));
+            showToast('✅ تم الحفظ بنجاح');
+            setTimeout(() => { closeSettings(); showPage('prices'); }, 800);
         }
 
         // حساب الأسعار
