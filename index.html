@@ -18,6 +18,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        * { -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
             background: linear-gradient(180deg, #050d05 0%, #0a120a 50%, #0d1a0d 100%);
@@ -30,6 +31,8 @@
             box-sizing: border-box;
             margin: 0;
             padding-top: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Toast */
@@ -1482,6 +1485,7 @@
             signs.buyGulf = localStorage.getItem('sign-buyGulf') || '+';
             signs.buyIraqiExtra = localStorage.getItem('sign-buyIraqiExtra') || '-';
 
+            updateSignBtn('sell');
             updateSignBtn('buyGulf');
             updateSignBtn('buyIraqiExtra');
 
@@ -1508,6 +1512,7 @@
                 signs.sell = s.signSell || '+';
                 signs.buyGulf = s.signBuyGulf || '+';
                 signs.buyIraqiExtra = s.signBuyIraqiExtra || '-';
+                updateSignBtn('sell');
                 updateSignBtn('buyGulf');
                 updateSignBtn('buyIraqiExtra');
 
@@ -1543,7 +1548,7 @@
 
             calculatePrices(parseFloat(localStorage.getItem('lastGoldPrice') || 0));
             showToast('✅ تم الحفظ بنجاح');
-            setTimeout(() => { closeSettings(); showPage('prices'); }, 800);
+            setTimeout(() => { closeSettings(); showPage('prices'); }, 400);
         }
 
         // حساب الأسعار
@@ -1589,7 +1594,7 @@
             try {
                 let res = await Promise.race([
                     fetch(WORKER_URL),
-                    new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                    new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
                 ]);
                 let data = await res.json();
                 if (data && data.price && parseFloat(data.price) > 100) {
@@ -1602,7 +1607,7 @@
                 try {
                     let res = await Promise.race([
                         fetch('https://api.metals.live/v1/spot/gold'),
-                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
                     ]);
                     let data = await res.json();
                     let price = Array.isArray(data) ? data[0]?.price : data?.price;
@@ -1617,7 +1622,7 @@
                 try {
                     let res = await Promise.race([
                         fetch('https://api.coinbase.com/v2/prices/XAU-USD/spot'),
-                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
                     ]);
                     let data = await res.json();
                     let price = data?.data?.amount;
@@ -1632,7 +1637,7 @@
                 try {
                     let res = await Promise.race([
                         fetch('https://api.frankfurter.app/latest?from=XAU&to=USD'),
-                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 5000))
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
                     ]);
                     let data = await res.json();
                     let price = data?.rates?.USD;
@@ -1724,8 +1729,7 @@
         function openSettings() {
             _settingsOpen = true;
             if (!_authReady) {
-                // Firebase لم يتحقق بعد - انتظر قليلاً
-                setTimeout(openSettings, 300);
+                setTimeout(openSettings, 100);
                 return;
             }
             if (_authUser) {
@@ -1978,7 +1982,7 @@
             `;
 
             document.getElementById('scrap-modal').style.display = 'block';
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'instant' });
             if(document.getElementById('wa-saif-link')) document.getElementById('wa-saif-link').href='https://wa.me/9647901196926?text='+waMsg;
             if(document.getElementById('wa-husam-link')) document.getElementById('wa-husam-link').href='https://wa.me/9647805747247?text='+waMsg;
         }
@@ -2280,7 +2284,7 @@
             `;
 
             document.getElementById('product-modal').style.display = 'block';
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'instant' });
             if(document.getElementById('wa-saif-link')) document.getElementById('wa-saif-link').href='https://wa.me/9647901196926?text='+waMsg;
             if(document.getElementById('wa-husam-link')) document.getElementById('wa-husam-link').href='https://wa.me/9647805747247?text='+waMsg;
         }
@@ -2702,7 +2706,7 @@
                 </div>`;
 
             document.getElementById('watch-modal').style.display = 'block';
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'instant' });
             if(document.getElementById('wa-saif-link')) document.getElementById('wa-saif-link').href='https://wa.me/9647901196926?text='+waMsg;
             if(document.getElementById('wa-husam-link')) document.getElementById('wa-husam-link').href='https://wa.me/9647805747247?text='+waMsg;
         }
@@ -3247,7 +3251,7 @@
         showTab('sell');
         startCountdown();
         updateDateTime();
-        setInterval(updateDateTime, 30000);
+        setInterval(updateDateTime, 10000);
         checkMarketStatus();
         setInterval(checkMarketStatus, 60000);
         trackOnlineUsers();
