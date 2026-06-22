@@ -3002,6 +3002,20 @@
         }
 
         // نسخ النص بطريقة مضمونة
+        function doCopyMsg() {
+            let t = document.getElementById('copy-msg-text');
+            try {
+                t.removeAttribute('readonly');
+                t.select();
+                t.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                t.setAttribute('readonly', '');
+                alert('✅ تم النسخ!');
+            } catch(e) {
+                alert('اضغط مطولاً على النص واختر نسخ');
+            }
+        }
+
         // نسخ النص - يعرض الرسالة للمستخدم لنسخها يدوياً
         function copyAppLink() {
             const msg = "مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n\n🔗 https://zamzamcompany03-sudo.github.io/zamzam-company-/\n\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات\n- جميع وسائل التواصل معنا داخل التطبيق";
@@ -3251,21 +3265,7 @@
             <div style="color:#D4AF37;font-size:15px;font-weight:800;text-align:center;margin-bottom:12px;">📋 انسخ الرسالة</div>
             <textarea id="copy-msg-text" readonly style="width:100%;height:200px;background:#111;color:#fff;border:1px solid #333;border-radius:12px;padding:12px;font-size:12px;line-height:1.6;resize:none;box-sizing:border-box;direction:rtl;"></textarea>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">
-                <button onclick="
-                    let t=document.getElementById('copy-msg-text');
-                    t.contentEditable=true;
-                    t.readOnly=false;
-                    let r=document.createRange();
-                    r.selectNodeContents(t);
-                    let s=window.getSelection();
-                    s.removeAllRanges();
-                    s.addRange(r);
-                    t.setSelectionRange(0,999999);
-                    let ok=document.execCommand('copy');
-                    t.contentEditable=false;
-                    t.readOnly=true;
-                    if(ok){alert('✅ تم النسخ! الصقها الآن');}else{alert('حدد النص يدوياً واضغط نسخ');}
-                " style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">📋 نسخ</button>
+                <button onclick="doCopyMsg()" style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">📋 نسخ</button>
                 <button onclick="document.getElementById('copy-msg-modal').style.cssText='display:none'" style="padding:12px;background:transparent;color:#666;border:1px solid #333;border-radius:12px;font-size:13px;cursor:pointer;">إغلاق</button>
             </div>
         </div>
