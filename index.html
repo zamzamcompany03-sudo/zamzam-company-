@@ -30,6 +30,15 @@
             box-sizing: border-box;
         }
 
+        /* Toast */
+        #toast-msg {
+            position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+            background:#25D366;color:#fff;padding:12px 24px;border-radius:30px;
+            font-size:14px;font-weight:800;z-index:99999;opacity:0;
+            transition:opacity 0.4s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.3);
+            pointer-events:none;
+        }
+
         /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, #060e06 0%, #0d160d 100%);
@@ -3017,11 +3026,18 @@
         }
 
         // نسخ النص - يعرض prompt للنسخ يشتغل على كل الأجهزة
+        function showToast(msg) {
+            let t = document.getElementById('toast-msg');
+            t.textContent = msg;
+            t.style.opacity = '1';
+            setTimeout(() => { t.style.opacity = '0'; }, 2500);
+        }
+
         function copyAppLink() {
             const msg = "مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n🔗 https://zamzamcompany03-sudo.github.io/zamzam-company-/\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات";
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(msg).then(() => {
-                    alert('✅ تم نسخ الرسالة! الصقها الآن');
+                    showToast('✅ تم النسخ بنجاح - الصقها في المكان الذي تريده');
                 }).catch(() => { prompt('انسخ الرسالة:', msg); });
             } else {
                 prompt('انسخ الرسالة:', msg);
@@ -3269,5 +3285,6 @@
             </div>
         </div>
     </div>
+    <div id="toast-msg">✅ تم النسخ بنجاح</div>
 </body>
 </html>
