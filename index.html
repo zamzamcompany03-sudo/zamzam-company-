@@ -2696,21 +2696,25 @@
         }
 
         // ===== عداد التحديث =====
-        let countdownVal = 10;
+        let _countdownTimer = null;
         function startCountdown() {
-            countdownVal = 10;
+            // امسح العداد القديم
+            if (_countdownTimer) clearInterval(_countdownTimer);
+            let val = 10;
             let circle = document.getElementById('countdown-circle');
             let text = document.getElementById('countdown-text');
-            if (!circle || !text) return;
             let total = 94.2;
-            let timer = setInterval(() => {
-                countdownVal--;
-                if (text) text.textContent = countdownVal;
-                if (circle) circle.style.strokeDashoffset = total - (total * countdownVal / 10);
-                if (countdownVal <= 0) {
-                    clearInterval(timer);
+            if (text) text.textContent = val;
+            if (circle) circle.style.strokeDashoffset = 0;
+            _countdownTimer = setInterval(() => {
+                val--;
+                if (val < 0) val = 0;
+                if (text) text.textContent = val;
+                if (circle) circle.style.strokeDashoffset = total - (total * val / 10);
+                if (val <= 0) {
+                    clearInterval(_countdownTimer);
+                    _countdownTimer = null;
                     fetchGoldPrice();
-                    setTimeout(startCountdown, 500);
                 }
             }, 1000);
         }
@@ -3073,7 +3077,6 @@
         loadSettings();
         setInterval(loadSettings, 10000); // تحديث الإعدادات كل 10 ثواني
         fetchGoldPrice();
-        setInterval(fetchGoldPrice, 10000);
         // استدعاء فوري عند التحميل
         window.addEventListener("load", fetchGoldPrice);
         checkVisitCount();
