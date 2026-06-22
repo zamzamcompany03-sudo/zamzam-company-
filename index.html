@@ -646,7 +646,7 @@
         </div>
 
         <!-- زر مشاركة التطبيق - للجميع -->
-        <div onclick="document.getElementById('share-app-modal').style.display='flex'" style="cursor:pointer;background:linear-gradient(135deg,#1a1400,#2a2000);border:2px solid #D4AF37;border-radius:18px;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(212,175,55,0.2);transition:all 0.3s;" onmouseover="this.style.boxShadow='0 8px 30px rgba(212,175,55,0.4)'" onmouseout="this.style.boxShadow='0 6px 20px rgba(212,175,55,0.2)'">
+        <div onclick="openShareModal()" style="cursor:pointer;background:linear-gradient(135deg,#1a1400,#2a2000);border:2px solid #D4AF37;border-radius:18px;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;box-shadow:0 6px 20px rgba(212,175,55,0.2);transition:all 0.3s;">
             <div style="font-size:26px;">🔗</div>
             <div>
                 <div style="color:#D4AF37;font-size:14px;font-weight:800;">شارك تطبيق شركة زمزم</div>
@@ -2984,6 +2984,14 @@
         });
 
 
+        function openShareModal() {
+            let el = document.getElementById('share-app-modal');
+            el.style.cssText = 'display:flex !important;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99998;align-items:center;justify-content:center;padding:20px;';
+        }
+        function closeShareModal() {
+            document.getElementById('share-app-modal').style.cssText = 'display:none';
+        }
+
         // فتح نافذة اختيار واتساب
         let _waCurrentMsg = '';
         let _waMsg = '';
@@ -3063,6 +3071,50 @@
         </div>
     </div>
 
+    <!-- نافذة تسجيل الدخول -->
+    <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+        <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">🔐</div>
+            <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
+            <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
+
+            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
+            <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
+
+            <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
+
+            <button id="auth-login-btn" onclick="doLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">دخول</button>
+            <button onclick="closeAuthModal()" style="width:100%;padding:10px;background:transparent;color:#666;font-size:13px;border:1px solid #333;border-radius:12px;cursor:pointer;">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- نافذة اختيار واتساب -->
+    <div id="wa-chooser" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99999;align-items:flex-end;justify-content:center;">
+        <div style="background:#1a1a1a;border:1px solid #25D366;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;">
+            <div style="text-align:center;margin-bottom:20px;">
+                <div style="font-size:24px;margin-bottom:6px;">📲</div>
+                <div style="color:#fff;font-size:15px;font-weight:800;">اختر للتواصل مع</div>
+                <div style="color:#888;font-size:11px;margin-top:4px;">سيتم إرسال تفاصيل المنتج تلقائياً</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                <a id="wa-saif-btn" href="#" target="_blank"
+                    style="display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,#075E54,#128C7E);border:none;border-radius:16px;padding:16px 10px;text-decoration:none;">
+                    <span style="font-size:28px;">📞</span>
+                    <span style="color:#fff;font-size:14px;font-weight:800;">سيف الفهداوي</span>
+                    <span style="color:rgba(255,255,255,0.7);font-size:10px;">07901196926</span>
+                </a>
+                <a id="wa-husam-btn" href="#" target="_blank"
+                    style="display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,#075E54,#128C7E);border:none;border-radius:16px;padding:16px 10px;text-decoration:none;">
+                    <span style="font-size:28px;">📞</span>
+                    <span style="color:#fff;font-size:14px;font-weight:800;">حسام الفهداوي</span>
+                    <span style="color:rgba(255,255,255,0.7);font-size:10px;">07805747247</span>
+                </a>
+            </div>
+            <button onclick="document.getElementById('wa-chooser').style.display='none'"
+                style="width:100%;padding:12px;background:transparent;color:#666;font-size:14px;border:1px solid #333;border-radius:14px;cursor:pointer;">إلغاء</button>
+        </div>
+    </div>
+
     <!-- نافذة مشاركة التطبيق -->
     <div id="share-app-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:99998;align-items:center;justify-content:center;padding:20px;">
         <div style="background:linear-gradient(135deg,#111,#1a1a1a);border:2px solid #D4AF37;border-radius:24px;padding:24px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(212,175,55,0.2);">
@@ -3116,7 +3168,7 @@
                 </div>
             </div>
 
-            <button onclick="document.getElementById('share-app-modal').style.display='none'" style="width:100%;padding:12px;background:transparent;color:#555;border:1px solid #333;border-radius:14px;font-size:13px;cursor:pointer;">إغلاق</button>
+            <button onclick="closeShareModal()" style="width:100%;padding:12px;background:transparent;color:#555;border:1px solid #333;border-radius:14px;font-size:13px;cursor:pointer;">إغلاق</button>
         </div>
     </div>
     <div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:600;align-items:center;justify-content:center;padding:20px;">
@@ -3167,48 +3219,5 @@
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
-        <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
-            <div style="font-size:28px;margin-bottom:8px;">🔐</div>
-            <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
-            <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
-
-            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
-            <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
-
-            <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
-
-            <button id="auth-login-btn" onclick="doLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">دخول</button>
-            <button onclick="closeAuthModal()" style="width:100%;padding:10px;background:transparent;color:#666;font-size:13px;border:1px solid #333;border-radius:12px;cursor:pointer;">إلغاء</button>
-        </div>
-    </div>
-
-    <!-- نافذة اختيار واتساب -->
-    <div id="wa-chooser" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99999;align-items:flex-end;justify-content:center;">
-        <div style="background:#1a1a1a;border:1px solid #25D366;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;">
-            <div style="text-align:center;margin-bottom:20px;">
-                <div style="font-size:24px;margin-bottom:6px;">📲</div>
-                <div style="color:#fff;font-size:15px;font-weight:800;">اختر للتواصل مع</div>
-                <div style="color:#888;font-size:11px;margin-top:4px;">سيتم إرسال تفاصيل المنتج تلقائياً</div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-                <a id="wa-saif-btn" href="#" target="_blank"
-                    style="display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,#075E54,#128C7E);border:none;border-radius:16px;padding:16px 10px;text-decoration:none;">
-                    <span style="font-size:28px;">📞</span>
-                    <span style="color:#fff;font-size:14px;font-weight:800;">سيف الفهداوي</span>
-                    <span style="color:rgba(255,255,255,0.7);font-size:10px;">07901196926</span>
-                </a>
-                <a id="wa-husam-btn" href="#" target="_blank"
-                    style="display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,#075E54,#128C7E);border:none;border-radius:16px;padding:16px 10px;text-decoration:none;">
-                    <span style="font-size:28px;">📞</span>
-                    <span style="color:#fff;font-size:14px;font-weight:800;">حسام الفهداوي</span>
-                    <span style="color:rgba(255,255,255,0.7);font-size:10px;">07805747247</span>
-                </a>
-            </div>
-            <button onclick="document.getElementById('wa-chooser').style.display='none'"
-                style="width:100%;padding:12px;background:transparent;color:#666;font-size:14px;border:1px solid #333;border-radius:14px;cursor:pointer;">إلغاء</button>
-        </div>
-    </div>
 </body>
 </html>
