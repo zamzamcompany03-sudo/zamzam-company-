@@ -628,9 +628,15 @@
                 <div style="width:80%;height:1px;background:linear-gradient(90deg,transparent,#D4AF37,transparent);margin:4px auto;opacity:0.5;"></div>
                 <span style="font-size:10px;color:#D4AF37;white-space:nowrap;display:block;text-align:center;letter-spacing:0.3px;">الأنبار - الرمادي - شارع الصياغ</span>
                 <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:3px;">
-                    <span style="font-size:9px;color:#fff;white-space:nowrap;font-weight:600;animation:textGlow 4s ease-in-out infinite;">سيف الفهداوي &nbsp;07901196926</span>
+                    <a href="tel:07901196926" style="display:flex;align-items:center;gap:3px;text-decoration:none;">
+                        <span style="font-size:11px;">📞</span>
+                        <span style="font-size:9px;color:#fff;white-space:nowrap;font-weight:600;animation:textGlow 4s ease-in-out infinite;">سيف الفهداوي &nbsp;07901196926</span>
+                    </a>
                     <span style="color:#D4AF37;opacity:0.6;">|</span>
-                    <span style="font-size:9px;color:#fff;white-space:nowrap;font-weight:600;animation:textGlow 4s ease-in-out infinite 1s;">حسام الفهداوي &nbsp;07805747247</span>
+                    <a href="tel:07805747247" style="display:flex;align-items:center;gap:3px;text-decoration:none;">
+                        <span style="font-size:11px;">📞</span>
+                        <span style="font-size:9px;color:#fff;white-space:nowrap;font-weight:600;animation:textGlow 4s ease-in-out infinite 1s;">حسام الفهداوي &nbsp;07805747247</span>
+                    </a>
                 </div>
             </div>
             <!-- اللوقو يسار -->
@@ -774,7 +780,15 @@
                 </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                <button onclick="if(navigator.share){navigator.share({title:'شركة زمزم',text:'تطبيق شركة زمزم لأسعار الذهب',url:'https://zamzamcompany03-sudo.github.io/zamzam-company-/'})}else{alert('المشاركة غير مدعومة في هذا المتصفح')}" style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">
+                <button onclick="if(navigator.share){navigator.share({title:'شركة زمزم',text:'مرحباً 👋
+تفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:
+🔗 https://zamzamcompany03-sudo.github.io/zamzam-company-/
+يمكنك من خلاله مشاهدة:
+- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا
+- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇
+- عرض الكسر المتوفر حالياً 🥇
+- عرض الفضيات
+- عرض الساعات والنضارات',url:''})}else{alert('المشاركة غير مدعومة في هذا المتصفح')}" style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">
                     📤 مشاركة
                 </button>
                 <button onclick="copyAppLink()" style="padding:12px;background:#111;color:#D4AF37;border:2px solid #D4AF37;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer;text-align:center;line-height:1.4;">
@@ -2932,9 +2946,9 @@
             if (navigator.share) {
                 try {
                     await navigator.share({
-                        title: 'شركة زمزم لتجارة المصوغات الذهبية',
-                        text: 'أسعار الذهب الحية والعروض الحصرية من شركة زمزم',
-                        url: APP_URL
+                        title: 'شركة زمزم',
+                        text: 'مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n🔗 https://zamzamcompany03-sudo.github.io/zamzam-company-/\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات',
+                        url: ''
                     });
                 } catch(e) {}
             } else {
