@@ -129,6 +129,50 @@
         #price-alert.up { background: #0d2e0d; border: 1px solid #4CAF50; color: #4CAF50; }
         #price-alert.down { background: #2e0d0d; border: 1px solid #ff6b6b; color: #ff6b6b; }
         #price-alert.show { opacity: 1; }
+
+        /* ===== RING ANIMATION ===== */
+        .price-ring-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 0;
+            height: 0;
+            overflow: visible;
+        }
+        .price-ring {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid #4CAF50;
+            animation: priceRingExpand 1.3s ease-out forwards;
+            pointer-events: none;
+        }
+        .price-ring:nth-child(2) { animation-delay: 0.25s; border-color: rgba(76,175,80,0.6); }
+        .price-ring:nth-child(3) { animation-delay: 0.5s;  border-color: rgba(76,175,80,0.3); }
+        .price-ring-arrow {
+            position: absolute;
+            font-size: 16px;
+            color: #4CAF50;
+            z-index: 1;
+            animation: priceRingArrow 1.3s ease-out forwards;
+            pointer-events: none;
+        }
+        .price-ring-wrap.down .price-ring { border-color: #ff6b6b; }
+        .price-ring-wrap.down .price-ring:nth-child(2) { border-color: rgba(255,107,107,0.6); }
+        .price-ring-wrap.down .price-ring:nth-child(3) { border-color: rgba(255,107,107,0.3); }
+        .price-ring-wrap.down .price-ring-arrow { color: #ff6b6b; }
+        @keyframes priceRingExpand {
+            0%   { width: 20px; height: 20px; opacity: 1; }
+            100% { width: 70px; height: 70px; opacity: 0; }
+        }
+        @keyframes priceRingArrow {
+            0%   { opacity: 0; transform: scale(0.5); }
+            30%  { opacity: 1; transform: scale(1.5); }
+            65%  { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.7) translateY(-15px); }
+        }
         /* ===== HEADER ===== */
         .header {
             background: linear-gradient(135deg, #060e06 0%, #0d160d 100%);
@@ -1694,6 +1738,11 @@
 
                 localStorage.setItem('lastGoldPrice', goldPrice);
                 showPriceAlert(goldPrice);
+                // تأثير الحلقات على كل الأسعار
+                let _up = goldPrice >= (parseFloat(localStorage.getItem('lastGoldPrice')) || goldPrice);
+                ['sell-gram','sell-mithqal','buyGulf-gram','buyGulf-mithqal','buyIraqi-gram','buyIraqi-mithqal'].forEach(id => {
+                    setTimeout(() => showRing(id, _up), 200);
+                });
                 calculatePrices(goldPrice);
                 startCountdown();
 
@@ -3202,6 +3251,18 @@
             document.getElementById('wa-husam-btn').setAttribute('href', husam);
             let el = document.getElementById('wa-chooser');
             el.style.cssText = 'display:flex !important;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:99999;align-items:flex-end;justify-content:center;';
+        }
+
+        // ===== RING ANIMATION ON PRICE UPDATE =====
+        function showRing(elId, up) {
+            let el = document.getElementById(elId);
+            if (!el) return;
+            let wrap = document.createElement('span');
+            wrap.className = 'price-ring-wrap' + (up ? '' : ' down');
+            wrap.innerHTML = '<span class="price-ring"></span><span class="price-ring"></span><span class="price-ring"></span><span class="price-ring-arrow">' + (up ? '▲' : '▼') + '</span>';
+            el.parentElement.style.position = 'relative';
+            el.parentElement.appendChild(wrap);
+            setTimeout(() => { if (wrap.parentElement) wrap.parentElement.removeChild(wrap); }, 1400);
         }
 
         // ===== SPLASH SCREEN =====
