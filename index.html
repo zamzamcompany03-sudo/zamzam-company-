@@ -889,12 +889,150 @@
             <div style="font-size:17px;">⚙️</div>
             <div style="font-size:8px;color:#555;text-align:center;font-weight:600;">إعدادات</div>
         </div>
+        <div onclick="showPage('about')" style="flex:0.7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:6px 3px;">
+            <div style="font-size:17px;">📖</div>
+            <div style="font-size:8px;color:#888;text-align:center;font-weight:600;">شرح</div>
+        </div>
 
     </div>
 
     </div><!-- end page-prices -->
 
     <!-- صفحة متجر الذهب -->
+
+    <!-- صفحة شرح التطبيق -->
+    <div id="page-about" style="display:none;width:100%;padding:16px;padding-bottom:140px;box-sizing:border-box;">
+
+        <div style="text-align:center;padding:16px 0 20px;border-bottom:1px solid rgba(212,175,55,0.3);margin-bottom:18px;">
+            <div style="font-size:28px;margin-bottom:8px;">📖</div>
+            <div style="font-size:20px;font-weight:900;color:#D4AF37;">شرح التطبيق</div>
+            <div style="font-size:11px;color:#888;margin-top:4px;">شركة زمزم لتجارة المصوغات الذهبية</div>
+        </div>
+
+        <!-- الصفحة الرئيسية -->
+        <div style="background:linear-gradient(135deg,#111a11,#161e16);border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:16px;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:800;color:#D4AF37;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;">🏠</span> الصفحة الرئيسية</div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">💰</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">سعر الذهب العالمي</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يعرض سعر الذهب مباشرة من الأسواق العالمية، يتحدث كل 10 ثواني تلقائياً مع عداد دائري يوضح وقت التحديث القادم.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">📊</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">التغيير اليومي ومنذ الأمس</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يظهر مقدار التغيير لحظة بلحظة مع نسبة التغيير منذ أمس بالنسبة المئوية.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">📈</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">أزرار أسعار البيع والشراء</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">ثلاثة أزرار: <span style="color:#D4AF37;font-weight:700;">بيع المصوغات</span> | <span style="color:#60a5fa;font-weight:700;">شراء الخليجي</span> | <span style="color:#4CAF50;font-weight:700;">شراء العراقي</span> - كل واحد يعرض سعر الغرام والمثقال المحسوب خصيصاً بشركتنا.</div></div>
+            </div>
+
+            <div style="border-top:1px solid rgba(212,175,55,0.1);margin:12px 0;"></div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🔴</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">حالة السوق</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يوضح إذا كان السوق مفتوحاً أو مغلقاً مع أوقات الدوام (٩:٣٠ص - ٩:٠٠م) وإجازة الجمعة.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">👥</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">زوار الآن</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يعرض عدد الأشخاص المتواجدين على التطبيق في نفس الوقت.</div></div>
+            </div>
+        </div>
+
+        <!-- أزرار التنقل -->
+        <div style="background:linear-gradient(135deg,#111a11,#161e16);border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:16px;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:800;color:#D4AF37;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;">🧭</span> أزرار التنقل السفلية</div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">💰</span>
+                <div><div style="font-size:13px;font-weight:800;color:#4CAF50;margin-bottom:3px;">للأسعار</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يرجعك للصفحة الرئيسية مع أسعار الذهب المباشرة.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🥇</span>
+                <div><div style="font-size:13px;font-weight:800;color:#D4AF37;margin-bottom:3px;">المصوغات والكسر</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يفتح متجر البضاعة الذهبية المستوردة وعروض الكسر النضيف.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">⌚</span>
+                <div><div style="font-size:13px;font-weight:800;color:#60a5fa;margin-bottom:3px;">الفضيات والساعات</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">يفتح متجر الفضيات والساعات والنضارات مع روابط التواصل الاجتماعي.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">⚙️</span>
+                <div><div style="font-size:13px;font-weight:800;color:#888;margin-bottom:3px;">الإعدادات</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">خاص بالإدارة فقط، يتطلب كلمة مرور. يُستخدم لضبط الأسعار ونشر المنتجات.</div></div>
+            </div>
+        </div>
+
+        <!-- المتاجر -->
+        <div style="background:linear-gradient(135deg,#111a11,#161e16);border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:16px;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:800;color:#D4AF37;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;">🛍️</span> المتاجر والعروض</div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">✨</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">العروض الحصرية</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">بضاعة ذهبية مستوردة حديثاً بأسعار تنافسية مع صور وتفاصيل كاملة لكل قطعة.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">💎</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">عروض الكسر النضيف</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">قطع ذهبية متوفرة للبيع مع الوزن والسعر النهائي بعد الخصم.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🥈</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">الفضيات والساعات والنضارات</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">متجر متكامل مع إمكانية التواصل المباشر.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">📞</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">زر التواصل في كل منتج</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">كل منتج فيه زر تواصل يفتح قائمة اختيار بين سيف أو حسام الفهداوي ويرسل تفاصيل المنتج تلقائياً على واتساب.</div></div>
+            </div>
+        </div>
+
+        <!-- المشاركة -->
+        <div style="background:linear-gradient(135deg,#111a11,#161e16);border:1px solid rgba(212,175,55,0.2);border-radius:16px;padding:16px;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:800;color:#D4AF37;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;">📲</span> المشاركة والتواصل</div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">🔗</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">مشاركة التطبيق</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">زر مشاركة يرسل رسالة جاهزة لأصدقائك، وزر نسخ الرابط للصقه في أي مكان.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">📍</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">موقع الشركة</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">زر في شريط المشاهدات يفتح خريطة Google Maps مباشرة لموقع شركة زمزم في الرمادي.</div></div>
+            </div>
+
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">☎️</span>
+                <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">أرقام الهاتف</div>
+                <div style="font-size:11px;color:#888;line-height:1.6;">أرقام سيف وحسام الفهداوي في أعلى الصفحة قابلة للضغط للاتصال المباشر.</div></div>
+            </div>
+        </div>
+
+        <!-- زر الرجوع -->
+        <div style="text-align:center;margin-top:10px;">
+            <button onclick="showPage('prices')" style="background:linear-gradient(135deg,#1a1a1a,#111);border:2px solid #D4AF37;color:#D4AF37;padding:14px 40px;border-radius:25px;cursor:pointer;font-size:15px;font-weight:700;">🏠 رجوع للصفحة الرئيسية</button>
+        </div>
+    </div>
+
     <div id="page-store" style="display:none; width:100%;padding:12px;padding-bottom:120px;box-sizing:border-box;">
 
         <!-- عنوان الصفحة -->
@@ -2076,7 +2214,7 @@
 
         // PAGE NAVIGATION
         function showPage(page) {
-            ['prices','store','watches','offers','scrap'].forEach(p => {
+            ['prices','store','watches','offers','scrap','about'].forEach(p => {
                 let el = document.getElementById('page-' + p);
                 if (el) el.style.display = p === page ? 'block' : 'none';
             });
