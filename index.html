@@ -661,6 +661,7 @@
                     <span id="priceChange">↑ $0</span>
                     <span id="pricePercent">(0%)</span>
                 </div>
+                <div id="yesterdayChange" style="font-size:9px;color:#888;"></div>
                 <div class="update-time" id="updateTime">آخر تحديث: الآن</div>
                 <div style="display:flex;align-items:center;gap:5px;">
                     <svg width="28" height="28" viewBox="0 0 36 36">
@@ -1671,6 +1672,25 @@
                 document.getElementById('pricePercent').textContent = `(${changePercent}%)`;
                 document.getElementById('pricePercent').style.color = change >= 0 ? '#4CAF50' : '#ff6b6b';
                 document.getElementById('updateTime').textContent = `آخر تحديث: ${new Date().toLocaleTimeString('ar-IQ')}`;
+
+                // حفظ سعر الأمس (مرة واحدة في اليوم)
+                let today = new Date().toDateString();
+                let savedDay = localStorage.getItem('goldPriceDay');
+                if (savedDay !== today) {
+                    let prevPrice = parseFloat(localStorage.getItem('lastGoldPrice') || 0);
+                    if (prevPrice > 0) localStorage.setItem('yesterdayGoldPrice', prevPrice);
+                    localStorage.setItem('goldPriceDay', today);
+                }
+
+                // عرض التغيير من الأمس
+                let yPrice = parseFloat(localStorage.getItem('yesterdayGoldPrice') || 0);
+                let yEl = document.getElementById('yesterdayChange');
+                if (yEl && yPrice > 0) {
+                    let yDiff = (goldPrice - yPrice).toFixed(2);
+                    let yPct = ((yDiff / yPrice) * 100).toFixed(2);
+                    let yUp = yDiff >= 0;
+                    yEl.innerHTML = `${yUp ? '📈' : '📉'} منذ الأمس: <span style="color:${yUp ? '#4CAF50' : '#ff6b6b'};font-weight:700;">${yUp ? '+' : ''}${yPct}%</span>`;
+                }
 
                 localStorage.setItem('lastGoldPrice', goldPrice);
                 showPriceAlert(goldPrice);
