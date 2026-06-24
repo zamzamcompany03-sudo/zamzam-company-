@@ -1940,13 +1940,21 @@
             am.style.display = 'flex';
             am.style.opacity = '1';
             am.style.pointerEvents = 'all';
+            // تعبئة حقول الإعدادات بالقيم الحالية
+            document.getElementById('set-paperRate').value = localStorage.getItem('paperRate') || '1550';
+            document.getElementById('set-sellAdj').value = localStorage.getItem('sellAdj') || '0';
+            document.getElementById('set-buyGulfAdj').value = localStorage.getItem('buyGulfAdj') || '0';
+            document.getElementById('set-buyIraqiExtra').value = localStorage.getItem('buyIraqiExtra') || '25000';
+            updateSignBtn('sell');
+            updateSignBtn('buyGulf');
+            updateSignBtn('buyIraqiExtra');
         }
 
         function closeAuthModal() {
             let am = document.getElementById('auth-modal');
+            am.style.display = 'none';
             am.style.opacity = '0';
             am.style.pointerEvents = 'none';
-            am.style.display = 'none';
             document.getElementById('auth-error').textContent = '';
             document.getElementById('auth-password').value = '';
         }
@@ -3521,7 +3529,7 @@
     </div>
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:flex;opacity:0;pointer-events:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;transition:opacity 0.2s;">
+    <div id="auth-modal" style="display:none;opacity:0;pointer-events:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;transition:opacity 0.2s;">
         <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
             <div style="font-size:28px;margin-bottom:8px;">🔐</div>
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
