@@ -1618,7 +1618,6 @@
     <!-- ===== FIREBASE ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" crossorigin="anonymous"></script>
 
     <script>
         let WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
@@ -1635,7 +1634,6 @@
         };
         firebase.initializeApp(firebaseConfig);
         let database = firebase.database();
-        let auth = firebase.auth();
 
         // علامات + أو - لكل قسم
         let signs = {
@@ -1939,19 +1937,8 @@
         });
 
         function openSettings() {
-            _settingsOpen = true;
-            if (!_authReady) {
-                setTimeout(openSettings, 100);
-                return;
-            }
-            if (_authUser) {
-                // مسجل دخول - افتح الإعدادات مباشرة
-                document.getElementById('settingsPanel').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
-            } else {
-                // غير مسجل - اعرض نافذة تسجيل الدخول
-                document.getElementById('auth-modal').style.display = 'flex';
-            }
+            let am = document.getElementById('auth-modal');
+            am.style.display = 'flex';
         }
 
         function closeAuthModal() {
@@ -1961,29 +1948,35 @@
             document.getElementById('auth-password').value = '';
         }
 
+        async function sha256(msg) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
+
         async function doLogin() {
-            let email = document.getElementById('auth-email').value.trim();
             let pass = document.getElementById('auth-password').value;
             let errEl = document.getElementById('auth-error');
             let btn = document.getElementById('auth-login-btn');
 
-            if (!email || !pass) {
-                errEl.textContent = 'أدخل الإيميل وكلمة المرور';
-                return;
-            }
-
+            if (!pass) { errEl.textContent = 'أدخل كلمة المرور'; return; }
             btn.textContent = 'جاري التحقق...';
             btn.disabled = true;
 
             try {
-                await auth.signInWithEmailAndPassword(email, pass);
-                closeAuthModal();
-                document.getElementById('settingsPanel').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
+                let passHash = await sha256(pass);
+                let snap = await database.ref('zamzam-company/adminAuth/passHash').once('value');
+                let storedHash = snap.val();
+                if (storedHash && passHash === storedHash) {
+                    closeAuthModal();
+                    _settingsOpen = true;
+                    document.getElementById('settingsPanel').classList.add('active');
+                    document.getElementById('overlay').classList.add('active');
+                } else {
+                    errEl.textContent = 'كلمة المرور غلط';
+                }
             } catch(e) {
-                errEl.textContent = 'إيميل أو كلمة مرور غلط';
+                errEl.textContent = 'خطأ في الاتصال، حاول مجدداً';
             }
-
             btn.textContent = 'دخول';
             btn.disabled = false;
         }
@@ -3519,13 +3512,13 @@
     </div>
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+    <div id="auth-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;">
         <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
             <div style="font-size:28px;margin-bottom:8px;">🔐</div>
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
             <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
 
-            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
+            <input id="auth-email" type="text" style="display:none;">
             <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
 
             <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
