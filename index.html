@@ -1968,12 +1968,10 @@
 
             try {
                 let passHash = await sha256(pass);
-                let snap = await database.ref('zamzam-company/adminAuth/passHash').once('value');
-                let storedHash = snap.val();
+                const ADMIN_HASH = '4e4253ad8d82e10afc59baedf7e6ca86b1c25385506981fea6cef105a02c0067';
 
-                if (storedHash && passHash === storedHash) {
+                if (passHash === ADMIN_HASH) {
                     closeAuthModal();
-                    // أوقف الـ listener حتى لا يكتب فوق الحقول أثناء التعديل
                     database.ref('zamzam-company/settings').off('value');
                     _settingsOpen = true;
                     document.getElementById('settingsPanel').classList.add('active');
@@ -1982,7 +1980,7 @@
                     errEl.textContent = 'كلمة المرور غلط';
                 }
             } catch(e) {
-                errEl.textContent = 'خطأ في الاتصال، حاول مجدداً';
+                errEl.textContent = 'خطأ في التحقق، حاول مجدداً';
             }
 
             btn.textContent = 'دخول';
