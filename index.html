@@ -1927,53 +1927,40 @@
 
         // SETTINGS
         // حالة Auth - false = لم يتحقق بعد
-        let _authReady = false;
         let _settingsOpen = false;
-        let _settingsInterval = null;
-        let _authUser = null;
-
-        auth.onAuthStateChanged(user => {
-            _authReady = true;
-            _authUser = user;
-        });
-
-        // إذا Firebase ما رد خلال ثانية، افتح نافذة الإيميل تلقائياً
-        setTimeout(() => {
-            if (!_authReady) {
-                _authReady = true;
-                _authUser = null;
-            }
-        }, 1000);
 
         function openSettings() {
-            if (_authReady && _authUser) {
-                // مسجل دخول - افتح الإعدادات مباشرة
-                _settingsOpen = true;
-                document.getElementById('settingsPanel').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
-            } else {
-                // غير مسجل أو Firebase لم يجاوب - اعرض نافذة تسجيل الدخول فوراً
-                let am = document.getElementById('auth-modal');
-                am.style.display = 'flex';
-                am.style.zIndex = '999999';
-            }
+            let am = document.getElementById('auth-modal');
+            am.style.display = 'flex';
+            am.style.position = 'fixed';
+            am.style.top = '0';
+            am.style.left = '0';
+            am.style.right = '0';
+            am.style.bottom = '0';
+            am.style.zIndex = '999999';
+            am.style.alignItems = 'center';
+            am.style.justifyContent = 'center';
+            am.style.background = 'rgba(0,0,0,0.85)';
         }
 
         function closeAuthModal() {
             document.getElementById('auth-modal').style.display = 'none';
             document.getElementById('auth-error').textContent = '';
-            document.getElementById('auth-email').value = '';
             document.getElementById('auth-password').value = '';
         }
 
+        async function sha256(msg) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+        }
+
         async function doLogin() {
-            let email = document.getElementById('auth-email').value.trim();
             let pass = document.getElementById('auth-password').value;
             let errEl = document.getElementById('auth-error');
             let btn = document.getElementById('auth-login-btn');
 
-            if (!email || !pass) {
-                errEl.textContent = 'أدخل الإيميل وكلمة المرور';
+            if (!pass) {
+                errEl.textContent = 'أدخل كلمة المرور';
                 return;
             }
 
@@ -1981,21 +1968,27 @@
             btn.disabled = true;
 
             try {
-                await auth.signInWithEmailAndPassword(email, pass);
-                closeAuthModal();
-                document.getElementById('settingsPanel').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
+                let passHash = await sha256(pass);
+                let snap = await database.ref('zamzam-company/adminAuth/passHash').once('value');
+                let storedHash = snap.val();
+
+                if (storedHash && passHash === storedHash) {
+                    closeAuthModal();
+                    _settingsOpen = true;
+                    document.getElementById('settingsPanel').classList.add('active');
+                    document.getElementById('overlay').classList.add('active');
+                } else {
+                    errEl.textContent = 'كلمة المرور غلط';
+                }
             } catch(e) {
-                errEl.textContent = 'إيميل أو كلمة مرور غلط';
+                errEl.textContent = 'خطأ في الاتصال، حاول مجدداً';
             }
 
             btn.textContent = 'دخول';
             btn.disabled = false;
         }
 
-        function doLogout() {
-            auth.signOut();
-        }
+        function doLogout() {}
 
         function closeSettings() {
             _settingsOpen = false;
@@ -3530,7 +3523,7 @@
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
             <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
 
-            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
+            <input id="auth-email" type="text" style="display:none;">
             <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
 
             <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
