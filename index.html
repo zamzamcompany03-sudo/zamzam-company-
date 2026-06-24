@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" style="width:100%;height:100%;margin:0;padding:0;" dir="rtl">
 <head>
@@ -1617,6 +1618,7 @@
     <!-- ===== FIREBASE ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" crossorigin="anonymous"></script>
 
     <script>
         let WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
@@ -1633,6 +1635,7 @@
         };
         firebase.initializeApp(firebaseConfig);
         let database = firebase.database();
+        let auth = firebase.auth();
 
         // علامات + أو - لكل قسم
         let signs = {
@@ -1674,16 +1677,8 @@
             updateSignBtn('buyGulf');
             updateSignBtn('buyIraqiExtra');
 
-            // تشغيل المستمع
-            startSettingsListener();
-        }
-
-        function startSettingsListener() {
-            database.ref('zamzam-company/settings').off('value');
+            // مستمع real-time - يتحدث تلقائياً عند أي تغيير من أي جهاز
             database.ref('zamzam-company/settings').on('value', snap => {
-                // لا تحدّث الحقول إذا كانت لوحة الإعدادات مفتوحة
-                if (_settingsOpen) return;
-
                 let s = snap.val();
                 if (!s) return;
 
@@ -1696,7 +1691,7 @@
                 if (s.signBuyGulf)     localStorage.setItem('sign-buyGulf', s.signBuyGulf);
                 if (s.signBuyIraqiExtra) localStorage.setItem('sign-buyIraqiExtra', s.signBuyIraqiExtra);
 
-                // تحديث حقول الإعدادات
+                // تحديث الواجهة
                 document.getElementById('set-paperRate').value = s.paperRate || '1550';
                 document.getElementById('set-sellAdj').value = s.sellAdj || '0';
                 document.getElementById('set-buyGulfAdj').value = s.buyGulfAdj || '0';
@@ -1933,47 +1928,47 @@
 
         // SETTINGS
         // حالة Auth - false = لم يتحقق بعد
+        let _authReady = false;
         let _settingsOpen = false;
+        let _settingsInterval = null;
+        let _authUser = null;
+
+        auth.onAuthStateChanged(user => {
+            _authReady = true;
+            _authUser = user;
+        });
 
         function openSettings() {
-            let am = document.getElementById('auth-modal');
-            am.style.display = 'flex';
-            // setTimeout يضمن إن المتصفح يطبق display:flex أول قبل الـ opacity
-            setTimeout(() => {
-                am.style.opacity = '1';
-                am.style.pointerEvents = 'all';
-            }, 10);
-            // تعبئة حقول الإعدادات بالقيم الحالية
-            document.getElementById('set-paperRate').value = localStorage.getItem('paperRate') || '1550';
-            document.getElementById('set-sellAdj').value = localStorage.getItem('sellAdj') || '0';
-            document.getElementById('set-buyGulfAdj').value = localStorage.getItem('buyGulfAdj') || '0';
-            document.getElementById('set-buyIraqiExtra').value = localStorage.getItem('buyIraqiExtra') || '25000';
-            updateSignBtn('sell');
-            updateSignBtn('buyGulf');
-            updateSignBtn('buyIraqiExtra');
+            _settingsOpen = true;
+            if (!_authReady) {
+                setTimeout(openSettings, 100);
+                return;
+            }
+            if (_authUser) {
+                // مسجل دخول - افتح الإعدادات مباشرة
+                document.getElementById('settingsPanel').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+            } else {
+                // غير مسجل - اعرض نافذة تسجيل الدخول
+                document.getElementById('auth-modal').style.display = 'flex';
+            }
         }
 
         function closeAuthModal() {
-            let am = document.getElementById('auth-modal');
-            am.style.display = 'none';
-            am.style.opacity = '0';
-            am.style.pointerEvents = 'none';
+            document.getElementById('auth-modal').style.display = 'none';
             document.getElementById('auth-error').textContent = '';
+            document.getElementById('auth-email').value = '';
             document.getElementById('auth-password').value = '';
         }
 
-        async function sha256(msg) {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-        }
-
         async function doLogin() {
+            let email = document.getElementById('auth-email').value.trim();
             let pass = document.getElementById('auth-password').value;
             let errEl = document.getElementById('auth-error');
             let btn = document.getElementById('auth-login-btn');
 
-            if (!pass) {
-                errEl.textContent = 'أدخل كلمة المرور';
+            if (!email || !pass) {
+                errEl.textContent = 'أدخل الإيميل وكلمة المرور';
                 return;
             }
 
@@ -1981,34 +1976,26 @@
             btn.disabled = true;
 
             try {
-                let passHash = await sha256(pass);
-                const ADMIN_HASH = '4e4253ad8d82e10afc59baedf7e6ca86b1c25385506981fea6cef105a02c0067';
-
-                if (passHash === ADMIN_HASH) {
-                    closeAuthModal();
-                    database.ref('zamzam-company/settings').off('value');
-                    _settingsOpen = true;
-                    document.getElementById('settingsPanel').classList.add('active');
-                    document.getElementById('overlay').classList.add('active');
-                } else {
-                    errEl.textContent = 'كلمة المرور غلط';
-                }
+                await auth.signInWithEmailAndPassword(email, pass);
+                closeAuthModal();
+                document.getElementById('settingsPanel').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
             } catch(e) {
-                errEl.textContent = 'خطأ في التحقق، حاول مجدداً';
+                errEl.textContent = 'إيميل أو كلمة مرور غلط';
             }
 
             btn.textContent = 'دخول';
             btn.disabled = false;
         }
 
-        function doLogout() {}
+        function doLogout() {
+            auth.signOut();
+        }
 
         function closeSettings() {
             _settingsOpen = false;
             document.getElementById('settingsPanel').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
-            // أعد تشغيل الـ listener بعد إغلاق الإعدادات
-            startSettingsListener();
         }
 
         // فتح/إخفاء التواصل
@@ -3532,13 +3519,13 @@
     </div>
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:none;opacity:0;pointer-events:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;transition:opacity 0.2s;">
+    <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
         <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
             <div style="font-size:28px;margin-bottom:8px;">🔐</div>
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
             <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
 
-            <input id="auth-email" type="text" style="display:none;">
+            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
             <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
 
             <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
