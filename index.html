@@ -1938,8 +1938,11 @@
         function openSettings() {
             let am = document.getElementById('auth-modal');
             am.style.display = 'flex';
-            am.style.opacity = '1';
-            am.style.pointerEvents = 'all';
+            // setTimeout يضمن إن المتصفح يطبق display:flex أول قبل الـ opacity
+            setTimeout(() => {
+                am.style.opacity = '1';
+                am.style.pointerEvents = 'all';
+            }, 10);
             // تعبئة حقول الإعدادات بالقيم الحالية
             document.getElementById('set-paperRate').value = localStorage.getItem('paperRate') || '1550';
             document.getElementById('set-sellAdj').value = localStorage.getItem('sellAdj') || '0';
