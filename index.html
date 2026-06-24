@@ -1618,7 +1618,6 @@
     <!-- ===== FIREBASE ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js" crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" crossorigin="anonymous"></script>
 
     <script>
         let WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
@@ -1635,7 +1634,6 @@
         };
         firebase.initializeApp(firebaseConfig);
         let database = firebase.database();
-        let auth = firebase.auth();
 
         // علامات + أو - لكل قسم
         let signs = {
@@ -3442,9 +3440,6 @@
             }
             requestAnimationFrame(step);
         }
-
-        // مسح أي session قديم لـ Firebase Auth
-        try { if (typeof auth !== 'undefined') auth.signOut(); } catch(e) {}
 
         // INIT - تمرير لعرض المحتوى الرئيسي وسطاً
         window.addEventListener('load', () => {
