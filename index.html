@@ -1937,13 +1937,16 @@
 
         function openSettings() {
             let am = document.getElementById('auth-modal');
+            am.style.display = 'flex';
             am.style.opacity = '1';
             am.style.pointerEvents = 'all';
         }
 
         function closeAuthModal() {
-            document.getElementById('auth-modal').style.opacity = '0';
-            document.getElementById('auth-modal').style.pointerEvents = 'none';
+            let am = document.getElementById('auth-modal');
+            am.style.opacity = '0';
+            am.style.pointerEvents = 'none';
+            am.style.display = 'none';
             document.getElementById('auth-error').textContent = '';
             document.getElementById('auth-password').value = '';
         }
