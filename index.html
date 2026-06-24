@@ -1937,19 +1937,25 @@
             _authUser = user;
         });
 
-        function openSettings() {
-            _settingsOpen = true;
+        // إذا Firebase ما رد خلال ثانية، افتح نافذة الإيميل تلقائياً
+        setTimeout(() => {
             if (!_authReady) {
-                setTimeout(openSettings, 100);
-                return;
+                _authReady = true;
+                _authUser = null;
             }
-            if (_authUser) {
+        }, 1000);
+
+        function openSettings() {
+            if (_authReady && _authUser) {
                 // مسجل دخول - افتح الإعدادات مباشرة
+                _settingsOpen = true;
                 document.getElementById('settingsPanel').classList.add('active');
                 document.getElementById('overlay').classList.add('active');
             } else {
-                // غير مسجل - اعرض نافذة تسجيل الدخول
-                document.getElementById('auth-modal').style.display = 'flex';
+                // غير مسجل أو Firebase لم يجاوب - اعرض نافذة تسجيل الدخول فوراً
+                let am = document.getElementById('auth-modal');
+                am.style.display = 'flex';
+                am.style.zIndex = '999999';
             }
         }
 
@@ -3143,9 +3149,9 @@
             if (navigator.share) {
                 try {
                     await navigator.share({
-                        title: 'شركة زمزم',
-                        text: 'مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية:\n🔗 https://zamzamcompany03-sudo.github.io/zamzam-company-/\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات',
-                        url: ''
+                        title: 'شركة زمزم لتجارة المصوغات الذهبية',
+                        text: 'مرحباً 👋\nتفضل رابط تطبيق شركة زمزم لتجارة المصوغات الذهبية\nيمكنك من خلاله مشاهدة:\n- أسعار الذهب الحقيقية والمباشرة الخاصة بشركتنا\n- عرض المصوغات والخصومات الحصرية المستوردة حديثاً 🥇\n- عرض الكسر المتوفر حالياً 🥇\n- عرض الفضيات\n- عرض الساعات والنضارات',
+                        url: 'https://zamzamcompany03-sudo.github.io/zamzam-company-/'
                     });
                 } catch(e) {}
             } else {
@@ -3518,7 +3524,7 @@
     </div>
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+    <div id="auth-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;">
         <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
             <div style="font-size:28px;margin-bottom:8px;">🔐</div>
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
