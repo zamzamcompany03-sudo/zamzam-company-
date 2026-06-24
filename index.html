@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" style="width:100%;height:100%;margin:0;padding:0;" dir="rtl">
 <head>
@@ -1675,8 +1674,16 @@
             updateSignBtn('buyGulf');
             updateSignBtn('buyIraqiExtra');
 
-            // مستمع real-time - يتحدث تلقائياً عند أي تغيير من أي جهاز
+            // تشغيل المستمع
+            startSettingsListener();
+        }
+
+        function startSettingsListener() {
+            database.ref('zamzam-company/settings').off('value');
             database.ref('zamzam-company/settings').on('value', snap => {
+                // لا تحدّث الحقول إذا كانت لوحة الإعدادات مفتوحة
+                if (_settingsOpen) return;
+
                 let s = snap.val();
                 if (!s) return;
 
@@ -1689,7 +1696,7 @@
                 if (s.signBuyGulf)     localStorage.setItem('sign-buyGulf', s.signBuyGulf);
                 if (s.signBuyIraqiExtra) localStorage.setItem('sign-buyIraqiExtra', s.signBuyIraqiExtra);
 
-                // تحديث الواجهة
+                // تحديث حقول الإعدادات
                 document.getElementById('set-paperRate').value = s.paperRate || '1550';
                 document.getElementById('set-sellAdj').value = s.sellAdj || '0';
                 document.getElementById('set-buyGulfAdj').value = s.buyGulfAdj || '0';
@@ -1966,6 +1973,8 @@
 
                 if (storedHash && passHash === storedHash) {
                     closeAuthModal();
+                    // أوقف الـ listener حتى لا يكتب فوق الحقول أثناء التعديل
+                    database.ref('zamzam-company/settings').off('value');
                     _settingsOpen = true;
                     document.getElementById('settingsPanel').classList.add('active');
                     document.getElementById('overlay').classList.add('active');
@@ -1986,6 +1995,8 @@
             _settingsOpen = false;
             document.getElementById('settingsPanel').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
+            // أعد تشغيل الـ listener بعد إغلاق الإعدادات
+            startSettingsListener();
         }
 
         // فتح/إخفاء التواصل
