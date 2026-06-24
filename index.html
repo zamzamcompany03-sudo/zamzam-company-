@@ -1926,17 +1926,10 @@
 
         // SETTINGS
         // حالة Auth - false = لم يتحقق بعد
-        let _authReady = false;
         let _settingsOpen = false;
         let _settingsInterval = null;
-        let _authUser = null;
 
-        auth.onAuthStateChanged(user => {
-            _authReady = true;
-            _authUser = user;
-        });
-
-        function openSettings() {
+           function openSettings() {
             let am = document.getElementById('auth-modal');
             am.style.display = 'flex';
         }
@@ -1981,9 +1974,7 @@
             btn.disabled = false;
         }
 
-        function doLogout() {
-            auth.signOut();
-        }
+        function doLogout() {}
 
         function closeSettings() {
             _settingsOpen = false;
