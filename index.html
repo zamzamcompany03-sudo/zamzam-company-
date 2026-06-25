@@ -1618,6 +1618,7 @@
     <!-- ===== FIREBASE ===== -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js" crossorigin="anonymous"></script>
 
     <script>
         let WORKER_URL = 'https://zamzam-company.saadzamzamcompany.workers.dev';
@@ -1634,6 +1635,7 @@
         };
         firebase.initializeApp(firebaseConfig);
         let database = firebase.database();
+        let auth = firebase.auth();
 
         // علامات + أو - لكل قسم
         let signs = {
@@ -1660,6 +1662,7 @@
 
         // تحميل الإعدادات المحفوظة
         function loadSettings() {
+            if (_settingsOpen) return; // لا تحدث عند فتح الإعدادات
             // أولاً نحمّل من localStorage للسرعة
             document.getElementById('set-paperRate').value = localStorage.getItem('paperRate') || '1550';
             document.getElementById('set-sellAdj').value = localStorage.getItem('sellAdj') || '0';
@@ -1925,55 +1928,69 @@
 
         // SETTINGS
         // حالة Auth - false = لم يتحقق بعد
+        let _authReady = false;
+        let _settingsOpen = false;
         let _settingsInterval = null;
+        let _authUser = null;
 
-           function openSettings() {
-            let am = document.getElementById('auth-modal');
-            if (am) {
-                am.style.cssText = 'display:flex;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;direction:ltr;';
+        auth.onAuthStateChanged(user => {
+            _authReady = true;
+            _authUser = user;
+        });
+
+        function openSettings() {
+            _settingsOpen = true;
+            if (!_authReady) {
+                setTimeout(openSettings, 100);
+                return;
+            }
+            if (_authUser) {
+                // مسجل دخول - افتح الإعدادات مباشرة
+                document.getElementById('settingsPanel').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+            } else {
+                // غير مسجل - اعرض نافذة تسجيل الدخول
+                document.getElementById('auth-modal').style.display = 'flex';
             }
         }
 
         function closeAuthModal() {
-            let am = document.getElementById('auth-modal');
-            if (am) am.style.display = 'none';
-            let err = document.getElementById('auth-error');
-            if (err) err.textContent = '';
-            let pw = document.getElementById('auth-password');
-            if (pw) pw.value = '';
-        }
-
-        async function sha256(msg) {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+            document.getElementById('auth-modal').style.display = 'none';
+            document.getElementById('auth-error').textContent = '';
+            document.getElementById('auth-email').value = '';
+            document.getElementById('auth-password').value = '';
         }
 
         async function doLogin() {
+            let email = document.getElementById('auth-email').value.trim();
             let pass = document.getElementById('auth-password').value;
             let errEl = document.getElementById('auth-error');
             let btn = document.getElementById('auth-login-btn');
-            if (!pass) { errEl.textContent = 'أدخل كلمة المرور'; return; }
+
+            if (!email || !pass) {
+                errEl.textContent = 'أدخل الإيميل وكلمة المرور';
+                return;
+            }
+
             btn.textContent = 'جاري التحقق...';
             btn.disabled = true;
+
             try {
-                let passHash = await sha256(pass);
-                let snap = await database.ref('zamzam-company/adminAuth/passHash').once('value');
-                let storedHash = snap.val();
-                if (storedHash && passHash === storedHash) {
-                    closeAuthModal();
-                    document.getElementById('settingsPanel').classList.add('active');
-                    document.getElementById('overlay').classList.add('active');
-                } else {
-                    errEl.textContent = 'كلمة المرور غلط';
-                }
+                await auth.signInWithEmailAndPassword(email, pass);
+                closeAuthModal();
+                document.getElementById('settingsPanel').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
             } catch(e) {
-                errEl.textContent = 'خطأ في الاتصال';
+                errEl.textContent = 'إيميل أو كلمة مرور غلط';
             }
+
             btn.textContent = 'دخول';
             btn.disabled = false;
         }
 
-        function doLogout() {}
+        function doLogout() {
+            auth.signOut();
+        }
 
         function closeSettings() {
             _settingsOpen = false;
@@ -3502,13 +3519,13 @@
     </div>
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:999999;align-items:center;justify-content:center;direction:ltr;">
+    <div id="auth-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
         <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
             <div style="font-size:28px;margin-bottom:8px;">🔐</div>
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
             <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
 
-            <input id="auth-email" type="text" style="display:none;">
+            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
             <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
 
             <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
