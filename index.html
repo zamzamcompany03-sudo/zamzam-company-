@@ -29,7 +29,7 @@
             min-height: 100vh;
             width: 100%;
             max-width: 100%;
-            overflow-x: hidden;
+            overflow-x: clip;
             padding-bottom: 160px;
             box-sizing: border-box;
             margin: 0;
@@ -639,6 +639,25 @@
             font-family: "Segoe UI", Tahoma, sans-serif;
             text-shadow: 0 2px 12px rgba(255,255,255,0.15);
         }
+
+        #auth-modal, #user-modal {
+            display: none;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: auto !important;
+            bottom: auto !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            z-index: 999999 !important;
+            background: rgba(0,0,0,0.88) !important;
+            align-items: center !important;
+            justify-content: center !important;
+            direction: ltr !important;
+            transform: none !important;
+        }
     </style>
 </head>
 <body>
@@ -660,6 +679,16 @@
             <div class="splash-dot"></div>
             <div class="splash-dot"></div>
         </div>
+
+        <!-- نص الصلاة والدعاء -->
+        <div style="margin-top:18px;text-align:center;padding:0 24px;animation:splashFadeIn 2s ease;">
+            <div style="color:#D4AF37;font-size:13px;font-weight:700;margin-bottom:6px;">🤍 صلِّ على النبي ﷺ</div>
+            <div style="color:#ccc;font-size:11px;line-height:1.8;margin-bottom:10px;">اللهم صلِّ وسلم وبارك على سيدنا محمد<br>وعلى آله وصحبه أجمعين</div>
+            <div style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent);margin:8px auto;"></div>
+            <div style="color:#D4AF37;font-size:13px;font-weight:700;margin-bottom:6px;margin-top:8px;">🌿 اللهم بارك لنا</div>
+            <div style="color:#ccc;font-size:11px;line-height:1.8;">في أموالنا وأرزاقنا وأهلنا وذرياتنا<br>واجعلها طيبة مباركة</div>
+        </div>
+
     </div>
     <!-- PRICE ALERT -->
     <div id="price-alert"></div>
@@ -818,8 +847,10 @@
             </div>
         </div>
 
-        <!-- زر مشاركة التطبيق - للجميع -->
+        <!-- زر مشاركة التطبيق + حاسبة الزكاة - للجميع -->
         <div style="background:linear-gradient(135deg,#1a1400,#2a2000);border:2px solid #D4AF37;border-radius:18px;padding:16px 20px;margin-bottom:16px;box-shadow:0 6px 20px rgba(212,175,55,0.2);">
+            
+            <!-- عنوان المشاركة -->
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
                 <div style="font-size:26px;">🔗</div>
                 <div>
@@ -827,12 +858,30 @@
                     <div style="color:#888;font-size:11px;margin-top:2px;">أرسل الرابط لأصدقائك أو احفظه على هاتفك</div>
                 </div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+
+            <!-- أزرار المشاركة -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
                 <button onclick="shareApp()" style="padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">📤 مشاركة</button>
                 <button onclick="copyAppLink()" style="padding:12px;background:#111;color:#D4AF37;border:2px solid #D4AF37;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer;text-align:center;line-height:1.4;">
                     ✨ اضغط لنسخ رابط التطبيق والصقه لمشاركته مع الآخرين
                 </button>
             </div>
+
+            <!-- فاصل -->
+            <div style="border-top:1px solid rgba(212,175,55,0.2);margin-bottom:14px;"></div>
+
+            <!-- زر حاسبة الزكاة -->
+            <div onclick="openZakatCalc()" style="background:linear-gradient(135deg,#0a1a0a,#0d1f0d);border:1px solid #4CAF50;border-radius:14px;padding:13px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="font-size:24px;">☪️</div>
+                    <div>
+                        <div style="color:#4CAF50;font-size:13px;font-weight:800;">احسب زكاة الذهب</div>
+                        <div style="color:#666;font-size:10px;margin-top:2px;">وفق المذهب الإسلامي — أهل السنة</div>
+                    </div>
+                </div>
+                <div style="color:#4CAF50;font-size:20px;">←</div>
+            </div>
+
         </div>
 
     </div>
@@ -877,16 +926,14 @@
             <div style="font-size:8px;color:#60a5fa;text-align:center;font-weight:700;line-height:1.3;">الفضيات والساعات</div>
         </div>
 
-        <!-- مستخدم -->\
-        <div onclick="openUserLogin()" style="flex:0.7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:6px 3px;">
-            <div style="font-size:17px;">👤</div>
-            <div style="font-size:8px;color:#60a5fa;text-align:center;font-weight:600;">مستخدم</div>
-        </div>
-
         <!-- الإعدادات -->
         <div onclick="openSettings()" style="flex:0.7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:6px 3px;">
             <div style="font-size:17px;">⚙️</div>
             <div style="font-size:8px;color:#555;text-align:center;font-weight:600;">إعدادات</div>
+        </div>
+        <div onclick="showPage('about')" style="flex:0.7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;padding:6px 3px;">
+            <div style="font-size:17px;">📖</div>
+            <div style="font-size:8px;color:#888;text-align:center;font-weight:600;">شرح</div>
         </div>
 
     </div>
@@ -1019,6 +1066,57 @@
                 <span style="font-size:20px;flex-shrink:0;">☎️</span>
                 <div><div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">أرقام الهاتف</div>
                 <div style="font-size:11px;color:#888;line-height:1.6;">أرقام سيف وحسام الفهداوي في أعلى الصفحة قابلة للضغط للاتصال المباشر.</div></div>
+            </div>
+        </div>
+
+        <!-- زكاة الذهب -->
+        <div style="background:linear-gradient(135deg,#0a1a0a,#0d1f0d);border:1px solid #4CAF50;border-radius:16px;padding:16px;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:800;color:#4CAF50;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;">☪️</span> زكاة الذهب</div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">📌</span>
+                <div>
+                    <div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">ما هي زكاة الذهب؟</div>
+                    <div style="font-size:11px;color:#888;line-height:1.7;">الزكاة فريضة إسلامية واجبة على الذهب إذا بلغ النصاب ومرّ عليه حول كامل (سنة هجرية). ومقدارها ربع العشر أي 2.5% من قيمة الذهب.</div>
+                </div>
+            </div>
+
+            <div style="border-top:1px solid rgba(76,175,80,0.2);margin:10px 0;"></div>
+
+            <div style="font-size:12px;font-weight:800;color:#4CAF50;margin-bottom:8px;">📏 النصاب (الحد الأدنى للوجوب)</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
+                <div style="background:#0d0d0d;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;">
+                    <span style="color:#888;font-size:11px;">النصاب</span>
+                    <span style="color:#FFD700;font-size:12px;font-weight:700;">عيار 24 — 85 غرام فأكثر</span>
+                </div>
+                <div style="background:#0d0d0d;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;">
+                    <span style="color:#888;font-size:11px;">النصاب</span>
+                    <span style="color:#D4AF37;font-size:12px;font-weight:700;">عيار 21 — 100 غرام فأكثر</span>
+                </div>
+                <div style="background:#0d0d0d;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;">
+                    <span style="color:#888;font-size:11px;">النصاب</span>
+                    <span style="color:#C0C0C0;font-size:12px;font-weight:700;">عيار 18 — 100 غرام فأكثر</span>
+                </div>
+            </div>
+
+            <div style="border-top:1px solid rgba(76,175,80,0.2);margin:10px 0;"></div>
+
+            <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+                <span style="font-size:20px;flex-shrink:0;">⚠️</span>
+                <div>
+                    <div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;">شروط وجوب الزكاة</div>
+                    <div style="font-size:11px;color:#888;line-height:1.8;">
+                        ١. أن يبلغ الذهب النصاب المحدد<br>
+                        ٢. أن يمر عليه حول كامل (سنة هجرية)<br>
+                        ٣. أن يكون فائضاً عن الحاجة الأساسية<br>
+                        ٤. أن يكون مملوكاً ملكاً تاماً
+                    </div>
+                </div>
+            </div>
+
+            <div onclick="openZakatCalc()" style="background:linear-gradient(135deg,#1a4d1a,#1a3d1a);border:1px solid #4CAF50;border-radius:12px;padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+                <div style="color:#4CAF50;font-size:13px;font-weight:800;">☪️ احسب زكاتك الآن</div>
+                <div style="color:#4CAF50;font-size:18px;">←</div>
             </div>
         </div>
 
@@ -1256,7 +1354,7 @@
             <div id="watch-modal-content"></div>
         </div>
     </div>
-    <div class="overlay" id="overlay" onclick="closeSettings();closeUserPanel();"></div>
+    <div class="overlay" id="overlay" onclick="closeSettings()"></div>
 
     <!-- SETTINGS PANEL -->
     <div class="settings-panel" id="settingsPanel">
@@ -1772,6 +1870,7 @@
 
             // حفظ سعر الغرام للاستخدام في العروض
             localStorage.setItem('lastSellGram', sellGram);
+            window._buyGulfGramRaw = buyGulfGram; // للزكاة
             document.getElementById('buyGulf-gram').textContent = fmt(buyGulfGram);
             document.getElementById('buyGulf-mithqal').textContent = fmt(buyGulfMithqal);
             document.getElementById('buyIraqi-gram').textContent = fmt(buyIraqiGram);
@@ -1933,74 +2032,124 @@
         // SETTINGS - نظام SHA-256 بدون Firebase Auth
         let _settingsOpen = false;
 
-        // دالة مساعدة لتشفير SHA-256
         async function hashPassword(pass) {
             const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
             return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
         }
 
-        // ===== زر المستخدم 👤 =====
+        function isAdmin() {
+            var expiry = sessionStorage.getItem('zmzm_auth_expiry');
+            return expiry && Date.now() < parseInt(expiry);
+        }
+
+        function trackView(node, id) {
+            var key = 'zmzm_viewed_' + id;
+            if (sessionStorage.getItem(key)) return;
+            sessionStorage.setItem(key, '1');
+            database.ref('zamzam-company/' + node + '/' + id + '/views').transaction(function(v) { return (v||0)+1; });
+        }
+
+
+        function makeDeleteBtn(node, id) {
+            if (!isAdmin()) return '';
+            var btn = document.createElement('div');
+            btn.style.cssText = 'position:absolute;top:8px;left:8px;';
+            var b = document.createElement('button');
+            b.innerHTML = '🗑';
+            b.style.cssText = 'background:rgba(220,50,50,0.9);border:none;border-radius:8px;padding:4px 6px;color:#fff;font-size:11px;cursor:pointer;';
+            b.onclick = function(e) { e.stopPropagation(); deleteProduct(node, id); };
+            btn.appendChild(b);
+            return btn.outerHTML;
+        }
+
+        function deleteProduct(node, id) {
+            if (!isAdmin()) { alert('يجب الدخول بكلمة المرور أولاً'); return; }
+            if (!confirm('هل تريد حذف هذا المنتج؟')) return;
+            database.ref('zamzam-company/' + node + '/' + id).remove();
+        }
+
+        function setProductStatus(node, id, status) {
+            if (!isAdmin()) return;
+            if (status === 'sold' || status === 'reserved') {
+                database.ref('zamzam-company/' + node + '/' + id).update({ status: status });
+                setTimeout(function() { database.ref('zamzam-company/' + node + '/' + id).remove(); }, 6*60*60*1000);
+            } else {
+                database.ref('zamzam-company/' + node + '/' + id).update({ status: 'available' });
+            }
+        }
+
+        function getStatusBadge(status) {
+            if (status === 'sold') return '<div style="position:absolute;top:40px;right:8px;background:rgba(220,50,50,0.95);border-radius:20px;padding:3px 10px;font-size:11px;color:#fff;font-weight:700;">🔴 تم البيع</div>';
+            if (status === 'reserved') return '<div style="position:absolute;top:40px;right:8px;background:rgba(255,150,0,0.95);border-radius:20px;padding:3px 10px;font-size:11px;color:#fff;font-weight:700;">🟡 تم الحجز</div>';
+            return '<div style="position:absolute;top:40px;right:8px;background:rgba(40,180,40,0.95);border-radius:20px;padding:3px 10px;font-size:11px;color:#fff;font-weight:700;">🟢 متوفر الآن</div>';
+        }
+
+        function getStatusButtons(node, id, status) {
+            if (!isAdmin()) return '';
+            var bgG = status==='available' ? '#28b428' : 'rgba(40,180,40,0.4)';
+            var bgY = status==='reserved' ? '#ff9600' : 'rgba(255,150,0,0.4)';
+            var bgR = status==='sold' ? '#dc3232' : 'rgba(220,50,50,0.4)';
+            var n = node; var i = id;
+            return '<div style="position:absolute;bottom:55px;left:0;right:0;display:flex;gap:4px;padding:0 6px;">'
+                + '<button onclick="event.stopPropagation();setProductStatus(\'' + n + '\',\'' + i + '\',\'available\')" style="flex:1;padding:4px 2px;background:' + bgG + ';border:none;border-radius:8px;color:#fff;font-size:10px;cursor:pointer;">🟢</button>'
+                + '<button onclick="event.stopPropagation();setProductStatus(\'' + n + '\',\'' + i + '\',\'reserved\')" style="flex:1;padding:4px 2px;background:' + bgY + ';border:none;border-radius:8px;color:#fff;font-size:10px;cursor:pointer;">🟡</button>'
+                + '<button onclick="event.stopPropagation();setProductStatus(\'' + n + '\',\'' + i + '\',\'sold\')" style="flex:1;padding:4px 2px;background:' + bgR + ';border:none;border-radius:8px;color:#fff;font-size:10px;cursor:pointer;">🔴</button>'
+                + '</div>';
+        }
+
+        function openSettings() {
+            _settingsOpen = true;
+            var expiry = sessionStorage.getItem('zmzm_auth_expiry');
+            if (expiry && Date.now() < parseInt(expiry)) {
+                document.getElementById('settingsPanel').classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+                return;
+            }
+            var pass = prompt('أدخل كلمة المرور:');
+            if (!pass) return;
+            hashPassword(pass).then(function(inputHash) {
+                hashPassword('saad12345IF#').then(function(correctHash) {
+                    if (inputHash === correctHash) {
+                        sessionStorage.setItem('zmzm_auth_expiry', Date.now() + 86400000);
+                        document.getElementById('settingsPanel').classList.add('active');
+                        document.getElementById('overlay').classList.add('active');
+                    } else {
+                        alert('كلمة المرور غير صحيحة');
+                    }
+                });
+            });
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+        }
+
+        function doLogin() {}
+        function doLogout() {}
+
         function openUserLogin() {
-            var modal = document.getElementById('user-modal');
-            modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;';
-            document.getElementById('user-password').value = '';
-            document.getElementById('user-error').textContent = '';
+            var m = document.getElementById('user-modal');
+            m.style.display = 'flex';
         }
 
         function closeUserModal() {
             document.getElementById('user-modal').style.display = 'none';
-            document.getElementById('user-password').value = '';
-            document.getElementById('user-error').textContent = '';
         }
 
         async function doUserLogin() {
             var pass = document.getElementById('user-password').value;
             var errEl = document.getElementById('user-error');
             if (!pass) { errEl.textContent = 'أدخل كلمة المرور'; return; }
-            const inputHash = await hashPassword(pass);
-            const correctHash = await hashPassword('saad12345IF#');
+            var inputHash = await hashPassword(pass);
+            var correctHash = await hashPassword('saad12345IF#');
             if (inputHash === correctHash) {
                 closeUserModal();
+                sessionStorage.setItem('zmzm_auth_expiry', Date.now() + 86400000);
                 document.getElementById('settingsPanel').classList.add('active');
                 document.getElementById('overlay').classList.add('active');
             } else {
                 errEl.textContent = 'كلمة المرور غير صحيحة';
             }
-        }
-
-        // ===== زر الإعدادات ⚙️ =====
-        function openSettings() {
-            _settingsOpen = true;
-            var modal = document.getElementById('auth-modal');
-            modal.style.cssText = 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;';
-            document.getElementById('auth-password').value = '';
-            document.getElementById('auth-error').textContent = '';
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').style.display = 'none';
-            document.getElementById('auth-error').textContent = '';
-            document.getElementById('auth-password').value = '';
-        }
-
-        async function doLogin() {
-            let pass = document.getElementById('auth-password').value;
-            let errEl = document.getElementById('auth-error');
-            let btn = document.getElementById('auth-login-btn');
-            if (!pass) { errEl.textContent = 'أدخل كلمة المرور'; return; }
-            btn.textContent = 'جاري التحقق...';
-            btn.disabled = true;
-            const inputHash = await hashPassword(pass);
-            const correctHash = await hashPassword('saad12345IF#');
-            if (inputHash === correctHash) {
-                closeAuthModal();
-                document.getElementById('settingsPanel').classList.add('active');
-                document.getElementById('overlay').classList.add('active');
-            } else {
-                errEl.textContent = 'كلمة المرور غير صحيحة';
-            }
-            btn.textContent = 'دخول';
-            btn.disabled = false;
         }
 
         function closeSettings() {
@@ -2157,13 +2306,20 @@
                 grid.innerHTML = products.map(p => {
                     let remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
                     let fmt = n => Math.round(n).toLocaleString('ar-IQ');
+                    let status = p.status || 'available';
+                    let views = p.views || 0;
+                    let adminBtns = makeDeleteBtn('scrap-offers', p.id);
                     return `
                     <div onclick="openScrapModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #4CAF50;position:relative;">
                         <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;">
                         <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #4CAF50;border-radius:20px;padding:3px 8px;font-size:11px;color:#4CAF50;">⏰ ${remaining} يوم</div>
-                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                        ${getStatusBadge(status)}
+                        ${adminBtns}
+                        ${getStatusButtons('scrap-offers', p.id, status)}
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 4px;">
                             <div style="font-size:11px;color:#fff;line-height:1.3;">${p.desc.substring(0,40)}${p.desc.length>40?'...':''}</div>
-                            <div style="font-size:12px;color:#4CAF50;font-weight:bold;margin-top:3px;">${fmt(p.price)} دينار</div>
+                            <div style="font-size:12px;color:#4CAF50;font-weight:bold;margin-top:2px;">${fmt(p.price)} دينار</div>
+                            ${isAdmin() ? '<div style="font-size:10px;color:#aaa;margin-top:1px;">👁 ' + views.toLocaleString('ar-IQ') + ' مشاهدة</div>' : ''}
                         </div>
                     </div>`;
                 }).join('');
@@ -2174,6 +2330,7 @@
         }
 
         function openScrapModal(id) {
+            trackView('scrap-offers', id);
             let p = window._scrapData[id];
             if (!p) return;
 
@@ -2447,12 +2604,19 @@
                 grid.innerHTML = products.map(p => {
                     let remaining = Math.ceil((p.expiresAt - now) / (1000 * 60 * 60 * 24));
                     let imgSrc = p.imageUrl || p.imageBase64 || '';
+                    let status = p.status || 'available';
+                    let views = p.views || 0;
+                    let adminBtns = makeDeleteBtn('exclusive-offers', p.id);
                     return `
                     <div onclick="openProductModal('${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #333;position:relative;">
                         <img src="${imgSrc}" style="width:100%;aspect-ratio:1;object-fit:cover;">
                         <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #D4AF37;border-radius:20px;padding:3px 8px;font-size:11px;color:#D4AF37;">⏰ ${remaining} يوم</div>
-                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                        ${getStatusBadge(status)}
+                        ${adminBtns}
+                        ${getStatusButtons('exclusive-offers', p.id, status)}
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 4px;">
                             <div style="font-size:11px;color:#fff;line-height:1.3;">${p.desc.substring(0,40)}${p.desc.length>40?'...':''}</div>
+                            ${isAdmin() ? '<div style="font-size:10px;color:#aaa;margin-top:2px;">👁 ' + views.toLocaleString('ar-IQ') + ' مشاهدة</div>' : ''}
                         </div>
                     </div>`;
                 }).join('');
@@ -2466,6 +2630,7 @@
         function openProductModal(id) {
             let p = window._offersData[id];
             if (!p) return;
+            trackView('exclusive-offers', id);
 
             let sellGram = parseFloat(localStorage.getItem('lastSellGram') || 0);
             let goldAmount = sellGram * p.weight;
@@ -2827,12 +2992,19 @@
                 let fmt = n => Math.round(n).toLocaleString('ar-IQ');
                 grid.innerHTML = products.map(p => {
                     let rem = Math.ceil((p.expiresAt - now) / (1000*60*60*24));
+                    let status = p.status || 'available';
+                    let views = p.views || 0;
+                    let adminBtns = makeDeleteBtn('silver-offers', p.id);
                     return `<div onclick="openWatchModal('silver','${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid #C0C0C0;position:relative;">
                         <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;">
                         <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid #C0C0C0;border-radius:20px;padding:3px 8px;font-size:11px;color:#C0C0C0;">⏰ ${rem} يوم</div>
-                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                        ${getStatusBadge(status)}
+                        ${adminBtns}
+                        ${getStatusButtons('silver-offers', p.id, status)}
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 4px;">
                             <div style="font-size:11px;color:#fff;">${p.desc.substring(0,35)}${p.desc.length>35?'...':''}</div>
                             <div style="font-size:12px;color:#C0C0C0;font-weight:bold;margin-top:2px;">${fmt(p.finalPrice)} دينار</div>
+                            ${isAdmin() ? '<div style="font-size:10px;color:#aaa;margin-top:1px;">👁 ' + views.toLocaleString('ar-IQ') + ' مشاهدة</div>' : ''}
                         </div>
                     </div>`;
                 }).join('');
@@ -2863,12 +3035,19 @@
                 let fmt = n => Math.round(n).toLocaleString('ar-IQ');
                 grid.innerHTML = products.map(p => {
                     let rem = Math.ceil((p.expiresAt - now) / (1000*60*60*24));
+                    let status = p.status || 'available';
+                    let views = p.views || 0;
+                    let adminBtns = makeDeleteBtn(dbPath, p.id);
                     return `<div onclick="openWatchModal('${type}','${p.id}')" style="cursor:pointer;background:#1a1a1a;border-radius:14px;overflow:hidden;border:1px solid ${color};position:relative;">
                         <img src="${p.imageUrl}" style="width:100%;aspect-ratio:1;object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23222%22 width=%22100%22 height=%22100%22/></svg>'">
                         <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.8);border:1px solid ${color};border-radius:20px;padding:3px 8px;font-size:11px;color:${color};">⏰ ${rem} يوم</div>
-                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 8px;">
+                        ${getStatusBadge(status)}
+                        ${adminBtns}
+                        ${getStatusButtons(dbPath, p.id, status)}
+                        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px 8px 4px;">
                             <div style="font-size:11px;color:#fff;">${p.desc.substring(0,35)}${p.desc.length>35?'...':''}</div>
                             <div style="font-size:12px;color:${color};font-weight:bold;margin-top:2px;">${fmt(p.finalPrice)} دينار</div>
+                            ${isAdmin() ? '<div style="font-size:10px;color:#aaa;margin-top:1px;">👁 ' + views.toLocaleString('ar-IQ') + ' مشاهدة</div>' : ''}
                         </div>
                     </div>`;
                 }).join('');
@@ -2879,6 +3058,8 @@
         }
 
         function openWatchModal(type, id) {
+            let node = type==='watches'?'watches-offers':(type==='glasses'?'glasses-offers':'silver-offers');
+            trackView(node, id);
             let p, color, label, emoji;
             if (type === 'silver') {
                 p = window._silverData && window._silverData[id];
@@ -3106,7 +3287,99 @@
             });
         }
 
-        // ===== إرسال ومشاركة التطبيق =====
+        // ===== حاسبة الزكاة =====
+        let _hawlPassed = null;
+
+        function openZakatCalc() {
+            var m = document.getElementById('zakat-modal');
+            m.style.display = 'block';
+            m.scrollTop = 0;
+        }
+
+        function closeZakatCalc() {
+            document.getElementById('zakat-modal').style.display = 'none';
+        }
+
+        function resetZakat() {
+            document.getElementById('zakat-24').value = '';
+            document.getElementById('zakat-21').value = '';
+            document.getElementById('zakat-18').value = '';
+            document.getElementById('zakat-results').style.display = 'none';
+            _hawlPassed = null;
+            setHawl(null);
+        }
+
+        function setHawl(val) {
+            _hawlPassed = val;
+            var yes = document.getElementById('hawl-yes');
+            var no = document.getElementById('hawl-no');
+            if (!yes || !no) return;
+            yes.style.background = '#111'; yes.style.borderColor = '#333'; yes.style.color = '#666';
+            no.style.background = '#111'; no.style.borderColor = '#333'; no.style.color = '#666';
+            if (val === true) {
+                yes.style.background = '#1a4d1a'; yes.style.borderColor = '#4CAF50'; yes.style.color = '#4CAF50';
+                calcZakat();
+            } else if (val === false) {
+                no.style.background = '#4d1a1a'; no.style.borderColor = '#f44336'; no.style.color = '#f44336';
+            }
+        }
+
+        function calcZakat() {
+            var fmt = function(n) { return Math.round(n).toLocaleString('ar-IQ'); };
+            var w24 = parseFloat(document.getElementById('zakat-24').value) || 0;
+            var w21 = parseFloat(document.getElementById('zakat-21').value) || 0;
+            var w18 = parseFloat(document.getElementById('zakat-18').value) || 0;
+
+            if (w24 === 0 && w21 === 0 && w18 === 0) { alert('يرجى إدخال وزن واحد على الأقل'); return; }
+            if (_hawlPassed === null) { alert('يرجى الإجابة على سؤال الحول أولاً'); return; }
+
+            document.getElementById('zakat-results').style.display = 'block';
+
+            if (!_hawlPassed) {
+                ['24','21','18'].forEach(function(k) {
+                    var el = document.getElementById('zakat-'+k+'-amount');
+                    el.textContent = 'غير خاضع للزكاة'; el.style.color = '#888';
+                    document.getElementById('zakat-'+k+'-note').textContent = 'لم يمر الحول بعد';
+                });
+                var t = document.getElementById('zakat-total');
+                t.textContent = 'لا زكاة واجبة'; t.style.color = '#888';
+                return;
+            }
+
+            var buyGulfPrice = window._buyGulfGramRaw || 0;
+            if (buyGulfPrice === 0) { alert('يرجى الانتظار حتى يتم تحميل أسعار الذهب'); return; }
+
+            var basePrice = buyGulfPrice + 1500;
+            var price24 = basePrice / 0.875;
+            var price21 = basePrice;
+            var price18 = basePrice * 18 / 21;
+
+            var zakat24 = (w24 >= 85) ? (w24 * price24) / 1000000 * 25000 : 0;
+            var zakat21 = (w21 >= 100) ? (w21 * price21) / 1000000 * 25000 : 0;
+            var zakat18 = (w18 >= 100) ? (w18 * price18) / 1000000 * 25000 : 0;
+            var total = zakat24 + zakat21 + zakat18;
+
+            var el24 = document.getElementById('zakat-24-amount');
+            if (w24 === 0) { el24.textContent = '—'; el24.style.color = '#444'; document.getElementById('zakat-24-note').textContent = 'لم يُدخل وزن'; }
+            else if (zakat24 === 0) { el24.textContent = 'غير خاضع للزكاة'; el24.style.color = '#f44336'; document.getElementById('zakat-24-note').textContent = 'أقل من النصاب (85 غ) ❌'; }
+            else { el24.textContent = fmt(zakat24) + ' دينار'; el24.style.color = '#FFD700'; document.getElementById('zakat-24-note').textContent = 'خاضع للزكاة ✅'; }
+
+            var el21 = document.getElementById('zakat-21-amount');
+            if (w21 === 0) { el21.textContent = '—'; el21.style.color = '#444'; document.getElementById('zakat-21-note').textContent = 'لم يُدخل وزن'; }
+            else if (zakat21 === 0) { el21.textContent = 'غير خاضع للزكاة'; el21.style.color = '#f44336'; document.getElementById('zakat-21-note').textContent = 'أقل من النصاب (100 غ) ❌'; }
+            else { el21.textContent = fmt(zakat21) + ' دينار'; el21.style.color = '#D4AF37'; document.getElementById('zakat-21-note').textContent = 'خاضع للزكاة ✅'; }
+
+            var el18 = document.getElementById('zakat-18-amount');
+            if (w18 === 0) { el18.textContent = '—'; el18.style.color = '#444'; document.getElementById('zakat-18-note').textContent = 'لم يُدخل وزن'; }
+            else if (zakat18 === 0) { el18.textContent = 'غير خاضع للزكاة'; el18.style.color = '#f44336'; document.getElementById('zakat-18-note').textContent = 'أقل من النصاب (100 غ) ❌'; }
+            else { el18.textContent = fmt(zakat18) + ' دينار'; el18.style.color = '#C0C0C0'; document.getElementById('zakat-18-note').textContent = 'خاضع للزكاة ✅'; }
+
+            var totalEl = document.getElementById('zakat-total');
+            if (total === 0) { totalEl.textContent = 'لا زكاة واجبة'; totalEl.style.color = '#888'; }
+            else { totalEl.textContent = fmt(total) + ' دينار'; totalEl.style.color = '#4CAF50'; }
+        }
+
+
         let APP_URL = 'https://zamzamcompany03-sudo.github.io/zamzam-company-/';
 
         function copyAppMessage() {
@@ -3529,27 +3802,14 @@
         </div>
     </div>
 
-    <!-- نافذة المستخدم -->
-    <div id="user-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
-        <div style="background:#1a1a1a;border:2px solid #60a5fa;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
-            <div style="font-size:28px;margin-bottom:8px;">👤</div>
-            <div style="color:#60a5fa;font-size:16px;font-weight:800;margin-bottom:4px;">دخول المستخدم</div>
-            <div style="color:#666;font-size:11px;margin-bottom:20px;">أدخل كلمة المرور للوصول للإعدادات</div>
-            <input id="user-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
-            <div id="user-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
-            <button onclick="doUserLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#000;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">دخول</button>
-            <button onclick="closeUserModal()" style="width:100%;padding:10px;background:transparent;color:#666;font-size:13px;border:1px solid #333;border-radius:12px;cursor:pointer;">إلغاء</button>
-        </div>
-    </div>
-
-    <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
-        <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;">
-            <div style="font-size:28px;margin-bottom:8px;">🔐</div>
             <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
             <div style="color:#666;font-size:11px;margin-bottom:20px;">هذا القسم خاص بالإدارة فقط</div>
+
+            <input id="auth-email" type="email" placeholder="الإيميل" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:10px;box-sizing:border-box;text-align:right;direction:rtl;">
             <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
+
             <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
+
             <button id="auth-login-btn" onclick="doLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">دخول</button>
             <button onclick="closeAuthModal()" style="width:100%;padding:10px;background:transparent;color:#666;font-size:13px;border:1px solid #333;border-radius:12px;cursor:pointer;">إلغاء</button>
         </div>
@@ -3699,5 +3959,135 @@
         </div>
     </div>
     <div id="toast-msg">✅ تم النسخ بنجاح</div>
+
+<!-- نافذة حاسبة الزكاة -->
+<div id="zakat-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;background:rgba(0,0,0,0.92);z-index:99999;overflow-y:auto;direction:ltr;">
+    <div style="max-width:420px;margin:0 auto;padding:16px;direction:rtl;">
+
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-top:8px;">
+            <div>
+                <div style="color:#4CAF50;font-size:17px;font-weight:800;">☪️ احسب زكاة الذهب</div>
+                <div style="color:#888;font-size:11px;margin-top:2px;">وفق المذهب الإسلامي — أهل السنة</div>
+            </div>
+            <button onclick="closeZakatCalc()" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+        </div>
+
+        <!-- حقول الإدخال -->
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;">
+
+            <div style="background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <div style="color:#666;font-size:10px;">النصاب: 85 غرام فأكثر</div>
+                    <div style="color:#FFD700;font-size:13px;font-weight:700;">عيار 24 — ذهب خالص</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="color:#888;font-size:12px;">غرام</span>
+                    <input type="number" id="zakat-24" placeholder="0" min="0" inputmode="decimal" style="flex:1;padding:10px 12px;background:#111;border:1px solid #444;border-radius:10px;color:#fff;font-size:16px;text-align:center;">
+                </div>
+            </div>
+
+            <div style="background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <div style="color:#666;font-size:10px;">النصاب: 100 غرام فأكثر</div>
+                    <div style="color:#D4AF37;font-size:13px;font-weight:700;">عيار 21</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="color:#888;font-size:12px;">غرام</span>
+                    <input type="number" id="zakat-21" placeholder="0" min="0" inputmode="decimal" style="flex:1;padding:10px 12px;background:#111;border:1px solid #444;border-radius:10px;color:#fff;font-size:16px;text-align:center;">
+                </div>
+            </div>
+
+            <div style="background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <div style="color:#666;font-size:10px;">النصاب: 100 غرام فأكثر</div>
+                    <div style="color:#C0C0C0;font-size:13px;font-weight:700;">عيار 18</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="color:#888;font-size:12px;">غرام</span>
+                    <input type="number" id="zakat-18" placeholder="0" min="0" inputmode="decimal" style="flex:1;padding:10px 12px;background:#111;border:1px solid #444;border-radius:10px;color:#fff;font-size:16px;text-align:center;">
+                </div>
+            </div>
+        </div>
+
+        <!-- سؤال الحول -->
+        <div style="background:#0d150d;border:1px solid #4CAF50;border-radius:14px;padding:14px;margin-bottom:14px;">
+            <div style="color:#4CAF50;font-size:13px;font-weight:700;margin-bottom:10px;text-align:center;">📅 هل مرّ على هذا الذهب حول كامل (سنة هجرية)؟</div>
+            <div style="display:flex;gap:10px;">
+                <button id="hawl-yes" onclick="setHawl(true)" style="flex:1;padding:12px;background:#111;border:2px solid #333;border-radius:10px;color:#666;font-weight:800;font-size:13px;cursor:pointer;">✅ نعم، مرّ الحول</button>
+                <button id="hawl-no" onclick="setHawl(false)" style="flex:1;padding:12px;background:#111;border:2px solid #333;border-radius:10px;color:#666;font-weight:800;font-size:13px;cursor:pointer;">❌ لا</button>
+            </div>
+        </div>
+
+        <!-- زر الحساب -->
+        <button onclick="calcZakat()" style="width:100%;padding:15px;background:linear-gradient(135deg,#2d7a2d,#1a5c1a);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:16px;">☪️ احسب الزكاة</button>
+
+        <!-- النتائج -->
+        <div id="zakat-results" style="display:none;">
+            <div style="background:#0d0d0d;border-radius:14px;padding:14px;margin-bottom:8px;border-right:4px solid #FFD700;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                    <span style="color:#FFD700;font-size:13px;font-weight:700;">عيار 24</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span id="zakat-24-amount" style="color:#FFD700;font-size:18px;font-weight:800;">--</span>
+                    <span id="zakat-24-note" style="color:#666;font-size:11px;text-align:left;max-width:55%;"></span>
+                </div>
+            </div>
+
+            <div style="background:#0d0d0d;border-radius:14px;padding:14px;margin-bottom:8px;border-right:4px solid #D4AF37;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                    <span style="color:#D4AF37;font-size:13px;font-weight:700;">عيار 21</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span id="zakat-21-amount" style="color:#D4AF37;font-size:18px;font-weight:800;">--</span>
+                    <span id="zakat-21-note" style="color:#666;font-size:11px;text-align:left;max-width:55%;"></span>
+                </div>
+            </div>
+
+            <div style="background:#0d0d0d;border-radius:14px;padding:14px;margin-bottom:14px;border-right:4px solid #C0C0C0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                    <span style="color:#C0C0C0;font-size:13px;font-weight:700;">عيار 18</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span id="zakat-18-amount" style="color:#C0C0C0;font-size:18px;font-weight:800;">--</span>
+                    <span id="zakat-18-note" style="color:#666;font-size:11px;text-align:left;max-width:55%;"></span>
+                </div>
+            </div>
+
+            <!-- المجموع -->
+            <div style="background:linear-gradient(135deg,#0d200d,#0a1a0a);border:2px solid #4CAF50;border-radius:16px;padding:18px;text-align:center;margin-bottom:16px;">
+                <div style="color:#888;font-size:12px;margin-bottom:6px;">💰 إجمالي الزكاة الواجبة</div>
+                <div id="zakat-total" style="color:#4CAF50;font-size:26px;font-weight:800;">--</div>
+                <div style="color:#666;font-size:11px;margin-top:4px;">دينار عراقي</div>
+            </div>
+
+            <!-- زر إعادة الحساب -->
+            <button onclick="resetZakat()" style="width:100%;padding:12px;background:transparent;border:1px solid #333;border-radius:12px;color:#666;font-size:13px;cursor:pointer;margin-bottom:16px;">🔄 إعادة الحساب</button>
+        </div>
+
+    </div>
+</div>
+
+<div id="user-modal" style="display:none;">
+    <div style="background:#1a1a1a;border:2px solid #60a5fa;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;direction:rtl;">
+        <div style="font-size:28px;margin-bottom:8px;">👤</div>
+        <div style="color:#60a5fa;font-size:16px;font-weight:800;margin-bottom:4px;">دخول المستخدم</div>
+        <input id="user-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
+        <div id="user-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
+        <button onclick="doUserLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#000;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">دخول</button>
+        <button onclick="closeUserModal()" style="width:100%;padding:10px;background:transparent;color:#666;font-size:13px;border:1px solid #333;border-radius:12px;cursor:pointer;">إلغاء</button>
+    </div>
+</div>
+
+<div id="auth-modal" style="display:none;">
+    <div style="background:#1a1a1a;border:2px solid #D4AF37;border-radius:20px;padding:28px 24px;width:88%;max-width:340px;text-align:center;direction:rtl;">
+        <div style="font-size:28px;margin-bottom:8px;">🔐</div>
+        <div style="color:#D4AF37;font-size:16px;font-weight:800;margin-bottom:4px;">دخول الإعدادات</div>
+        <input id="auth-password" type="password" placeholder="كلمة المرور" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;font-size:13px;margin-bottom:6px;box-sizing:border-box;text-align:right;direction:rtl;">
+        <div id="auth-error" style="color:#ff6b6b;font-size:11px;min-height:18px;margin-bottom:10px;"></div>
+        <button id="auth-login-btn" onclick="doLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#D4AF37,#B8860B);color:#000;font-weight:800;font-size:14px;border:none;border-radius:12px;cursor:pointer;margin-bottom:10px;">دخول</button>
+        <button onclick="closeAuthModal()" style="width:100%;padding:10px;background:transparent;color:#666;font-size:13px;border:1px solid #333;border-radius:12px;cursor:pointer;">إلغاء</button>
+    </div>
+</div>
 </body>
 </html>
